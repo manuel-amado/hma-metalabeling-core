@@ -93,7 +93,10 @@ input bool   InpEnableEmbargo    = false; // FASE 62: Modo Sombra (Desactivado p
 //+------------------------------------------------------------------+
 long g_scaled_identifiers[]; // Scale-Out tracking: identifiers que ya han recibido Scale-Out
 
-#include "XGBoost_Model.mqh"
+#include "XGBoost_Model_XAUUSD_M15.mqh"
+#include "XGBoost_Model_EURUSD_M15.mqh"
+#include "XGBoost_Model_XAGUSD_M15.mqh"
+#include "XGBoost_Model_GBPJPY_M15.mqh"
 
 //+------------------------------------------------------------------+
 //| Calcular Riesgo Flotante Real (Ignorando Break-Even)             |
@@ -1296,7 +1299,11 @@ public:
         features[18] = feat_opposite_bars;
 
 
-        double entry_proba = XGBoost_Predict(features);
+        double entry_proba = 0.0;
+        if(m_symbol == "EURUSD") entry_proba = XGBoost_Predict_EURUSD(features);
+        else if(m_symbol == "XAGUSD") entry_proba = XGBoost_Predict_XAGUSD(features);
+        else if(m_symbol == "GBPJPY") entry_proba = XGBoost_Predict_GBPJPY(features);
+        else entry_proba = XGBoost_Predict_XAUUSD(features);
         
         bool execute_trade = false;
         double sym_entry_thresh = GetSymbolThreshold(m_symbol);
