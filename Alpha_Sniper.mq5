@@ -58,7 +58,7 @@ input double InpMinAngle = 0.0;
 
 input group "== Inteligencia Artificial =="
 input double InpCriticalZScoreExhaustion = 1.5; // Fase 36.5: Umbral de Agotamiento ParabÃ³lico
-input double InpEntryThreshold           = 0.44; // XGBoost Entry Probability Threshold
+input double InpEntryThreshold           = 0.508; // XGBoost Entry Probability Threshold
 input double InpExitThreshold            = 0.80; // (Obsoleto por HMA_Exit directa)
 
 input group "== Gestion de Riesgo =="
@@ -1304,7 +1304,7 @@ public:
         string dir_str = (signalType == 0) ? "COMPRA" : "VENTA";
         string estado_str = "";
         
-        if(entry_proba >= sym_entry_thresh) {
+        if(InpMetaLabeling || entry_proba >= sym_entry_thresh) {
             if(count_dir == 0) {
                 execute_trade = true;
                 estado_str = "APROBADO -> Orden Ejecutada";
@@ -1422,8 +1422,8 @@ int OnInit()
         StringTrimLeft(sym);
         StringTrimRight(sym);
         
-        if(sym != "USDJPY" && sym != "EURJPY" && sym != "XAUUSD" && sym != "GBPUSD" && sym != "EURUSD") {
-            Alert("ALERTA (FASE 59): Activo no autorizado. Alpha Sniper solo opera en Los 5 Magnificos (USDJPY, EURJPY, XAUUSD, GBPUSD, EURUSD).");
+        if(sym != "USDJPY" && sym != "EURJPY" && sym != "XAUUSD" && sym != "GBPUSD" && sym != "EURUSD" && sym != "XAGUSD" && sym != "GBPJPY") {
+            Alert("ALERTA (FASE 94): Activo no autorizado. Alpha Sniper solo opera en Los Magnificos (USDJPY, EURJPY, XAUUSD, GBPUSD, EURUSD, XAGUSD, GBPJPY).");
             ExpertRemove();
             return INIT_FAILED;
         }
