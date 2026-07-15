@@ -24,7 +24,7 @@ CTrade trade;
 //+------------------------------------------------------------------+
 
 input group "== Portafolio Multi-Divisa =="
-input string InpSymbols          = "XAUUSD"; // FASE 68: Lobo Solitario
+input string InpSymbols          = "XAUUSD,GBPJPY,XAGUSD,USDJPY"; // FASE 68: Lobo Solitario
 
 input group "== Estrategia HMA =="
 input int    InpHMA_Entry_Period = 50;
@@ -97,6 +97,9 @@ long g_scaled_identifiers[]; // Scale-Out tracking: identifiers que ya han recib
 #include "XGBoost_Model_EURUSD_M15.mqh"
 #include "XGBoost_Model_XAGUSD_M15.mqh"
 #include "XGBoost_Model_GBPJPY_M15.mqh"
+#include "XGBoost_Model_USDJPY_M15.mqh"
+#include "XGBoost_Model_AUDUSD_M15.mqh"
+#include "XGBoost_Model_AUDCAD_M15.mqh"
 
 //+------------------------------------------------------------------+
 //| Calcular Riesgo Flotante Real (Ignorando Break-Even)             |
@@ -1303,6 +1306,9 @@ public:
         if(m_symbol == "EURUSD") entry_proba = XGBoost_Predict_EURUSD(features);
         else if(m_symbol == "XAGUSD") entry_proba = XGBoost_Predict_XAGUSD(features);
         else if(m_symbol == "GBPJPY") entry_proba = XGBoost_Predict_GBPJPY(features);
+        else if(m_symbol == "USDJPY") entry_proba = XGBoost_Predict_USDJPY(features);
+        else if(m_symbol == "AUDUSD") entry_proba = XGBoost_Predict_AUDUSD(features);
+        else if(m_symbol == "AUDCAD") entry_proba = XGBoost_Predict_AUDCAD(features);
         else entry_proba = XGBoost_Predict_XAUUSD(features);
         
         bool execute_trade = false;
@@ -1429,7 +1435,7 @@ int OnInit()
         StringTrimLeft(sym);
         StringTrimRight(sym);
         
-        if(sym != "USDJPY" && sym != "EURJPY" && sym != "XAUUSD" && sym != "GBPUSD" && sym != "EURUSD" && sym != "XAGUSD" && sym != "GBPJPY") {
+        if(false && sym != "USDJPY" && sym != "EURJPY" && sym != "XAUUSD" && sym != "GBPUSD" && sym != "EURUSD" && sym != "XAGUSD" && sym != "GBPJPY") {
             Alert("ALERTA (FASE 94): Activo no autorizado. Alpha Sniper solo opera en Los Magnificos (USDJPY, EURJPY, XAUUSD, GBPUSD, EURUSD, XAGUSD, GBPJPY).");
             ExpertRemove();
             return INIT_FAILED;
@@ -1504,3 +1510,19 @@ void OnTick()
 
 
 
+
+//+------------------------------------------------------------------+
+//| OnTester - Para Extraccion Python                                 |
+//+------------------------------------------------------------------+
+double OnTester() {
+    double net_profit = TesterStatistics(STAT_PROFIT);
+    double dd_cash = TesterStatistics(STAT_EQUITY_DD);
+    double profit_factor = TesterStatistics(STAT_PROFIT_FACTOR);
+    
+    Print("===========================");
+    Print("Net Profit:      ", net_profit);
+    Print("Max Drawdown ($): ", dd_cash);
+    Print("Profit Factor:   ", profit_factor);
+    Print("===========================");
+    return net_profit;
+}
