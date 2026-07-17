@@ -1,12 +1,12 @@
 //+------------------------------------------------------------------+
 //|                                          Alpha_Sniper_Deploy.mq5 |
-//|        Bot de ProducciÃ³n Institucional (Fase 19 Multi-Divisa)    |
+//|        Bot de ProducciÃƒÂ³n Institucional (Fase 19 Multi-Divisa)    |
 //|        Autor: Manuel                                             |
 //|        Entradas/Salidas guiadas por FastAPI (XGBoost)            |
 //+------------------------------------------------------------------+
 #property strict
 #property version "2.0"
-#property description "ProducciÃ³n MonolÃ­tica: Multi-Activo, Concurrencia Direccional y Riesgo Compuesto"
+#property description "ProducciÃƒÂ³n MonolÃƒÂ­tica: Multi-Activo, Concurrencia Direccional y Riesgo Compuesto"
 
 #include <Trade\Trade.mqh>
 #include "HMA_FUNCTIONS.mqh"
@@ -41,8 +41,8 @@ input int    RsiOversoldLevel    = 35;
 input int    RsiOverboughtLevel  = 65;
 
 input group "== Microestructura =="
-input double MaxSpreadPips          = 4.0;  // Spread mÃ¡ximo Forex (Pips)
-input double InpMaxSpreadPips_Metals = 120.0; // Spread mÃ¡ximo Metales (Puntos) [XAUUSD 2dig: 1pt=$0.01, spread=$1.20 max]
+input double MaxSpreadPips          = 4.0;  // Spread mÃƒÂ¡ximo Forex (Pips)
+input double InpMaxSpreadPips_Metals = 120.0; // Spread mÃƒÂ¡ximo Metales (Puntos) [XAUUSD 2dig: 1pt=$0.01, spread=$1.20 max]
 input int    InpMaxSlippagePoints   = 20;    // Deslizamiento maximo en puntos
 input int    InpStartTradingHour    = 1;     // Hora de inicio (Evitar rollover)
 input int    InpEndTradingHour      = 23;    // Hora de fin (Evitar rollover)
@@ -57,19 +57,19 @@ input double InpTrailingATR = 3.0;
 input double InpMinAngle = 0.0;
 
 input group "== Inteligencia Artificial =="
-input double InpCriticalZScoreExhaustion = 1.5; // Fase 36.5: Umbral de Agotamiento ParabÃ³lico
+input double InpCriticalZScoreExhaustion = 1.5; // Fase 36.5: Umbral de Agotamiento ParabÃƒÂ³lico
 input double InpEntryThreshold           = 0.508; // XGBoost Entry Probability Threshold
 input double InpExitThreshold            = 0.80; // (Obsoleto por HMA_Exit directa)
 
 input group "== Gestion de Riesgo =="
-input bool   InpUseCompoundInterest = false;   // Usar InterÃ©s Compuesto (Riesgo % del Balance)
-input double InpFixedBalance        = 100000.0;// Balance base si no se usa interÃ©s compuesto
+input bool   InpUseCompoundInterest = false;   // Usar InterÃƒÂ©s Compuesto (Riesgo % del Balance)
+input double InpFixedBalance        = 100000.0;// Balance base si no se usa interÃƒÂ©s compuesto
 input double InpRiskPerTrade        = 1.0;     // Riesgo por operacion (%)
 input double InpMaxGlobalRisk       = 10.0;    // Riesgo global maximo (%)
 input int    InpMaxTradesPerSymbol  = 1;       // Limite de operaciones por Simbolo (FASE 64: Prohibido doblarse)
 input int    InpMaxGlobalTrades     = 10;      // Limite Global de Cuenta
 input double InpScaleOutRR          = 1.5;   // RR para tomar parciales (Alineacion Meta-Labeling IA)
-input int    InpFastHMA_Exit_Period = 14;    // HMA RÃ¡pida para Salida anticipada
+input int    InpFastHMA_Exit_Period = 14;    // HMA RÃƒÂ¡pida para Salida anticipada
 
 int g_VerticalBarrierBars; // Timeout Institucional
 
@@ -125,7 +125,7 @@ double CalculateRealFloatingRisk() {
 }
 
 //+------------------------------------------------------------------+
-//| CLASE GESTORA DE SÃMBOLO (OOP Multi-Activo)                      |
+//| CLASE GESTORA DE SÃƒÂMBOLO (OOP Multi-Activo)                      |
 //+------------------------------------------------------------------+
 class CSymbolManager
 {
@@ -198,10 +198,10 @@ private:
                     m_consecutive_losses++;
                     if(m_consecutive_losses >= 3 && InpEnableEmbargo) {
                         m_embargo_active = true;
-                        Print("[EMBARGO ACTIVADO] 3 PÃ©rdidas consecutivas en ", m_symbol, ". Pasando a Modo Sombra.");
+                        Print("[EMBARGO ACTIVADO] 3 PÃƒÂ©rdidas consecutivas en ", m_symbol, ". Pasando a Modo Sombra.");
                     }
                 } else {
-                    m_consecutive_losses = 0; // Se rompiÃ³ la racha perdedora
+                    m_consecutive_losses = 0; // Se rompiÃƒÂ³ la racha perdedora
                 }
             }
             // Update last processed deal so we never process it again
@@ -303,10 +303,10 @@ public:
             }
             
             if(virtual_lost) {
-                Print("[TRADE FANTASMA PERDIDO] Modelo en racha perdedora para ", m_symbol, ". Embargo continÃºa.");
+                Print("[TRADE FANTASMA PERDIDO] Modelo en racha perdedora para ", m_symbol, ". Embargo continÃƒÂºa.");
                 m_virtual_active = false;
             } else if(virtual_won) {
-                Print("[EMBARGO LEVANTADO] Trade Fantasma alcanzÃ³ +1.5R en ", m_symbol, ". Reactivando Fuego Real.");
+                Print("[EMBARGO LEVANTADO] Trade Fantasma alcanzÃƒÂ³ +1.5R en ", m_symbol, ". Reactivando Fuego Real.");
                 m_virtual_active = false;
                 m_embargo_active = false;
                 m_consecutive_losses = 0;
@@ -314,7 +314,7 @@ public:
         }
         // ------------------------------------
         
-        // --- GESTIÃ“N TÃCTICA: SCALE-OUT 1.5R Y BREAKEVEN ---
+        // --- GESTIÃƒâ€œN TÃƒÂCTICA: SCALE-OUT 1.5R Y BREAKEVEN ---
 
         double pip = GetPip();
         double vol_min  = SymbolInfoDouble(m_symbol, SYMBOL_VOLUME_MIN);
@@ -1038,7 +1038,7 @@ public:
         }
 
 
-        // --- FASE 36.5: GEOMETRÃA Y EMBARGO DIRECCIONAL ---
+        // --- FASE 36.5: GEOMETRÃƒÂA Y EMBARGO DIRECCIONAL ---
         int start_bar = iBarShift(m_symbol, _Period, iTime(m_symbol, PERIOD_D1, 0));
         double twap_z_score = 0.0;
         if(start_bar >= 0) {
@@ -1330,7 +1330,7 @@ public:
              estado_str = "RECHAZADO -> Probabilidad Baja";
         }
         
-        string telemetria = StringFormat("[Ãšltimo Gatillo Evaluado]\nDirecciÃ³n: %s\nXGBoost Probability: %.2f\nThreshold: %.2f\nEstado: %s", dir_str, entry_proba, sym_entry_thresh, estado_str);
+        string telemetria = StringFormat("[ÃƒÅ¡ltimo Gatillo Evaluado]\nDirecciÃƒÂ³n: %s\nXGBoost Probability: %.2f\nThreshold: %.2f\nEstado: %s", dir_str, entry_proba, sym_entry_thresh, estado_str);
         Comment(telemetria);
         
         if(execute_trade) {
@@ -1349,7 +1349,7 @@ public:
                     string vTypeStr = (m_virtual_type == POSITION_TYPE_BUY) ? "BUY" : "SELL";
                     Print("[TRADE FANTASMA] Abierto ", vTypeStr, " Virtual en ", m_virtual_open, " | SL: ", m_virtual_sl, " | TP (1.5R): ", m_virtual_target);
                 } else {
-                    Print("[SHADOW MODE] Ignorando seÃ±al real. Ya hay un trade virtual activo en ", m_symbol);
+                    Print("[SHADOW MODE] Ignorando seÃƒÂ±al real. Ya hay un trade virtual activo en ", m_symbol);
                 }
             } else {
                 double open_p = (signalType == 0) ? ask : bid;
@@ -1453,10 +1453,10 @@ int OnInit()
         }
     }
     
-    // Iniciar temporizador asÃ­ncrono para bucle de escaneo
+    // Iniciar temporizador asÃƒÂ­ncrono para bucle de escaneo
     EventSetMillisecondTimer(500);
 
-    Print("OK: Alpha Sniper Deploy Multi-Divisa (Fase 19) â€” Autor: Manuel");
+    Print("OK: Alpha Sniper Deploy Multi-Divisa (Fase 19) Ã¢â‚¬â€ Autor: Manuel");
     return(INIT_SUCCEEDED);
 }
 
@@ -1479,7 +1479,7 @@ void OnDeinit(const int reason)
 }
 
 //+------------------------------------------------------------------+
-//| OnTimer (Bucle AsÃ­ncrono Maestro)                                |
+//| OnTimer (Bucle AsÃƒÂ­ncrono Maestro)                                |
 //+------------------------------------------------------------------+
 void OnTimer()
 {
