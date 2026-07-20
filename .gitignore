@@ -1,0 +1,22 @@
+# Ignorar datos masivos
+*.csv
+*.txt
+*.dat
+*.json
+data/
+datasets/
+scratch/
+
+# Ignorar binarios y compilaciones
+*.ex5
+*.exe
+*.dll
+
+# Ignorar logs y temporales
+*.log
+*.tmp
+*.bak
+*.swp
+__pycache__/
+*.pyc
+.venv/
