@@ -1,0 +1,12 @@
+InpMinPeriod=5||5||2||20||Y
+InpMaxPeriod=40||40||10||100||Y
+InpERPeriod=14||14||1||14||N
+InpMinADX=20.0||20.0||5.0||35.0||Y
+InpOversold=30.0||30.0||1.0||30.0||N
+InpOverbought=70.0||70.0||1.0||70.0||N
+InpMacroTF=16388||16388||1||16388||N
+InpRiskPercent=1.0||1.0||0.1||1.0||N
+InpStopLossATRMultiplier=1.5||1.5||0.2||3.0||Y
+InpTrailingATR=2.5||2.5||0.5||4.5||Y
+InpFastAHMAPeriod=15||15||1||15||N
+InpBaseAHMAPeriod=50||50||1||50||N
