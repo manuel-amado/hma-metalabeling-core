@@ -1,0 +1,24 @@
+<chart>
+id=132717088924905183
+sym=XAUUSD
+period=15
+color_background=0
+color_foreground=16777215
+color_grid=3158064
+color_barup=65280
+color_bardown=255
+color_bull=65280
+color_bear=255
+color_chart_line=65280
+color_chart_volume=3329330
+color_chart_bid=12632256
+color_chart_ask=255
+color_chart_last=65280
+color_chart_stop=255
+weight=1
+scale=1
+<indicator>
+name=Custom Indicator
+path=Indicators\Examples\HMA50.ex5
+</indicator>
+</chart>
