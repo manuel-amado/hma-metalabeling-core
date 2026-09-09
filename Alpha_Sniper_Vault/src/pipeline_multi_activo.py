@@ -158,9 +158,9 @@ def entrenar_evaluar_oos(df: pd.DataFrame, features: list, anos_datos: float) ->
     """
     X = df[features]
     
-    # Objetivo dinámico: ¿La inercia dio al menos +0.5R antes de darse la vuelta?
-    target_threshold_rr = 0.5
-    y = (df["Realized_RR"] >= target_threshold_rr).astype(int)
+    # PROTOCOLO V12: Net Profit Meta-Labeling
+    synthetic_friction_pips = 2.5
+    y = (df["Profit_Pips"] - synthetic_friction_pips > 0).astype(int)
 
     tss = TimeSeriesSplit(n_splits=N_SPLITS)
     probs = np.full(len(X), np.nan)
@@ -280,8 +280,9 @@ def entrenar_modelo_final(df: pd.DataFrame, features: list, activo: str, umbral:
     Entrena el modelo final en el 100% de los datos prediciendo salida por inercia (+0.5R).
     """
     X = df[features]
-    target_threshold_rr = 0.5
-    y = (df["Realized_RR"] >= target_threshold_rr).astype(int)
+    # PROTOCOLO V12: Net Profit Meta-Labeling
+    synthetic_friction_pips = 2.5
+    y = (df["Profit_Pips"] - synthetic_friction_pips > 0).astype(int)
 
     scaler = RobustScaler()
     X_sc = scaler.fit_transform(X)
@@ -380,8 +381,9 @@ def ejecutar_pipeline():
 
     # Guardar dataset con señales para analisis de correlacion
     df_senales = df.copy()
-    target_threshold_rr = 0.5
-    df_senales["y_real"] = (df_senales["Realized_RR"] >= target_threshold_rr).astype(int)
+    # PROTOCOLO V12: Net Profit Meta-Labeling
+    synthetic_friction_pips = 2.5
+    df_senales["y_real"] = (df_senales["Profit_Pips"] - synthetic_friction_pips > 0).astype(int)
     df_senales["prob_ia"] = dict_probs[0.0]
     df_senales["Signal_IA"] = (df_senales["prob_ia"] >= umbral_optimo).astype(int)
     sig_path = os.path.join(OUT_DIR, f"senales_{ACTIVO.lower()}.csv")

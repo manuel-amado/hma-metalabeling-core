@@ -160,7 +160,7 @@ def main():
     print("======================================================================")
 
     # 1. Lista curada de activos macro-direccionales forzados
-    symbols = ['EURUSD', 'USDJPY', 'GBPUSD', 'EURJPY', 'AUDCAD', 'AUDUSD']
+    symbols = ['XAUUSD', 'USDJPY', 'AUDUSD']
     rechazados = []
     
     print(f"Símbolos Aprobados: {symbols}")
