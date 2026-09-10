@@ -13,12 +13,17 @@
 
 input group "== V20 AI Settings =="
 input int    InpRefHMA_Period    = 50;
-input double InpAI_Threshold     = 0.65; // Sniper Threshold
+input double InpAI_Threshold     = 0.54; // Sniper Threshold (Baja para +volumen)
 input double InpRiskPerTrade     = 2.0;  // Riesgo % 
 input double InpTP_ATR           = 10.0;  
 input double InpSL_ATR           = 5.0;  
 input int    InpATR_Period       = 14;
 input int    InpRSI_Period       = 14;
+
+input group "== V20 Dynamic Exits =="
+input bool   InpUseHMA_Exit      = true; // Salir si cruza HMA en contra
+input bool   InpUseTrailingATR   = true; // Usar Trailing Stop
+input double InpTrailingATR_Mult = 3.0;  // Multiplicador del Trailing Stop
 
 CTrade trade;
 int handle_hma, handle_atr, handle_rsi;
@@ -35,9 +40,49 @@ void OnInit() {
 
 void OnDeinit(const int reason) {}
 
-void OnTick() {
+void ManageOpenTrades(double current_close, double hma_val, double atr_val, int current_dir) {
+    for(int i = PositionsTotal() - 1; i >= 0; i--) {
+        string symbol = PositionGetSymbol(i);
+        if(symbol == _Symbol) {
+            ulong ticket = PositionGetInteger(POSITION_TICKET);
+            long type = PositionGetInteger(POSITION_TYPE);
+            double open_price = PositionGetDouble(POSITION_PRICE_OPEN);
+            double current_sl = PositionGetDouble(POSITION_SL);
+            
+            // 1. Salida Dinamica HMA
+            if(InpUseHMA_Exit) {
+                if(type == POSITION_TYPE_BUY && current_dir == -1) {
+                    trade.PositionClose(ticket);
+                    Print("Exit BUY: HMA Cross");
+                    continue; // Position closed, go to next
+                }
+                if(type == POSITION_TYPE_SELL && current_dir == 1) {
+                    trade.PositionClose(ticket);
+                    Print("Exit SELL: HMA Cross");
+                    continue; // Position closed, go to next
+                }
+            }
+            
+            // 2. Trailing ATR (Solo si esta en profit)
+            if(InpUseTrailingATR) {
+                double current_price = PositionGetDouble(POSITION_PRICE_CURRENT);
+                if(type == POSITION_TYPE_BUY) {
+                    double new_sl = current_price - (atr_val * InpTrailingATR_Mult);
+                    if(new_sl > current_sl && new_sl > open_price) { 
+                        trade.PositionModify(ticket, new_sl, PositionGetDouble(POSITION_TP));
+                    }
+                } else if(type == POSITION_TYPE_SELL) {
+                    double new_sl = current_price + (atr_val * InpTrailingATR_Mult);
+                    if((current_sl == 0 || new_sl < current_sl) && new_sl < open_price) {
+                        trade.PositionModify(ticket, new_sl, PositionGetDouble(POSITION_TP));
+                    }
+                }
+            }
+        }
+    }
+}
 
-    
+void OnTick() {
     static datetime last_bar;
     datetime current_bar = iTime(_Symbol, _Period, 0);
     if(current_bar == last_bar) return;
@@ -52,6 +97,9 @@ void OnTick() {
     if(CopyBuffer(handle_rsi, 0, 1, 1, rsi) < 1) return;
     
     int current_dir = (close1 > hma[0]) ? 1 : -1;
+    
+    // Manage open trades dynamically BEFORE evaluating new crosses
+    ManageOpenTrades(close1, hma[0], atr[0], current_dir);
     
     double dist = MathAbs(close1 - hma[0]) / atr[0];
     if(dist > max_distance_since_cross) max_distance_since_cross = dist;
@@ -88,8 +136,7 @@ void OnTick() {
             
             // Calculate risk-based lot size
             double risk_money = AccountInfoDouble(ACCOUNT_BALANCE) * (InpRiskPerTrade / 100.0);
-            double sl_points = MathAbs(tp_price - sl_price) / 2.0; // Approximation for 2:1 RR
-            sl_points = MathAbs(close1 - sl_price) / SymbolInfoDouble(_Symbol, SYMBOL_POINT);
+            double sl_points = MathAbs(close1 - sl_price) / SymbolInfoDouble(_Symbol, SYMBOL_POINT);
             double tick_value = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE);
             double lots = NormalizeDouble(risk_money / (sl_points * tick_value), 2);
             double min_lot = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN);
