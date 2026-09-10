@@ -10,7 +10,7 @@
 #property description "Producción Monolítica V10: Riesgo Adaptativo por Equidad y Lote Dinámico (ATR SL)"
 
 #include <Trade\Trade.mqh>
-#include "HMA_FUNCTIONS.mqh"
+#include <HMA_FUNCTIONS.mqh>
 
 enum ENUM_EXIT_MODE {
    EXIT_IMMEDIATE = 0,

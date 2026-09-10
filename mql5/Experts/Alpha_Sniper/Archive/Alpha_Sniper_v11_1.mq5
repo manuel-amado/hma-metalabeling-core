@@ -12,7 +12,7 @@
 #property description "V11.1: Tick-Level Management – Trailing ATR + HMA20 HardClose intra-vela, Anti-Spam SL Filter"
 
 #include <Trade\Trade.mqh>
-#include "HMA_FUNCTIONS.mqh"
+#include <HMA_FUNCTIONS.mqh>
 
 enum ENUM_EXIT_MODE {
    EXIT_IMMEDIATE = 0,

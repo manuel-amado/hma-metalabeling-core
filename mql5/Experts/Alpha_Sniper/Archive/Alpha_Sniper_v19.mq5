@@ -8,7 +8,7 @@
 #property description "Protocolo V11.3 (sobre V11): Modulo Anti-Noticias Macro (CSV FXStreet) con Cierre 100% Flat & Normalizacion de Lote en Scale-Out"
 
 #include <Trade\Trade.mqh>
-#include "HMA_FUNCTIONS.mqh"
+#include <HMA_FUNCTIONS.mqh>
 
 #include "XGBoost_Model_WFO_v19_XAUUSD.mqh"
 #include "XGBoost_Model_WFO_v19_EURUSD.mqh"

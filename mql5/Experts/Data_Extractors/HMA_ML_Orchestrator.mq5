@@ -9,8 +9,8 @@
 #property description "HMA Meta-Labeling Mass Data Harvester"
 
 #include <Trade\Trade.mqh>
-#include "ML_Logger.mqh"
-#include "HMA_FUNCTIONS.mqh"
+#include <ML_Logger.mqh>
+#include <HMA_FUNCTIONS.mqh>
 
 CTrade trade;
 

@@ -9,7 +9,7 @@
 #include <Trade\Trade.mqh>
 #include <Math\Stat\Math.mqh>
 #include "Models\\XGBoost_Model_WFO_v20_XAUUSD.mqh"
-#include "HMA_FUNCTIONS.mqh"
+#include <HMA_FUNCTIONS.mqh>
 
 input group "== V20 AI Settings =="
 input int    InpRefHMA_Period    = 50;

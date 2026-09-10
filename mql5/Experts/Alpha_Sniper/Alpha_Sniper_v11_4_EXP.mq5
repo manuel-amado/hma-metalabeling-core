@@ -9,7 +9,7 @@
 #property tester_file "news_calendar_clean.csv"
 
 #include <Trade\Trade.mqh>
-#include "HMA_FUNCTIONS.mqh"
+#include <HMA_FUNCTIONS.mqh>
 
 enum ENUM_EXIT_MODE {
    EXIT_IMMEDIATE = 0,

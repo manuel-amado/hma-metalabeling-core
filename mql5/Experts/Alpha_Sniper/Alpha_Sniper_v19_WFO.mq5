@@ -11,7 +11,7 @@
 #property description "Protocolo V13: Erradicacion Simulation Bias (Net Profit Labels) + Anti-Swap Decay (Barrera Vertical 96 Velas) + Fat-Tail Step-Lock (BE en +2.0R)"
 
 #include <Trade\Trade.mqh>
-#include "HMA_FUNCTIONS.mqh"
+#include <HMA_FUNCTIONS.mqh>
 
 enum ENUM_EXIT_MODE {
    EXIT_IMMEDIATE = 0,

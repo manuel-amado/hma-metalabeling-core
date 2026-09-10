@@ -8,7 +8,7 @@
 #property description "Protocolo V11.2 Experimental: Take Profit Dinámico Probabilístico y Control por Temporizador Asíncrono (OnTimer)"
 
 #include <Trade\Trade.mqh>
-#include "HMA_FUNCTIONS.mqh"
+#include <HMA_FUNCTIONS.mqh>
 
 enum ENUM_EXIT_MODE {
    EXIT_IMMEDIATE = 0,

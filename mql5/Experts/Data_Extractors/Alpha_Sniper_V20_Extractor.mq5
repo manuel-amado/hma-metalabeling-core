@@ -8,7 +8,7 @@
 
 #include <Trade\Trade.mqh>
 #include <Math\Stat\Math.mqh>
-#include "HMA_FUNCTIONS.mqh"
+#include <HMA_FUNCTIONS.mqh>
 
 input group "== V20 Extractor Settings =="
 input int    InpRefHMA_Period    = 50;

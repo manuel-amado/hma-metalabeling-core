@@ -9,7 +9,7 @@
 #property description "Producción Monolítica: Multi-Activo, Concurrencia Direccional y Riesgo Compuesto"
 
 #include <Trade\Trade.mqh>
-#include "HMA_FUNCTIONS.mqh"
+#include <HMA_FUNCTIONS.mqh>
 
 enum ENUM_EXIT_MODE {
    EXIT_IMMEDIATE = 0,
