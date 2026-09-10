@@ -2,7 +2,7 @@
 
 Este repositorio contiene la infraestructura completa para la generación, entrenamiento y despliegue de sistemas de trading algorítmicos institucionales en MQL5 (MetaTrader 5), potenciados por modelos de Machine Learning (XGBoost) utilizando el método de **Meta-Etiquetado** (López de Prado).
 
-Actualmente nos encontramos en la rama de desarrollo: **`feature/nexus-ahma`**.
+Actualmente nos encontramos en la rama de desarrollo: **`dev`**.
 
 ## Arquitectura Híbrida del Sistema
 
@@ -43,5 +43,5 @@ Caja de herramientas de Python para utilidades rápidas (e.g. chequeo de paridad
 ---
 
 ## Flujo de Trabajo (Git Workflow)
-* Toda la investigación sobre características nuevas, filtrado AHMA (Adaptive Hull) y *Walk Forward Optimization (WFO)* ocurre en la rama actual (`feature/nexus-ahma`).
+* Toda la investigación sobre características nuevas, filtrado AHMA (Adaptive Hull) y *Walk Forward Optimization (WFO)* ocurre en la rama actual (`dev`).
 * Antes de hacer *merge* a `main`, el modelo debe sobrevivir la simulación estresada de Out-Of-Sample y demostrar nulo *Overfitting* en el umbral seleccionado por el calibrador.
