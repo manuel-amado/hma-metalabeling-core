@@ -70,7 +70,7 @@ int hma_handle, ema_handle, rsi_handle, atr_handle, atr_d1_handle;
 datetime lastBarTime = 0;
 int csv_handle = INVALID_HANDLE;
 
-#resource "FatTail_Model.onnx" as const uchar ExtModel[]
+#resource  as const uchar ExtModel[]
 long onnx_handle = INVALID_HANDLE;
 input bool InpUseMLFilter = true; // [IA] Usar filtro Fat-Tail ONNX
 bool ML_Active = false;

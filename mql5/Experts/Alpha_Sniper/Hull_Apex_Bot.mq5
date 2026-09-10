@@ -65,7 +65,7 @@ int sma_d1_handle;
 int atr_d1_handle;
 int atr_handle;
 
-#resource "OmniApex_MetaModel.onnx" as const uchar ExtModel[]
+#resource  as const uchar ExtModel[]
 long metalabel_handle = INVALID_HANDLE;
 
 CTrade trade;
