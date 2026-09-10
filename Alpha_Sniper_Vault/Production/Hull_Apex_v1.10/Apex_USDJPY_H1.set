@@ -1,6 +1,0 @@
-InpMinPeriod=18
-InpMaxPeriod=80
-InpTrailingATR=3.5
-InpMaxExhaustionRatio=2.5
-InpMinADX=25.0
-InpStopLossATRMultiplier=2.2
