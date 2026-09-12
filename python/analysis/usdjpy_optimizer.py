@@ -112,6 +112,6 @@ for h_arr, h_name in hma_choices:
 df_res = pd.DataFrame(results).sort_values(by='Net_R', ascending=False)
 report = "# 🧬 Optimización USDJPY (11 Años: 2015-2026)\n\n"
 report += df_res.head(15).to_markdown(index=False)
-with open(r"C:\Users\Manuel\Desktop\HMA_MetaLabeling\Alpha_Sniper_Vault\src\quant_scripts\usdjpy_optimization.md", "w", encoding="utf-8") as f:
+with open(r"C:\Users\Manuel\Desktop\HMA_MetaLabeling\python\analysis\usdjpy_optimization.md", "w", encoding="utf-8") as f:
     f.write(report)
 print("Optimization complete!")

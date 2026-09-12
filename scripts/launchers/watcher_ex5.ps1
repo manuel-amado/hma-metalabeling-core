@@ -17,7 +17,7 @@ $action = {
     Write-Host "[$timeStamp] Milestone detected: $name was $changeType"
     
     # Execute the python script
-    $pythonScript = "C:\Users\Manuel\Desktop\HMA_MetaLabeling\git_auto_push.py"
+    $pythonScript = "C:\Users\Manuel\Desktop\HMA_MetaLabeling\scripts\utils\git_auto_push.py"
     $pythonExe = "python"
     
     # We delay execution slightly to ensure the compiler finishes writing the file
@@ -26,7 +26,7 @@ $action = {
     try {
         & $pythonExe $pythonScript --milestone
     } catch {
-        Write-Host "Error invoking git_auto_push.py"
+        Write-Host "Error invoking scripts\utils\git_auto_push.py"
     }
 }
 

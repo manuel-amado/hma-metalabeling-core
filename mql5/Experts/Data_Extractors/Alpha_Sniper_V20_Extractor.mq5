@@ -1,6 +1,6 @@
 //+------------------------------------------------------------------+
 //|                                Alpha_Sniper_V20_Extractor.mq5    |
-//|                                Event-Driven Triple Barrier AI    |
+//|                                Dynamic HMA Exit Meta-Labeling    |
 //+------------------------------------------------------------------+
 #property copyright "Alpha Sniper V20"
 #property link      ""
@@ -12,9 +12,7 @@
 
 input group "== V20 Extractor Settings =="
 input int    InpRefHMA_Period    = 50;
-input double InpTP_ATR           = 2.0;  // Triple Barrier TP
-input double InpSL_ATR           = 1.0;  // Triple Barrier SL
-input int    InpTime_Barrier     = 24;   // Triple Barrier Time Limit (Bars)
+input double InpSL_ATR           = 3.0;  // Catastrophic SL
 input int    InpATR_Period       = 14;
 input int    InpRSI_Period       = 14;
 
@@ -42,7 +40,6 @@ struct PendingEvent {
     double pain;
     
     double entry_price;
-    double tp_price;
     double sl_price;
     int bars_elapsed;
 };
@@ -67,7 +64,7 @@ void OnDeinit(const int reason) {
     if(g_file_handle != INVALID_HANDLE) FileClose(g_file_handle);
 }
 
-void EvaluateQueue(double high, double low, double close) {
+void EvaluateQueue(double high, double low, double close, int current_dir) {
     if(g_file_handle == INVALID_HANDLE) return;
     
     for(int i = ArraySize(queue) - 1; i >= 0; i--) {
@@ -77,20 +74,22 @@ void EvaluateQueue(double high, double low, double close) {
         int label = 0;
         double return_pct = 0.0;
         
+        // 1. Catastrophic Stop Loss (3 ATR)
         if(queue[i].dir == 1) { // BUY
             if(low <= queue[i].sl_price) { closed = true; label = 0; return_pct = ((queue[i].sl_price - queue[i].entry_price) / queue[i].entry_price) * 100.0; }
-            else if(high >= queue[i].tp_price) { closed = true; label = 1; return_pct = ((queue[i].tp_price - queue[i].entry_price) / queue[i].entry_price) * 100.0; }
         } else { // SELL
             if(high >= queue[i].sl_price) { closed = true; label = 0; return_pct = ((queue[i].entry_price - queue[i].sl_price) / queue[i].entry_price) * 100.0; }
-            else if(low <= queue[i].tp_price) { closed = true; label = 1; return_pct = ((queue[i].entry_price - queue[i].tp_price) / queue[i].entry_price) * 100.0; }
         }
         
-        if(!closed && queue[i].bars_elapsed >= InpTime_Barrier) {
+        // 2. Dynamic Exit (HMA Opposite Cross)
+        if(!closed && current_dir != queue[i].dir) {
             closed = true;
-            label = 0; // Time barrier hit = failure to trend
             return_pct = ((close - queue[i].entry_price) / queue[i].entry_price) * 100.0;
             if(queue[i].dir == -1) return_pct = -return_pct;
-            if(return_pct > 0) label = 1; // If it's still profitable after time expires, label as 1
+            
+            // Etiqueta 1 si la operacion fue rentable usando la Salida Dinamica HMA
+            // Exigimos 0.02% para cubrir spreads
+            if(return_pct > 0.02) label = 1; else label = 0;
         }
         
         if(closed) {
@@ -126,14 +125,14 @@ void OnTick() {
     double high1 = iHigh(_Symbol, _Period, 1);
     double low1 = iLow(_Symbol, _Period, 1);
     
-    EvaluateQueue(high1, low1, close1);
-    
     double hma[5], atr[1], rsi[1];
     if(CopyBuffer(handle_hma, 0, 1, 5, hma) < 5) return;
     if(CopyBuffer(handle_atr, 0, 1, 1, atr) < 1) return;
     if(CopyBuffer(handle_rsi, 0, 1, 1, rsi) < 1) return;
     
     int current_dir = (close1 > hma[0]) ? 1 : -1;
+    
+    EvaluateQueue(high1, low1, close1, current_dir);
     
     double dist = MathAbs(close1 - hma[0]) / atr[0];
     if(dist > max_distance_since_cross) max_distance_since_cross = dist;
@@ -162,7 +161,6 @@ void OnTick() {
         ev.pain = (current_dir == 1) ? (close1 - high10)/atr[0] : (close1 - low10)/atr[0];
         
         ev.entry_price = close1;
-        ev.tp_price = (current_dir == 1) ? close1 + (InpTP_ATR * atr[0]) : close1 - (InpTP_ATR * atr[0]);
         ev.sl_price = (current_dir == 1) ? close1 - (InpSL_ATR * atr[0]) : close1 + (InpSL_ATR * atr[0]);
         ev.bars_elapsed = 0;
         

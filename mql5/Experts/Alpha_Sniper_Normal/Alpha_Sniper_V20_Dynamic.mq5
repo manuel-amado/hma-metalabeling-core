@@ -14,15 +14,15 @@
 input group "== V20 AI Settings =="
 input int    InpRefHMA_Period    = 50;
 input double InpAI_Threshold     = 0.54; // Sniper Threshold (Baja para +volumen)
-input double InpRiskPerTrade     = 2.0;  // Riesgo % 
+input double InpFixedLots        = 1.0;  // Lotaje Fijo para aislar el Edge 
 input double InpTP_ATR           = 10.0;  
 input double InpSL_ATR           = 5.0;  
 input int    InpATR_Period       = 14;
 input int    InpRSI_Period       = 14;
 
 input group "== V20 Dynamic Exits =="
-input bool   InpUseHMA_Exit      = true; // Salir si cruza HMA en contra
-input bool   InpUseTrailingATR   = true; // Usar Trailing Stop
+input bool   InpUseHMA_Exit      = false; // Salir si cruza HMA en contra
+input bool   InpUseTrailingATR   = false; // Usar Trailing Stop
 input double InpTrailingATR_Mult = 3.0;  // Multiplicador del Trailing Stop
 
 CTrade trade;
@@ -130,19 +130,11 @@ void OnTick() {
         // Ask AI
         double prob = XGBoost_Predict_WFO_v20_XAUUSD(features, dt.year, dt.mon);
         
-        if(prob >= InpAI_Threshold && PositionsTotal() == 0) {
+        if(prob >= InpAI_Threshold) {
             double sl_price = (current_dir == 1) ? close1 - (InpSL_ATR * atr[0]) : close1 + (InpSL_ATR * atr[0]);
             double tp_price = (current_dir == 1) ? close1 + (InpTP_ATR * atr[0]) : close1 - (InpTP_ATR * atr[0]);
             
-            // Calculate risk-based lot size
-            double risk_money = AccountInfoDouble(ACCOUNT_BALANCE) * (InpRiskPerTrade / 100.0);
-            double sl_points = MathAbs(close1 - sl_price) / SymbolInfoDouble(_Symbol, SYMBOL_POINT);
-            double tick_value = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE);
-            double lots = NormalizeDouble(risk_money / (sl_points * tick_value), 2);
-            double min_lot = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN);
-            double max_lot = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX);
-            if(lots < min_lot) lots = min_lot;
-            if(lots > max_lot) lots = max_lot;
+            double lots = InpFixedLots;
             
             bool success = false;
             
@@ -165,3 +157,4 @@ void OnTick() {
     
     last_trend_dir = current_dir;
 }
+

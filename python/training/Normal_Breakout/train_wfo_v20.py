@@ -8,8 +8,8 @@ import json
 import warnings
 warnings.filterwarnings('ignore')
 
-DATA_DIR = r"C:\Users\Manuel\Desktop\HMA_MetaLabeling\Alpha_Sniper_Vault\src\data"
-MODELS_DIR = r"C:\Users\Manuel\Desktop\HMA_MetaLabeling\Alpha_Sniper_Vault\mql5\Models"
+DATA_DIR = r"C:\Users\Manuel\Desktop\HMA_MetaLabeling\python\data_processing"
+MODELS_DIR = r"C:\Users\Manuel\Desktop\HMA_MetaLabeling\mql5\Experts\Alpha_Sniper_Normal\Models"
 SYMBOLS = ["XAUUSD"] # Start with XAUUSD for V20
 
 FEATURES = [
@@ -97,17 +97,6 @@ def generate_mql5_wfo_v20(symbol):
         
         # Transpile Trees
         code += f"    double sum = 0.0;\n"
-        for tree_idx, tree_str in enumerate(trees):
-            code += f"    // Tree {tree_idx}\n"
-            lines = tree_str.strip().split('\n')
-            for line in lines:
-                if 'leaf' in line:
-                    node, leaf_val = line.split(':leaf=')
-                    code += f"    sum += {float(leaf_val):.6f};\n"
-                else:
-                    # Example: 0:[f0<1.23] yes=1,no=2,missing=1
-                    pass # We need to properly parse trees. I will use a simplified tree parser.
-                    
         # Simplified Tree Parser
         def parse_tree_recursive(lines_dict, node_id, indent="    "):
             line = lines_dict[node_id]
@@ -169,3 +158,5 @@ if __name__ == "__main__":
     print("--- V20 Dynamic WFO ---")
     for sym in SYMBOLS:
         generate_mql5_wfo_v20(sym)
+
+
