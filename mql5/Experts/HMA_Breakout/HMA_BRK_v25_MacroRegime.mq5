@@ -1,4 +1,11 @@
 //+------------------------------------------------------------------+
+//| Bot: HMA_BRK_v25_MacroRegime.mq5                                
+//| Familia: Breakout (Mean Reversion over HMA)                      
+//|                                                                  
+//| [CHANGELOG & EVOLUCION]:                                         
+//| Inclusion de filtros macro sinteticos D1 y filtrado direccional (DX > 25). Bloqueo severo contra ruido de mercado.
+//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+
 //|                                           Alpha_Sniper_v25.mq5   |
 //|                                                Copyright 2026    |
 //|                        Clean Quant + Synthetic D1 Regime Filter  |

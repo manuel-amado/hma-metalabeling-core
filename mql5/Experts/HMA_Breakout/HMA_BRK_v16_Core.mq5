@@ -1,4 +1,11 @@
 //+------------------------------------------------------------------+
+//| Bot: HMA_BRK_v16_Core.mq5                                
+//| Familia: Breakout (Mean Reversion over HMA)                      
+//|                                                                  
+//| [CHANGELOG & EVOLUCION]:                                         
+//| Implementacion base de XGBoost. Analisis de cinematica (velocidad, aceleracion, jerk) y features de breakout.
+//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+
 //|                                              Alpha_Sniper_v13.mq5|
 //|    Protocolo V13: Anti-Sesgo Net Profit | Anti-Swap Decay        |
 //|    FASE 1: Etiquetado Neto + Candle Dominance + Spread Filter    |

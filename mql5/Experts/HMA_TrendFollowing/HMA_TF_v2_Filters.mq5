@@ -1,4 +1,11 @@
 //+------------------------------------------------------------------+
+//| Bot: HMA_TF_v2_Filters.mq5                                
+//| Familia: Trend Following (Macro EMA + HMA pullback + RSI Exhaustion)                      
+//|                                                                  
+//| [CHANGELOG & EVOLUCION]:                                         
+//| Filtros adicionales de acumulacion (buildup) y distancia maxima a la EMA para evitar regresiones tardias.
+//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+
 //|                                     Alpha_Sniper_Master2.mq5     |
 //|                                                Copyright 2026    |
 //|    Clean Quant + Python ML 2.0 + Advanced Trade Management       |

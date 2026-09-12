@@ -1,4 +1,11 @@
 //+------------------------------------------------------------------+
+//| Bot: HMA_BRK_v20_DynamicExits.mq5                                
+//| Familia: Breakout (Mean Reversion over HMA)                      
+//|                                                                  
+//| [CHANGELOG & EVOLUCION]:                                         
+//| Abandono de salidas estaticas. Implementacion de salidas dinamicas por ATR, threshold AI ajustado y lotaje fijo para aislamiento.
+//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+
 //|                                Alpha_Sniper_V20_Dynamic.mq5      |
 //|                                LIVE Event-Driven AI Trading      |
 //+------------------------------------------------------------------+

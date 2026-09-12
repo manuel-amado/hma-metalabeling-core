@@ -1,4 +1,11 @@
 //+------------------------------------------------------------------+
+//| Bot: HMA_TF_v1_Base.mq5                                
+//| Familia: Trend Following (Macro EMA + HMA pullback + RSI Exhaustion)                      
+//|                                                                  
+//| [CHANGELOG & EVOLUCION]:                                         
+//| Logica pura de seguimiento. Requiere precio a favor de EMA y pullback en HMA.
+//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+
 //|                                     Alpha_Sniper_Master.mq5      |
 //|                                                Copyright 2026    |
 //|               Clean Quant + Python MetaLabeling AI (Decision Tree)|

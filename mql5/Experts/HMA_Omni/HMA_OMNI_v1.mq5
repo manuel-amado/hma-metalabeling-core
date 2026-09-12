@@ -1,4 +1,11 @@
 //+------------------------------------------------------------------+
+//| Bot: HMA_OMNI_v1.mq5                                
+//| Familia: Omni (RL/PPO + Multi-Architecture Convergence)                      
+//|                                                                  
+//| [CHANGELOG & EVOLUCION]:                                         
+//| Nacimiento de la arquitectura Omni/Apex. Evaluacion integral multimodelo.
+//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+
 //|                                              Hull_Apex_Bot.mq5   |
 //|                                   Project_Hull_Apex - NEXUS FORK |
 //|                                     Bifurcation from Alpha_Sniper|

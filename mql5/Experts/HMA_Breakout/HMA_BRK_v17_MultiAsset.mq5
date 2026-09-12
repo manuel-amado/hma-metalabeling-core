@@ -1,4 +1,11 @@
 //+------------------------------------------------------------------+
+//| Bot: HMA_BRK_v17_MultiAsset.mq5                                
+//| Familia: Breakout (Mean Reversion over HMA)                      
+//|                                                                  
+//| [CHANGELOG & EVOLUCION]:                                         
+//| Refinamientos en el protocolo multidivisa. Ajustes de features y optimizacion del calculo de distancias.
+//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+
 //|                                              Alpha_Sniper_v13.mq5|
 //|    Protocolo V13: Anti-Sesgo Net Profit | Anti-Swap Decay        |
 //|    FASE 1: Etiquetado Neto + Candle Dominance + Spread Filter    |

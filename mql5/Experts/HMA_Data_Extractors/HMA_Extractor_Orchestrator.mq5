@@ -1,4 +1,11 @@
 //+------------------------------------------------------------------+
+//| Bot: HMA_Extractor_Orchestrator.mq5                                
+//| Familia: Data Engineering & Labeling                      
+//|                                                                  
+//| [CHANGELOG & EVOLUCION]:                                         
+//| Orquestador universal de meta-etiquetado. Registra cinematica para exportar CSV a Python.
+//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+
 //|                                          HMA_ML_Orchestrator.mq5 |
 //|        Mass Data Harvester (Meta-Labeling v2.3 - Fase 23)        |
 //|        Autor: Manuel                                             |

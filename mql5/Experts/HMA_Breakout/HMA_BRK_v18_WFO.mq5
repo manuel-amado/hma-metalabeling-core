@@ -1,4 +1,11 @@
 //+------------------------------------------------------------------+
+//| Bot: HMA_BRK_v18_WFO.mq5                                
+//| Familia: Breakout (Mean Reversion over HMA)                      
+//|                                                                  
+//| [CHANGELOG & EVOLUCION]:                                         
+//| Primera iteracion estructural preparada para Walk-Forward Optimization (WFO). Separacion de regimenes.
+//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+
 //|                                              Alpha_Sniper_v13.mq5|
 //|    Protocolo V13: Anti-Sesgo Net Profit | Anti-Swap Decay        |
 //|    FASE 1: Etiquetado Neto + Candle Dominance + Spread Filter    |

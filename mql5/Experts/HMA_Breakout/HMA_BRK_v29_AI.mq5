@@ -1,15 +1,22 @@
 //+------------------------------------------------------------------+
-//|                                        Alpha_Sniper_V28_AI.mq5   |
+//| Bot: HMA_BRK_v29_AI.mq5                                
+//| Familia: Breakout (Mean Reversion over HMA)                      
+//|                                                                  
+//| [CHANGELOG & EVOLUCION]:                                         
+//| Ajustes microestructurales en la arquitectura predictiva del modelo WFO.
+//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+
+//|                                        Alpha_Sniper_V29_AI.mq5   |
 //|                                                Copyright 2026    |
 //|               Clean Quant + Python MetaLabeling AI (Decision Tree)|
 //+------------------------------------------------------------------+
 #property copyright "Manuel"
 #property link      "https://antigravity.ai"
-#property version   "28.0"
+#property version   "29.0"
 
 #include <Trade\Trade.mqh>
 
-input group "=== ConfiguraciÃƒÂ³n Base Python (NO TOCAR) ==="
+input group "=== Configuracion Base Python (NO TOCAR) ==="
 input int    InpHMA_Period       = 200;     
 input int    InpEMA_Period       = 400;     
 input int    InpRSIPeriod        = 14;      
@@ -21,8 +28,9 @@ input double InpATRMultiplier    = 1.5;
 
 input group "=== Inteligencia Artificial ==="
 input bool   InpUseAI            = true;
+input int    InpMinBuildupBars   = 5;       // Velas minimas por encima/debajo de HMA antes del cruce
 
-input group "=== GestiÃƒÂ³n de Riesgo (Risk 1%) ==="
+input group "=== Gestion de Riesgo (Risk 1%) ==="
 input double InpRiskPct          = 1.0;     
 input double InpFixedBalance     = 100000.0;
 
@@ -42,7 +50,7 @@ int OnInit() {
         return INIT_FAILED;
     }
     
-    trade.SetExpertMagicNumber(28000);
+    trade.SetExpertMagicNumber(29000);
     return INIT_SUCCEEDED;
 }
 
@@ -54,7 +62,7 @@ void OnDeinit(const int reason) {
 }
 
 //+------------------------------------------------------------------+
-//| INYECCIÃƒâ€œN DIRECTA DEL MODELO DE PYTHON (DECISION TREE)           |
+//| INYECCION DIRECTA DEL MODELO DE PYTHON (DECISION TREE)           |
 //+------------------------------------------------------------------+
 bool IsTradeAllowedByAI(double RSI, double ATR, double Dist_EMA, int Hour, int DayOfWeek, int Signal) {
     if (Hour <= 14.5000) {
@@ -136,13 +144,6 @@ void OnTick() {
     datetime currentBarTime = iTime(_Symbol, _Period, 0);
     if(currentBarTime == lastBarTime || currentBarTime == 0) return;
     
-    MqlDateTime dt;
-    TimeToStruct(currentBarTime, dt);
-    if(dt.hour < InpStartHour || dt.hour >= InpEndHour) {
-        lastBarTime = currentBarTime;
-        return;
-    }
-    
     double hma[], ema[], rsi[], atr[];
     MqlRates rates[];
     
@@ -150,8 +151,11 @@ void OnTick() {
     ArraySetAsSeries(rsi, true); ArraySetAsSeries(atr, true);
     ArraySetAsSeries(rates, true);
     
-    if(CopyRates(_Symbol, _Period, 0, 3, rates) < 3) return;
-    if(CopyBuffer(hma_handle, 0, 0, 3, hma) < 3) return;
+    int copy_len = InpMinBuildupBars + 3;
+    if(copy_len < 3) copy_len = 3;
+
+    if(CopyRates(_Symbol, _Period, 0, copy_len, rates) < copy_len) return;
+    if(CopyBuffer(hma_handle, 0, 0, copy_len, hma) < copy_len) return;
     if(CopyBuffer(ema_handle, 0, 0, 3, ema) < 3) ArrayInitialize(ema, rates[1].close);
     if(CopyBuffer(rsi_handle, 0, 0, 3, rsi) < 3) ArrayInitialize(rsi, 50.0);
     if(CopyBuffer(atr_handle, 0, 0, 3, atr) < 3) ArrayInitialize(atr, rates[1].high - rates[1].low);
@@ -164,7 +168,7 @@ void OnTick() {
     double current_rsi = rsi[1];
     double current_atr = atr[1];
     
-    // 1. GESTION DE SALIDAS
+    // 1. GESTION DE SALIDAS (Activo 24/7)
     int pos_total = PositionsTotal();
     bool has_open_pos = false;
     for(int i = pos_total - 1; i >= 0; i--) {
@@ -186,19 +190,50 @@ void OnTick() {
     
     if(has_open_pos) { lastBarTime = currentBarTime; return; }
     
+    // 2. FILTRO DE HORARIO PARA ENTRADAS
+    MqlDateTime dt;
+    TimeToStruct(currentBarTime, dt);
+    if(dt.hour < InpStartHour || dt.hour >= InpEndHour) {
+        lastBarTime = currentBarTime;
+        return;
+    }
+    
     // 3. GESTION DE ENTRADAS
     int signal = -1;
     bool cross_up = (prev_close < prev_hma && current_close > current_hma);
     bool cross_dn = (prev_close > prev_hma && current_close < current_hma);
     
-    if(cross_up && current_close > current_ema && current_rsi < InpRSIMax) signal = 1;
-    if(cross_dn && current_close < current_ema && current_rsi > InpRSIMin) signal = -1;
+    // Filtro de Buildup (Velas consecutivas por debajo/encima de HMA antes del cruce)
+    bool buildup_ok_for_long = true;
+    bool buildup_ok_for_short = true;
+    
+    if(cross_up) {
+        for(int i = 2; i < 2 + InpMinBuildupBars; i++) {
+            if(rates[i].close >= hma[i]) {
+                buildup_ok_for_long = false;
+                break;
+            }
+        }
+    }
+    
+    if(cross_dn) {
+        for(int i = 2; i < 2 + InpMinBuildupBars; i++) {
+            if(rates[i].close <= hma[i]) {
+                buildup_ok_for_short = false;
+                break;
+            }
+        }
+    }
+
+    if(cross_up && current_close > current_ema && current_rsi < InpRSIMax && buildup_ok_for_long) signal = 1;
+    if(cross_dn && current_close < current_ema && current_rsi > InpRSIMin && buildup_ok_for_short) signal = -1;
     
     if(signal != -1) {
         // --- META LABELING AI FILTER ---
         if(InpUseAI) {
             double dist_ema = (current_close - current_ema) / current_atr;
             if(!IsTradeAllowedByAI(current_rsi, current_atr, dist_ema, dt.hour, dt.day_of_week, signal)) {
+                Print("Alpha Sniper: IA Bloquea entrada.");
                 lastBarTime = currentBarTime;
                 return; // LA IA RECHAZA EL TRADE
             }
@@ -213,8 +248,8 @@ void OnTick() {
         double lots = CalculateLotSize(points_dist, signal == 1 ? ask : bid, sl, signal);
         
         if(lots > 0) {
-            if(signal == 1) trade.Buy(lots, _Symbol, ask, sl, 0.0, "V28_AI_Buy");
-            else trade.Sell(lots, _Symbol, bid, sl, 0.0, "V28_AI_Sell");
+            if(signal == 1) trade.Buy(lots, _Symbol, ask, sl, 0.0, "V29_AI_Buy");
+            else trade.Sell(lots, _Symbol, bid, sl, 0.0, "V29_AI_Sell");
         }
     }
     lastBarTime = currentBarTime;

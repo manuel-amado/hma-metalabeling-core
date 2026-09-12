@@ -1,4 +1,11 @@
 //+------------------------------------------------------------------+
+//| Bot: HMA_TF_v6_ONNX.mq5                                
+//| Familia: Trend Following (Macro EMA + HMA pullback + RSI Exhaustion)                      
+//|                                                                  
+//| [CHANGELOG & EVOLUCION]:                                         
+//| Convergencia del Edge trend-following con modelo predictivo neuronal FatTail en ONNX.
+//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+
 //|                                     Alpha_Sniper_Master6.mq5     |
 //|                                                Copyright 2026    |
 //|         Equity Curve Trading: Cooldowns & Circuit Breakers       |

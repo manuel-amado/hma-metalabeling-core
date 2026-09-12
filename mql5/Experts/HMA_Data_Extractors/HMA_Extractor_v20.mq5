@@ -1,4 +1,11 @@
 //+------------------------------------------------------------------+
+//| Bot: HMA_Extractor_v20.mq5                                
+//| Familia: Data Engineering & Labeling                      
+//|                                                                  
+//| [CHANGELOG & EVOLUCION]:                                         
+//| Extractor especifico y aislado para recrear exactamente las condiciones y features de V20.
+//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+
 //|                                Alpha_Sniper_V20_Extractor.mq5    |
 //|                                Dynamic HMA Exit Meta-Labeling    |
 //+------------------------------------------------------------------+
