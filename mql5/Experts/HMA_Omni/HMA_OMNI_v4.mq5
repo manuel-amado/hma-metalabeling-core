@@ -1,4 +1,11 @@
 //+------------------------------------------------------------------+
+//| Bot: HMA_OMNI_v4.mq5                                
+//| Familia: Omni (RL/PPO + Multi-Architecture Convergence)                      
+//|                                                                  
+//| [CHANGELOG & EVOLUCION]:                                         
+//| Integracion de politica avanzada de decision y optimizacion de entorno.
+//+------------------------------------------------------------------+
+//+------------------------------------------------------------------+
 //|                             Alpha_Sniper_Omni_V4.mq5             |
 //|                 The Final Edge (WFO AI + Dynamic Metalabeling)   |
 //+------------------------------------------------------------------+

@@ -1,10 +1,17 @@
 //+------------------------------------------------------------------+
-//|                             Alpha_Sniper_Omni_V2.mq5             |
-//|                 True Edge Execution (V16 Ribbon + Structural)    |
+//| Bot: HMA_OMNI_v3.mq5                                
+//| Familia: Omni (RL/PPO + Multi-Architecture Convergence)                      
+//|                                                                  
+//| [CHANGELOG & EVOLUCION]:                                         
+//| Desarrollos adicionales de convergencia OMNI PPO y HMA.
 //+------------------------------------------------------------------+
-#property copyright "Alpha Omni v2.1"
+//+------------------------------------------------------------------+
+//|                             Alpha_Sniper_Omni_V3.mq5             |
+//|                 The Original Edge (1:2 RR + Ribbon Compression)  |
+//+------------------------------------------------------------------+
+#property copyright "Alpha Omni v3.1"
 #property link      ""
-#property version   "23.01"
+#property version   "24.01"
 
 #include <Trade\Trade.mqh>
 #include <Math\Stat\Math.mqh>
@@ -16,11 +23,15 @@ input int    InpRSI_Period       = 14;
 
 input group "== Risk & AI =="
 input double InpFixedLots        = 1.0;
-input double InpAI_Threshold     = 0.35; // Umbral de la IA para la Ruptura
-input double InpRR_Multiplier    = 1.5;  // TP = SL Estructural * RR
-input double InpMinSL_ATR        = 1.0;
+input double InpAI_Threshold     = 0.45; // Filtrado fuerte
+input double InpRR_Multiplier    = 2.0;
+input double InpMinSL_ATR        = 2.0;  // Minimizar impacto de spread
 input double InpMaxSL_ATR        = 5.0;
-input bool   InpOneShotMode      = true; // MODO FRANCOTIRADOR: 1 Trade a la vez, esperar a que toque TP/SL
+input bool   InpOneShotMode      = true;
+
+input group "== Smart Exits =="
+input bool   InpUseRibbonExit    = false;
+input double InpRibbonCompressPct= 0.30;
 
 int h_hma10, h_hma21, h_hma50, h_hma100, h_hma200;
 int h_atr, h_atr_d1, h_rsi, h_sma20, h_std20;
@@ -29,6 +40,7 @@ int h_ema_h4, h_ema_d1;
 double max_distance_since_cross = 0;
 int bars_since_cross = 0;
 int last_trend_dir = 0;
+double max_ribbon_spread_trade = 0;
 
 CTrade trade;
 
@@ -80,26 +92,49 @@ void OnTick() {
     if(CopyBuffer(h_ema_h4, 0, 1, 1, emah4) < 1) return;
     if(CopyBuffer(h_ema_d1, 0, 1, 1, emad1) < 1) return;
     
-    int current_dir = (close1 > h50[1]) ? 1 : -1;
+    double vals[5] = {h10[1], h21[1], h50[1], h100[1], h200[1]};
+    double mean = (h10[1]+h21[1]+h50[1]+h100[1]+h200[1])/5.0;
+    double sum_sq = 0;
+    for(int k=0; k<5; k++) sum_sq += MathPow(vals[k] - mean, 2);
+    double current_ribbon_spread = MathSqrt(sum_sq / 5.0) / atr[0];
     
+    bool has_open_trades = false;
+    for(int i = PositionsTotal() - 1; i >= 0; i--) {
+        if(PositionGetSymbol(i) == _Symbol && PositionGetInteger(POSITION_MAGIC) == 777999) {
+            has_open_trades = true;
+            ulong ticket = PositionGetTicket(i);
+            
+            if(InpUseRibbonExit) {
+                if(current_ribbon_spread > max_ribbon_spread_trade) {
+                    max_ribbon_spread_trade = current_ribbon_spread;
+                } else if(current_ribbon_spread < max_ribbon_spread_trade * (1.0 - InpRibbonCompressPct)) {
+                    double floating_profit = PositionGetDouble(POSITION_PROFIT);
+                    if(floating_profit > 0) {
+                        trade.PositionClose(ticket);
+                        Print("Salida Inteligente: Compresión del Ribbon detectada.");
+                        max_ribbon_spread_trade = 0;
+                        has_open_trades = false;
+                    }
+                }
+            }
+        }
+    }
+    
+    if(!has_open_trades) max_ribbon_spread_trade = 0;
+    
+    int current_dir = (close1 > h50[1]) ? 1 : -1;
     double dist = MathAbs(close1 - h50[1]) / atr[0];
     if(dist > max_distance_since_cross) max_distance_since_cross = dist;
     bars_since_cross++;
     
     if(current_dir != last_trend_dir && last_trend_dir != 0) {
         double features[17];
-        
         features[0] = (h10[1] - h10[0]) / atr[0];
         features[1] = (h21[1] - h21[0]) / atr[0];
         features[2] = (h50[1] - h50[0]) / atr[0];
         features[3] = (h100[1] - h100[0]) / atr[0];
         features[4] = (h200[1] - h200[0]) / atr[0];
-        
-        double vals[5] = {h10[1], h21[1], h50[1], h100[1], h200[1]};
-        double mean = (h10[1]+h21[1]+h50[1]+h100[1]+h200[1])/5.0;
-        double sum_sq = 0;
-        for(int k=0; k<5; k++) sum_sq += MathPow(vals[k] - mean, 2);
-        features[5] = MathSqrt(sum_sq / 5.0) / atr[0];
+        features[5] = current_ribbon_spread;
         
         if(h10[1] > h21[1] && h21[1] > h50[1] && h50[1] > h100[1] && h100[1] > h200[1]) features[6] = 1;
         else if(h10[1] < h21[1] && h21[1] < h50[1] && h50[1] < h100[1] && h100[1] < h200[1]) features[6] = -1;
@@ -108,7 +143,6 @@ void OnTick() {
         features[7] = (close1 - emah4[0]) / atr[0];
         features[8] = (close1 - emad1[0]) / atr[0];
         features[9] = (atrd1[0] > 0) ? atr[0] / atrd1[0] : 0;
-        
         features[10] = (close1 - open1) / atr[0];
         double cdl_range = high1 - low1;
         features[11] = (cdl_range > 0) ? (close1 - open1) / cdl_range : 0;
@@ -125,16 +159,7 @@ void OnTick() {
         double prob = XGBoost_Predict_WFO_OMNI_V2_XAUUSD(features, dt.year, dt.mon);
         
         if(prob >= InpAI_Threshold) {
-            bool can_open = true;
-            for(int i = PositionsTotal() - 1; i >= 0; i--) {
-                if(PositionGetSymbol(i) == _Symbol && PositionGetInteger(POSITION_MAGIC) == 777999) {
-                    if(InpOneShotMode) {
-                        can_open = false; // Bloquea todo si ya hay un trade abierto
-                    }
-                }
-            }
-            
-            if(can_open) {
+            if(!has_open_trades || !InpOneShotMode) {
                 double high20 = iHigh(_Symbol, _Period, iHighest(_Symbol, _Period, MODE_HIGH, 20, 1));
                 double low20  = iLow(_Symbol, _Period, iLowest(_Symbol, _Period, MODE_LOW, 20, 1));
                 
@@ -142,14 +167,18 @@ void OnTick() {
                 if(swing_dist_atr < InpMinSL_ATR) swing_dist_atr = InpMinSL_ATR;
                 if(swing_dist_atr > InpMaxSL_ATR) swing_dist_atr = InpMaxSL_ATR;
                 
-                double sl_price = (current_dir == 1) ? close1 - (swing_dist_atr * atr[0]) : close1 + (swing_dist_atr * atr[0]);
-                double tp_price = (current_dir == 1) ? close1 + (swing_dist_atr * InpRR_Multiplier * atr[0]) : close1 - (swing_dist_atr * InpRR_Multiplier * atr[0]);
-                
                 double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
                 double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+                double entry_price = (current_dir == 1) ? ask : bid;
                 
-                if(current_dir == 1) trade.Buy(InpFixedLots, _Symbol, ask, sl_price, tp_price, "Omni V2 AI=" + DoubleToString(prob, 2));
-                else trade.Sell(InpFixedLots, _Symbol, bid, sl_price, tp_price, "Omni V2 AI=" + DoubleToString(prob, 2));
+                // Anclar TP y SL al precio real de entrada, no al cierre pasado
+                double sl_price = (current_dir == 1) ? entry_price - (swing_dist_atr * atr[0]) : entry_price + (swing_dist_atr * atr[0]);
+                double tp_price = (current_dir == 1) ? entry_price + (swing_dist_atr * InpRR_Multiplier * atr[0]) : entry_price - (swing_dist_atr * InpRR_Multiplier * atr[0]);
+                
+                if(current_dir == 1) trade.Buy(InpFixedLots, _Symbol, ask, sl_price, tp_price, "V3 AI=" + DoubleToString(prob, 2));
+                else trade.Sell(InpFixedLots, _Symbol, bid, sl_price, tp_price, "V3 AI=" + DoubleToString(prob, 2));
+                
+                max_ribbon_spread_trade = current_ribbon_spread;
             }
         }
         
