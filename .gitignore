@@ -20,3 +20,12 @@ scratch/
 __pycache__/
 *.pyc
 .venv/
+
+# --- M2 Pipeline: datos crudos y artefactos grandes ---
+python/data/raw/**/*.csv
+python/data/processed/**/*.parquet
+python/models/**/*.pkl
+python/models/**/*.onnx
+python/reports/figures/**/*.png
+!python/data/**/.gitkeep
+!python/models/**/.gitkeep
