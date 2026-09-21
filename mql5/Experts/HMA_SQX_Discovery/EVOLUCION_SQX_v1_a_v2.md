@@ -1,6 +1,6 @@
-# Avances y Evolución de Minería SQX (v1 a v2)
+# Avances y Evolución de Minería SQX (v1 a v2 + M2 Meta-Labeling)
 
-Este documento detalla el salto cualitativo e institucional logrado en el laboratorio **SQX Discovery**, validando las hipótesis de investigación multitemporal y corrección de zona horaria.
+Este documento detalla el salto cualitativo e institucional logrado en el laboratorio **SQX Discovery**, validando las hipótesis de investigación multitemporal, la corrección de zona horaria y la integración del oráculo **XGBoost Meta-Labeling (M2)**.
 
 ---
 
@@ -28,21 +28,51 @@ En lugar de forzar un filtro rígido a mano, permitimos a SQX evaluar la interac
 
 ---
 
-## 3. Matriz Comparativa de Avances
+## 3. Hito Alcanzado: Oráculo XGBoost M2 Transpilado a MQL5 (`M2_XGBoost_Oracle.mqh`)
 
-| Métrica / Característica | v1 (`HMA_SQX_Ribbon_v1`) | v2 (`HMA_SQX_v2_MTF_ADX`) |
-| :--- | :--- | :--- |
-| **Zona Horaria de Minería** | UTC+0 (Descorrelacionado de MT5) | **UTC+2 (Alineado con MT5 EET)** |
-| **Marcos Temporales** | Monotemporal (H1) | **Multitemporal (H1 + H4 + D1)** |
-| **Filtro de Régimen** | Ninguno (Entradas continuas) | **ADX H4 (14) + HMA V-Pivot (11, 110)** |
-| **Gestión de Salidas** | ATR Estático | **ATR Multinivel (H1/D1) + Trailing** |
-| **Control de Fricción** | Alto número de trades afectables por spread | **Filtrado estricto de ruido de mercado** |
+Hemos completado con éxito la fase de **Meta-Labeling (M2)** sobre las señales generadas por SQX:
+
+### A. Extracción de Features Multitemporales
+Se construyó el dataset `XGBoost_Dataset_Final.csv` capturando 7 sensores cinemáticos y macroestructurales:
+- `Keltner_Bandwidth_H4`
+- `ATR_Ratio_H1_D1`
+- `ADX_Value_H4`
+- `ADX_Slope_H4`
+- `Dist_EMA200_H4`
+- `Bollinger_Width_H1`
+- `Daily_Exhaustion`
+
+### B. Entrenamiento & Optimización Out-Of-Sample (OOS)
+- **División Cronológica:** Split 70% In-Sample / 30% Out-Of-Sample (sin fuga de datos / Data Leakage).
+- **Modelo:** `XGBClassifier` (100 estimadores, profundidad 3, learning rate 0.05).
+- **Calibración de Umbral:** Optimización de Esperanza Matemática (EV). El umbral óptimo de probabilidad de victoria se fijó en `0.36`.
+
+### C. Transpilación Nativa a C++ (`m2cgen`)
+Mediante el script `python/m2_metalabeling/export/export_mql5.py`, el modelo de XGBoost se convirtió directamente a código C++ nativo dentro del encabezado:
+📁 `mql5/Include/M2_XGBoost_Oracle.mqh`
+
+Función de inferencia nativa:
+```cpp
+void GetXGBoostProbability(const double &input[], double &output[])
+```
+**Ventaja:** Latencia 0ms, cero dependencias de DLLs o Python externo durante la ejecución en tiempo real o backtesting en MT5.
 
 ---
 
-## 4. Siguientes Pasos (Integración con M2 Meta-Labeling)
+## 4. Matriz Comparativa de Avances
 
-Con la v2 de SQX habiendo demostrado la eficacia del filtrado multitemporal ADX H4 + HMA V-Pivot:
-1. **Extracción de Dataset:** Ejecutaremos el orquestador `HMA_Extractor_Orchestrator.mq5` sobre el flujo de señales de esta v2.
-2. **Etiquetado M2:** Ingestaremos los datos en el pipeline Python de **Meta-Labeling (M2)** usando el método de la Triple Barrera y la validación *Purged K-Fold CV*.
-3. **Calibración e Inferencia:** Calibraremos las probabilidades con *Isotonic Regression* para generar la versión `.onnx` final lista para fondeo.
+| Métrica / Característica | v1 (`HMA_SQX_Ribbon_v1`) | v2 (`HMA_SQX_v2_MTF_ADX`) | v2 + Oráculo M2 (`M2_XGBoost_Oracle`) |
+| :--- | :--- | :--- | :--- |
+| **Zona Horaria** | UTC+0 | **UTC+2 (MT5 EET)** | **UTC+2 (MT5 EET)** |
+| **Marcos Temporales** | Monotemporal (H1) | **Multitemporal (H1/H4/D1)** | **Multitemporal (H1/H4/D1)** |
+| **Filtro Primario** | Ninguno | **ADX H4 (14) + HMA V-Pivot** | **ADX H4 (14) + HMA V-Pivot** |
+| **Filtro Secundario (ML)** | Inexistente | Inexistente | **XGBoost M2 (7 Features MTF)** |
+| **Inferencia MT5** | Manual | Manual | **Nativa en C++ (0ms vía `.mqh`)** |
+| **Umbral Óptimo** | N/A | N/A | **0.36 (Máxima Esperanza EV)** |
+
+---
+
+## 5. Scripts de Automatización M2 Creados
+- `python/m2_metalabeling/models/xgboost_train.py`: Entrenamiento cronológico y evaluación OOS.
+- `python/m2_metalabeling/models/xgboost_optimize.py`: Optimización del umbral de decisión por Esperanza Matemática.
+- `python/m2_metalabeling/export/export_mql5.py`: Transpilador automatizado de modelos XGBoost a C++ (`.mqh`).
