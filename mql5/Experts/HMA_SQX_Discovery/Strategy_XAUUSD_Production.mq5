@@ -21,6 +21,8 @@
 #include <Object.mqh>
 #include <MovingAverages.mqh>
 #include <Generic\HashMap.mqh>
+#include "M2_XGBoost_Oracle_XAUUSD.mqh"
+
 const int SLPTTYPE_RANGE = 0;
 const int SLPTTYPE_LEVEL = 1;
 
@@ -381,9 +383,7 @@ double EvaluateXGBoost(int direction) {
    xgb_features[6] = dailyExhaustion;
 
    double prob[2];
-   // GetXGBoostProbability removed for Extractor
-   prob[0] = 0.0;
-   prob[1] = 1.0;
+   GetXGBoostProbability(xgb_features, prob);
    return prob[1];
 }
 //+------------------------------------------------------------------+

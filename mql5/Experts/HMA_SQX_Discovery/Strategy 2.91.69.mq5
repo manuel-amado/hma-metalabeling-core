@@ -122,10 +122,10 @@ input string slts = "----------- Use Tick size from SQ (for CFDs) -----------";
 // use the correct tick size          
 input bool UseSQTickSize = false; // UseSQPipSize                                                               
 input double MainChartTickSizeSQ = 0.01; //MainChartPipSizeSQ
-input string Subchart1Symbol = "XAUUSD2015_TICK_UTCPlus02";
+input string Subchart1Symbol = "";
 input int Subchart1Timeframe = 240;
 input double Subchart1TickSizeSQ = 0.01; //Subchart1PipSizeSQ
-input string Subchart2Symbol = "XAUUSD2015_TICK_UTCPlus02";
+input string Subchart2Symbol = "";
 input int Subchart2Timeframe = 1440;
 input double Subchart2TickSizeSQ = 0.01; //Subchart2PipSizeSQ
 
@@ -1518,7 +1518,7 @@ bool extractParams(string wholeString, string &buffer[]){
 //+------------------------------------------------------------------+
 
 string correctSymbol(string symbol){
-    if(symbol == NULL || symbol == "NULL" || symbol == "Current" || symbol == "0" || symbol == "Same as main chart") {
+    if(symbol == NULL || symbol == "NULL" || symbol == "Current" || symbol == "0" || symbol == "Same as main chart" || symbol == "" || StringFind(symbol, "_TICK_") >= 0) {
         return Symbol();
     }
         else if (symbol == "Subchart1Symbol") return correctSymbol(Subchart1Symbol);
