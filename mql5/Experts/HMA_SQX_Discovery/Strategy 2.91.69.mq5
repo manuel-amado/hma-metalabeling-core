@@ -459,6 +459,7 @@ if (_sqIsBarOpen == true) {
 // Rule: Long entry
 //------------------------
    if (_sqIsBarOpen == true && LongEntrySignal && TradeLongs) {
+        if(!IsRegimeTrending()) return;
       if(!IsDailyDrawdownSafe(MaxDailyDrawdown)) return;
       if(!IsSpreadSafe(MaxSpreadPoints)) return;
       // Action #1
@@ -523,6 +524,7 @@ if (_sqIsBarOpen == true) {
 // Rule: Short entry
 //------------------------
    if (_sqIsBarOpen == true && (ShortEntrySignal && !LongEntrySignal) && TradeShorts) {
+        if(!IsRegimeTrending()) return;
       if(!IsDailyDrawdownSafe(MaxDailyDrawdown)) return;
       if(!IsSpreadSafe(MaxSpreadPoints)) return;
       // Action #1
