@@ -21,7 +21,7 @@
 #include <Object.mqh>
 #include <MovingAverages.mqh>
 #include <Generic\HashMap.mqh>
-#include "M2_XGBoost_Oracle_XAUUSD.mqh"
+#include "M2_XGBoost_Oracle_GBPJPY.mqh"
 
 const int SLPTTYPE_RANGE = 0;
 const int SLPTTYPE_LEVEL = 1;
@@ -55,7 +55,7 @@ input string srmm = "----------- Institutional Risk Engine (AGY) -----------";
 input int RegimeADX_Period = 14;         // Periodo ADX del Filtro de Regimen
 input double RegimeADX_MinTrend = 25.0;  // ADX Diario minimo para operar (0=desactivado)
 input bool TradeLongs = true; // Habilitar Compras (Longs)
-input bool TradeShorts = false; // BLOQUEADO HARDWARE (LONG-ONLY) // Habilitar Ventas (Shorts) - Apagado por toxicidad estadistica
+input bool TradeShorts = true; // Habilitar Ventas (Shorts) - Apagado por toxicidad estadistica
 input bool UseCompounding = false; // Interes Compuesto (False = Fijo al Balance Inicial)
 input double KellyFraction = 0.0358; // Fraccion Kelly base
 input double MaxRiskPerTrade = 0.02; // Limite Riesgo por Trade (Ej. 0.02 = 2%)

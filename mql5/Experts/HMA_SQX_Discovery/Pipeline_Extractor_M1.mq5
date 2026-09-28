@@ -53,12 +53,12 @@ input string srmm = "----------- Institutional Risk Engine (AGY) -----------";
 input int RegimeADX_Period = 14;         // Periodo ADX del Filtro de Regimen
 input double RegimeADX_MinTrend = 25.0;  // ADX Diario minimo para operar (0=desactivado)
 input bool TradeLongs = true; // Habilitar Compras (Longs)
-input bool TradeShorts = false; // Habilitar Ventas (Shorts) - Apagado por toxicidad estadistica
+input bool TradeShorts = true; // Habilitar Ventas (Shorts) para Extraccion Multi-Activo
 input bool UseCompounding = false; // Interes Compuesto (False = Fijo al Balance Inicial)
 input double KellyFraction = 0.0358; // Fraccion Kelly base
 input double MaxRiskPerTrade = 0.02; // Limite Riesgo por Trade (Ej. 0.02 = 2%)
 input double MaxDailyDrawdown = 0.045; // Max Daily Drawdown (Ej. 0.045 = 4.5%)
-input int MaxSpreadPoints = 50; // Max Spread en Puntos (Pon 9999 para Backtest)
+input int MaxSpreadPoints = 9999; // Max Spread abierto para extraer el 100% de señales
 input double XGBoostThreshold = 0.36; // XGBoost M2 Prob Threshold
 
 //+------------------------------------------------------------------+
@@ -248,7 +248,7 @@ bool timerInitialized = false;
 // -- XGBoost Data Logger (M2 Feature Extractor)
 //+------------------------------------------------------------------+
 int xgbFileHandle = INVALID_HANDLE;
-string xgbCsvFileName = "XGBoost_Features_M1.csv";
+string xgbCsvFileName = ""; // Se inicializara en OnInit con el simbolo
 bool xgbIsHeaderWritten = false;
 int handleAdxH4 = INVALID_HANDLE;
 int handleAtrH1 = INVALID_HANDLE;
@@ -629,6 +629,7 @@ if (_sqIsBarOpen == true) {
 //| Expert initialization function                                   |
 //+------------------------------------------------------------------+
 int OnInit(){
+    xgbCsvFileName = "XGBoost_Features_M1_" + _Symbol + ".csv";
    VerboseLog("--------------------------------------------------------");
    VerboseLog("Starting the EA");
 
@@ -5517,11 +5518,11 @@ void writeReportFile(){
    int agentIndex = StringFind(terminalDataPath, "Agent-", 0);
    terminalDataPath = StringSubstr(terminalDataPath, 0, agentIndex); 
    
-   string filename = MQLInfoString(MQL_PROGRAM_NAME) + ".csv";
+   string filename = MQLInfoString(MQL_PROGRAM_NAME) + "_" + _Symbol + ".csv";
    
    Print(filename);
    
-   int handle = FileOpen(filename, FILE_CSV|FILE_WRITE|FILE_READ, ";");
+   int handle = FileOpen(filename, FILE_CSV|FILE_WRITE|FILE_READ|FILE_COMMON, ";");
    if(handle <= 0){
       Print("Cannot write strategy results to file");
       return;
