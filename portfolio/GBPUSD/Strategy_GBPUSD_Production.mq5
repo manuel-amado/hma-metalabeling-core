@@ -21,7 +21,7 @@
 #include <Object.mqh>
 #include <MovingAverages.mqh>
 #include <Generic\HashMap.mqh>
-#include "M2_XGBoost_Oracle_AUDUSD.mqh"
+#include "M2_XGBoost_Oracle_GBPUSD.mqh"
 
 const int SLPTTYPE_RANGE = 0;
 const int SLPTTYPE_LEVEL = 1;
