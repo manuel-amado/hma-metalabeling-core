@@ -29,3 +29,16 @@ python/models/**/*.onnx
 python/reports/figures/**/*.png
 !python/data/**/.gitkeep
 !python/models/**/.gitkeep
+# Ignorar librerias nativas de MT5 y ejemplos
+mql5/Indicators/Examples/
+mql5/Indicators/Free Indicators/
+mql5/Scripts/Examples/
+mql5/Scripts/UnitTests/
+mql5/Experts/Examples/
+
+# Ignorar custom indicators pesados de StrategyQuantX
+mql5/Indicators/Sq*.mq5
+mql5/Indicators/Sq*.ex5
+
+# Ignorar la carpeta legacy src/
+src/
