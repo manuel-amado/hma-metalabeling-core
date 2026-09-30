@@ -5,55 +5,62 @@
 ![Validation](https://img.shields.io/badge/Validation-Purged_WFM-orange)
 ![Execution](https://img.shields.io/badge/Latency-0ms_Native-success)
 
-> **Overview:** This repository houses a production-grade, institutional Machine Learning pipeline designed for **MetaTrader 5**. Originally built to test a Hull Moving Average (HMA) breakout anomaly, the repository has evolved into a masterclass in quantitative infrastructure. 
+> **Veredicto Científico:** Este repositorio fue creado para probar el *Edge* de la estrategia Hull Moving Average (HMA). Las rigurosas pruebas de este pipeline demostraron que **las Medias Móviles sufren de *Alpha Decay* irreversible y no funcionan como gatillos de entrada en Forex**. Se documenta el fracaso de la HMA para evitar pérdidas de capital.
 
-While the specific HMA strategy suffered from *Alpha Decay* and was rigorously discarded, the **infrastructure built here is highly robust and reusable** for any future structural anomalies or trading algorithms.
-
----
-
-## 🚀 The True Asset: The M2 Pipeline
-
-In Quantitative Finance, a pipeline capable of strictly falsifying a bad strategy (preventing catastrophic loss of capital) is just as valuable as the strategy itself. This repository serves as a blueprint for implementing Marcos López de Prado's **Meta-Labeling** paradigm in retail and institutional forex trading.
-
-### 🧠 Core Features & Full Potential
-1. **Multi-Asset Ingestion (MQL5 ➡️ Python):** 
-   - Synchronous, multi-timeframe feature extraction (OHLCV, Volatility, Kinematics) executed dynamically from MetaTrader 5 into clean CSV datasets.
-2. **Triple-Barrier Method & Meta-Labeling:**
-   - Instead of predicting price direction, the Machine Learning model (XGBoost) predicts the *probability of a trade succeeding*, acting as a risk-governor overlaying any base strategy (Model 1 + Model 2).
-3. **Institutional Validation (Purged WFM):**
-   - Strict Time-Based Rolling Walk-Forward Montecarlo validation.
-   - Built-in `Embargo` and `Purging` rules to completely eliminate Data Leakage and serial correlation (Look-ahead bias).
-4. **Zero-Latency Deployment (Python ➡️ C++ ➡️ MQL5):**
-   - Python-trained XGBoost arrays are natively transpiled into C++ (`.mqh`) using `m2cgen`.
-   - The models execute inside MT5 in under **0 milliseconds** locally, eliminating the need for slow Python REST APIs or external sockets.
+Aunque la estrategia HMA murió, **la infraestructura construida aquí sobrevivió**. Este repositorio es un plano maestro institucional (Blueprint) que demuestra cómo construir, validar y desplegar modelos de *Machine Learning* en MetaTrader 5 a latencia cero.
 
 ---
 
-## 📂 Repository Structure
+## 🗺️ Mapa del Repositorio (Cero Ruido)
 
-The repository is strictly divided into the two core languages of the pipeline:
+El repositorio está estrictamente dividido en dos ecosistemas y una bóveda documental:
 
-- 🐍 **`/python/m2_metalabeling/`**: The core ML Engine.
-  - `labeling/`: Triple Barrier logic.
-  - `models/`: Orchestrators (`portfolio_factory.py`), WFM training (`rolling_window_retrain.py`), and sanity audits (`audit_report.py`).
-  - `export/`: C++ transpilation logic (`export_factory_oracle.py`).
-- 📈 **`/mql5/`**: MetaTrader 5 Source Code.
-  - `Experts/`: The Data Extractors and isolated Production Vaults (`Strategy_XAUUSD_Production.mq5`).
-  - `Include/`: The transpiled C++ XGBoost Oracles ready for live execution.
-- 📚 **`/docs/`**: Quantitative Research & Autopsies.
-  - `CRONOLOGIA_PROYECTO_HMA.md`: The evolutionary timeline of the HMA experiment.
-  - `POST_MORTEM.md`: A detailed explanation of Alpha Decay, Mathematical Lag, and why Moving Averages fail as entry triggers in modern HFT markets.
+- 🐍 **`/python/m2_metalabeling/`**: El Motor de Machine Learning.
+- 📈 **`/mql5/`**: Código fuente de MetaTrader 5 (Extractores y Bóvedas de Producción).
+- 📚 **`/docs/`**: Documentación Científica (Post-Mortem, Metodología y Cronología).
 
 ---
 
-## 🔬 Research Conclusion: HMA Alpha Decay
+## ⚙️ Guía de Trabajo: Flujo de Ejecución Paso a Paso
 
-Although the pipeline itself is a triumph, the original **Hull Moving Average (HMA)** strategy it was built for is **structurally unprofitable**.
+Si quieres entender cómo opera este ecosistema de principio a fin, aquí tienes la secuencia lógica de ejecución del **Pipeline M2**. Puedes replicarlo para cualquier otra estrategia base:
 
-The advanced Walk-Forward Montecarlo engine proved that Moving Averages suffer from severe **Mathematical Lag**. By the time the MA pivots, institutional algorithms (Mean-Reversion & HFT) are already fading the movement, turning retail MA-bots into exit liquidity. We openly document this failure in the `/docs` as an educational warning against over-optimization and the illusion of *Beta as Alpha*.
+### Paso 1: Extracción de Datos (MQL5)
+*El bot "ciego" recopila la cinemática del mercado.*
+* **Script:** `mql5/Experts/HMA_SQX_Discovery/Pipeline_Extractor_M1.mq5`
+* **Acción:** Se ejecuta en el Strategy Tester de MT5. Genera masivamente archivos CSV con indicadores técnicos y resultados de trades (Deals) en la carpeta `Files` de MetaTrader.
+
+### Paso 2: Ingesta y Etiquetado (Python)
+*López de Prado's Triple Barrier Method.*
+* **Scripts:** `python/m2_metalabeling/ingestion/mt5_reader.py` y `labeling/triple_barrier.py`
+* **Acción:** Python lee los CSV crudos de MT5, alinea las fechas y etiqueta probabilísticamente cada trade (Éxito = 1, Fracaso = 0) basándose en si alcanzó la barrera de Take Profit o Stop Loss.
+
+### Paso 3: Entrenamiento Walk-Forward (Python)
+*Evitando el Data Leakage y el Overfitting.*
+* **Script:** `python/m2_metalabeling/models/rolling_window_retrain.py`
+* **Acción:** Se entrena el modelo **XGBoost**. Se usa validación de ventanas rodantes (*Walk-Forward*) con reglas estrictas de *Purging* y *Embargo* para asegurar que el modelo no memoriza el pasado ni mira hacia el futuro.
+
+### Paso 4: Auditoría de Fuga de Datos (Python)
+*Sanity Checks institucionales.*
+* **Script:** `python/m2_metalabeling/models/audit_report.py`
+* **Acción:** Verifica algorítmicamente que no existe correlación cruzada entre los sets de Entrenamiento y Prueba. Si la prueba falla, el modelo se descarta inmediatamente.
+
+### Paso 5: Transpilación a Latencia Cero (Python ➡️ C++)
+*Eliminando los cuellos de botella de red.*
+* **Script:** `python/m2_metalabeling/models/export_factory_oracle.py`
+* **Acción:** Convierte los árboles de decisión entrenados de XGBoost en código C++ puro (`.mqh`) a través de la librería `m2cgen`. El archivo resultante se deposita directamente en la carpeta `Include` de MT5.
+
+### Paso 6: Ejecución en Bóveda de Producción (MQL5)
+*Tradeo en vivo.*
+* **Script:** `mql5/Experts/portfolio/XAUUSD/Strategy_XAUUSD_Production.mq5`
+* **Acción:** El Expert Advisor lee el mercado, consulta el oráculo matemático en C++ incrustado en su código, y si la probabilidad de éxito es alta, dispara la orden al bróker en **0 milisegundos**.
 
 ---
 
-## 🤝 Usage & Adaptation
+## 📚 Documentación Esencial
 
-This repository is pristine, heavily documented, and stripped of all legacy noise. You can fork this M2 Pipeline and attach it to **any** base algorithmic strategy (Mean Reversion, Volatility breakouts, Statistical Arbitrage) by simply swapping the MQL5 Extractor logic and running the Python orchestrator.
+Si deseas profundizar en las lecciones matemáticas y estructurales aprendidas en este proyecto, lee los siguientes documentos:
+
+1. [☠️ POST MORTEM: Por qué falló la estrategia (Alpha Decay)](docs/POST_MORTEM.md)
+2. [🧪 METODOLOGÍA: El Framework de Meta-Labeling](docs/METHODOLOGY.md)
+3. [📅 CRONOLOGÍA: La evolución completa del Proyecto](docs/CRONOLOGIA_PROYECTO_HMA.md)
