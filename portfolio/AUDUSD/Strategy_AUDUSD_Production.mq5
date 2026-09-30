@@ -21,7 +21,7 @@
 #include <Object.mqh>
 #include <MovingAverages.mqh>
 #include <Generic\HashMap.mqh>
-#include "M2_XGBoost_Oracle_XAUUSD.mqh"
+#include "M2_XGBoost_Oracle_AUDUSD.mqh"
 
 const int SLPTTYPE_RANGE = 0;
 const int SLPTTYPE_LEVEL = 1;
@@ -1518,12 +1518,7 @@ bool extractParams(string wholeString, string &buffer[]){
 //+------------------------------------------------------------------+
 
 string correctSymbol(string symbol){
-    if(symbol == NULL || symbol == "NULL" || symbol == "Current" || symbol == "0" || symbol == "Same as main chart" || symbol == "" || StringFind(symbol, "_TICK_") >= 0) {
-        return Symbol();
-    }
-        else if (symbol == "Subchart1Symbol") return correctSymbol(Subchart1Symbol);
-    else if (symbol == "Subchart2Symbol") return correctSymbol(Subchart2Symbol);
-    else return symbol;
+    return _Symbol; // BLOQUEO HARDWARE CONTRA CACHE DE TESTER
 }
 
 //+------------------------------------------------------------------+

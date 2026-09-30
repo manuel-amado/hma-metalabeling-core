@@ -1,54 +1,26 @@
-# WS-Mavericks: Quantitative Meta-Labeling Framework
+# HMA Meta-Labeling Project (Archived) ⚰️
 
-Marco de trabajo institucional para el desarrollo, validación y despliegue de sistemas de trading algorítmico de alta frecuencia y latencia cero. El repositorio integra algoritmos genéticos (StrategyQuant X) para el descubrimiento de anomalías de mercado (*Primary Models*), y modelos de Machine Learning (XGBoost) basados en el método de **Meta-Etiquetado** de Marcos López de Prado (*Secondary Models*) para la gestión dinámica de exposición.
+![Status](https://img.shields.io/badge/Status-Archived%20%2F%20Post--Mortem-red)
+![Type](https://img.shields.io/badge/Type-Quantitative%20Research-blue)
 
----
+This repository contains the rigorous quantitative research, machine learning framework, and ultimate post-mortem of an algorithmic trading strategy based on the **Hull Moving Average (HMA)** combined with **XGBoost Meta-Labeling**.
 
-## 🏛️ Estado Actual y Capacidades Core (V3 - Production Vaults)
+> **⚠️ WARNING:** This strategy failed Out-of-Sample (OOS) validation and is structurally unprofitable. This repository has been open-sourced strictly for educational purposes to demonstrate advanced Walk-Forward validation, the dangers of over-optimization, and how to properly kill a trading strategy before risking capital.
 
-El desarrollo actual se centra en la erradicación del ruido de mercado y la optimización de la Esperanza Matemática (EV) mediante pipelines de *Machine Learning* rigurosos y pruebas de estrés institucionales.
+## 📂 Repository Structure
 
-### 1. Descubrimiento Algorítmico Multitemporal (Primary Model)
-- **Extracción de Señales:** Minería genética sobre datos de tick alineados con el huso horario del broker (UTC+2/EET) para garantizar congruencia absoluta en cierres de vela.
-- **Convergencia H1/H4/D1:** Los modelos primarios de producción (`Strategy_XAUUSD_Production`) no evalúan el precio en el vacío; requieren alineación macroestructural mediante filtros de régimen en marcos temporales superiores (ej. `ADX H4 > 14`, Pivotes HMA Direccionales) y salidas dinámicas.
+- `/docs`: Extensive documentation, methodologies, and the quantitative autopsy.
+  - [Post Mortem (Why the strategy failed)](docs/POST_MORTEM.md)
+  - [Methodology (ML pipeline & validation)](docs/METHODOLOGY.md)
+- `/src`: Cleaned source code.
+  - `/mql5`: The MT5 Expert Advisors (Strategy chassis & feature extractor).
+  - `/python`: The core Machine Learning pipeline.
+- `/research_archive`: History of iterations, patches, failed experiments, and data pipelines.
 
-### 2. M2 Meta-Labeling Pipeline (Secondary Model)
-La señal base pasa por un orquestador de ML en Python (`Model Factory`) diseñado para evitar la fuga de datos (*Data Leakage*):
-- **Purged Walk-Forward Montecarlo (WFM):** El modelo no se valida en un solo split, sino mediante ventanas rodantes (*Rolling Windows*) que simulan el reentrenamiento continuo que tendría en producción, aplicando purga y embargo en cada ventana.
-- **Filtros de Régimen Asimétricos:** Entrenamiento específico de oráculos XGBoost segmentados (ej. *Longs-Only*) cuando el análisis estadístico demuestra asimetrías severas en el mercado.
-- **Auditorías de Fuga de Datos (Sanity Checks):** Scripts automatizados que verifican la ausencia de variables futuras antes de la generación del modelo C++.
+## 🧠 Key Takeaways
+1. **Beta vs. Alpha:** A long-only strategy performing well during a massive secular bull market (e.g., Gold 2023-2026) is capturing Market Beta, not Alpha.
+2. **The MT5 Cartesian Bug:** Appending to CSV files in MetaTrader 5 without clearing them causes overlapping Cartesian products when merging features and labels, leading to fake machine learning metrics.
+3. **Purged Walk-Forward ML:** Using a strict *Time-Based Rolling Purged Cross-Validation* destroyed the strategy's edge, proving that the HMA indicator lacks predictive power out-of-sample in Forex.
 
-### 3. Inferencia de Latencia Cero (C++ Transpilation)
-El pipeline M2 exporta el modelo XGBoost optimizado (100 árboles de decisión) y lo transpila directamente a código nativo **C++ / MQL5** mediante `m2cgen`.
-- **Artefacto:** `M2_XGBoost_Oracle_XAUUSD.mqh`
-- **Impacto:** Ejecución en el servidor de MetaTrader en **0 milisegundos**, sin requerir llamadas a APIs externas ni Python. El oráculo dictamina el tamaño de posición y filtra *falsos positivos* en tiempo real.
-
----
-
-## 📂 Arquitectura del Repositorio (SSOT)
-
-El ecosistema mantiene una topología de **Single Source of Truth (SSOT)** utilizando *Directory Junctions* en Windows para mantener paridad en tiempo real entre MetaEditor y Git.
-
-```text
-WS-Mavericks/
-├── mql5/
-│   ├── Experts/HMA_SQX_Discovery/     # Production Vaults y Extractores Multi-Asset
-│   ├── Include/M2_XGBoost_Oracle*.mqh # Oráculos XGBoost transpilados a C++ nativo
-│   └── Indicators/                    # Dependencias nativas generadas por SQX
-│
-├── python/m2_metalabeling/            # Framework de Machine Learning Cuantitativo (M2)
-│   ├── ingestion/                     # Parsers de series temporales (Multi-Asset)
-│   ├── features/                      # Ingeniería de variables (Cinemática, ADX, Distancias)
-│   ├── labeling/                      # Implementación de Triple Barrera
-│   ├── cross_validation/              # Purged WFM & Embargo
-│   ├── models/                        # Model Factory, Retraining y Sanity Checks
-│   └── export/                        # Transpilador m2cgen (Python -> C++)
-│
-└── reports/figures/                   # Equity Curves (WFM), Precision-Recall y Data Leakage Audits
-```
-
----
-
-## 🔒 Control de Calidad y DevOps
-- **Protección de Datos Masivos:** Los datasets tabulares crudos (`.csv`), y binarios pesados están rígidamente excluidos mediante `.gitignore`.
-- **Continuous Integration (Local):** Los modelos exportados (ej. `M2_XGBoost_Oracle_XAUUSD.mqh`) se enlazan automáticamente a las carpetas `MQL5` de las instancias locales para pruebas inmediatas en el Strategy Tester.
+## 🤝 Collaboration
+Feel free to fork this repository. While the HMA chassis was discarded, the **XGBoost Meta-Labeling Pipeline** and **MQL5 Extractor architecture** are highly valuable and can be adapted to test Mean Reversion or Volatility-based structural inefficiencies.

@@ -51,14 +51,14 @@ input double ProfitTargetCoef2 = 2.1;        //ProfitTargetCoef2
 
 input string srmm = "----------- Institutional Risk Engine (AGY) -----------";
 input int RegimeADX_Period = 14;         // Periodo ADX del Filtro de Regimen
-input double RegimeADX_MinTrend = 25.0;  // ADX Diario minimo para operar (0=desactivado)
+input double RegimeADX_MinTrend = 25.0;  // ADX Diario minimo
 input bool TradeLongs = true; // Habilitar Compras (Longs)
-input bool TradeShorts = false; // Habilitar Ventas (Shorts) - Apagado por toxicidad estadistica
+input bool TradeShorts = false; // LONG-ONLY INSTITUCIONAL
 input bool UseCompounding = false; // Interes Compuesto (False = Fijo al Balance Inicial)
 input double KellyFraction = 0.0358; // Fraccion Kelly base
 input double MaxRiskPerTrade = 0.02; // Limite Riesgo por Trade (Ej. 0.02 = 2%)
 input double MaxDailyDrawdown = 0.045; // Max Daily Drawdown (Ej. 0.045 = 4.5%)
-input int MaxSpreadPoints = 50; // Max Spread en Puntos (Pon 9999 para Backtest)
+input int MaxSpreadPoints = 50; // Spread Max estatico
 input double XGBoostThreshold = 0.36; // XGBoost M2 Prob Threshold
 
 //+------------------------------------------------------------------+
@@ -248,7 +248,7 @@ bool timerInitialized = false;
 // -- XGBoost Data Logger (M2 Feature Extractor)
 //+------------------------------------------------------------------+
 int xgbFileHandle = INVALID_HANDLE;
-string xgbCsvFileName = "XGBoost_Features_M1.csv";
+string xgbCsvFileName = ""; // Se inicializara en OnInit con el simbolo
 bool xgbIsHeaderWritten = false;
 int handleAdxH4 = INVALID_HANDLE;
 int handleAtrH1 = INVALID_HANDLE;
@@ -395,6 +395,31 @@ double EvaluateXGBoost(int direction) {
 //+------------------------------------------------------------------+
 void OnTick() {
 
+        // --- CUSTOM TRAILING STOP LOGIC (ATR DYNAMIC) ---
+        for (int i = PositionsTotal() - 1; i >= 0; i--) {
+            ulong posTicket = PositionGetTicket(i);
+            if (PositionGetString(POSITION_SYMBOL) == _Symbol) {
+                double current_sl = PositionGetDouble(POSITION_SL);
+                double current_price = PositionGetDouble(POSITION_PRICE_CURRENT);
+                double open_price = PositionGetDouble(POSITION_PRICE_OPEN);
+                long pos_type = PositionGetInteger(POSITION_TYPE);
+                
+                double atrH1[];
+                int atrHandle = iATR(_Symbol, PERIOD_H1, 14);
+                CopyBuffer(atrHandle, 0, 1, 1, atrH1);
+                double ts_distance = atrH1[0] * 3.0; // Trailing Stop a 3 ATR
+                
+                if (pos_type == POSITION_TYPE_BUY) {
+                    double new_sl = current_price - ts_distance;
+                    if (new_sl > open_price && (current_sl == 0 || new_sl > current_sl)) {
+                        OrderModify(posTicket, new_sl, 0); // Modificamos solo SL, PT=0
+                    }
+                }
+            }
+        }
+        // ------------------------------------------------
+
+
    //--- Do we have enough bars to work with?
    if(Bars(_Symbol,_Period) < minBars) {   // if total bars is less than minBars
       Alert(StringFormat("NOT ENOUGH DATA: Less Bars than %d", minBars));
@@ -466,7 +491,7 @@ if (_sqIsBarOpen == true) {
         // Enter at Market
       openPrice = 0;  //Open at current market price
       sl = sqFixMarketPrice(sqGetSLLevel("Current", ORDER_TYPE_BUY, openPrice, 2, StopLossCoef1 * sqGetIndicatorValue(ATR_2, 1)), "Current");
-      pt = sqFixMarketPrice(sqGetPTLevel("Current", ORDER_TYPE_BUY, openPrice, 2, ProfitTargetCoef1 * sqGetIndicatorValue(ATR_1, 1)), "Current");
+      pt = 0; // TAKE PROFIT DESACTIVADO (Asimetria Liberada)
       double current_atr_long = sqGetIndicatorValue(ATR_2, 1);
       double sl_points_long = (StopLossCoef1 * current_atr_long) / _Point;
       size = GetKellyLotSize(sl_points_long, KellyFraction, MaxRiskPerTrade);
@@ -531,7 +556,7 @@ if (_sqIsBarOpen == true) {
         // Enter at Market
       openPrice = 0;  //Open at current market price
       sl = sqFixMarketPrice(sqGetSLLevel("Current", ORDER_TYPE_SELL, openPrice, 2, StopLossCoef1 * sqGetIndicatorValue(ATR_2, 1)), "Current");
-      pt = sqFixMarketPrice(sqGetPTLevel("Current", ORDER_TYPE_SELL, openPrice, 2, ProfitTargetCoef2 * sqGetIndicatorValue(ATR_2, 1)), "Current");
+      pt = 0; // TAKE PROFIT DESACTIVADO (Asimetria Liberada)
       double current_atr_short = sqGetIndicatorValue(ATR_2, 1);
       double sl_points_short = (StopLossCoef1 * current_atr_short) / _Point;
       size = GetKellyLotSize(sl_points_short, KellyFraction, MaxRiskPerTrade);
@@ -629,6 +654,7 @@ if (_sqIsBarOpen == true) {
 //| Expert initialization function                                   |
 //+------------------------------------------------------------------+
 int OnInit(){
+    xgbCsvFileName = "XGBoost_Features_M1_" + _Symbol + ".csv";
    VerboseLog("--------------------------------------------------------");
    VerboseLog("Starting the EA");
 
@@ -1518,12 +1544,7 @@ bool extractParams(string wholeString, string &buffer[]){
 //+------------------------------------------------------------------+
 
 string correctSymbol(string symbol){
-    if(symbol == NULL || symbol == "NULL" || symbol == "Current" || symbol == "0" || symbol == "Same as main chart" || symbol == "" || StringFind(symbol, "_TICK_") >= 0) {
-        return Symbol();
-    }
-        else if (symbol == "Subchart1Symbol") return correctSymbol(Subchart1Symbol);
-    else if (symbol == "Subchart2Symbol") return correctSymbol(Subchart2Symbol);
-    else return symbol;
+    return _Symbol; // BLOQUEO HARDWARE CONTRA CACHE DE TESTER
 }
 
 //+------------------------------------------------------------------+
@@ -5517,11 +5538,11 @@ void writeReportFile(){
    int agentIndex = StringFind(terminalDataPath, "Agent-", 0);
    terminalDataPath = StringSubstr(terminalDataPath, 0, agentIndex); 
    
-   string filename = MQLInfoString(MQL_PROGRAM_NAME) + ".csv";
+   string filename = MQLInfoString(MQL_PROGRAM_NAME) + "_" + _Symbol + ".csv";
    
    Print(filename);
    
-   int handle = FileOpen(filename, FILE_CSV|FILE_WRITE|FILE_READ, ";");
+   int handle = FileOpen(filename, FILE_CSV|FILE_WRITE|FILE_READ|FILE_COMMON, ";");
    if(handle <= 0){
       Print("Cannot write strategy results to file");
       return;
@@ -7426,8 +7447,21 @@ bool IsDailyDrawdownSafe(double max_daily_loss_pct = 0.045) {
 //+------------------------------------------------------------------+
 bool IsSpreadSafe(int max_spread_points = 50) {
     int current_spread = (int)SymbolInfoInteger(_Symbol, SYMBOL_SPREAD);
+    
+    // Filtro Dinamico ATR (25%)
+    double atrH1[];
+    int atrHandle = iATR(_Symbol, PERIOD_H1, 14);
+    CopyBuffer(atrHandle, 0, 1, 1, atrH1);
+    
+    if (atrH1[0] > 0) {
+        double spread_price = current_spread * _Point;
+        if (spread_price > (0.25 * atrH1[0])) {
+            return false;
+        }
+    }
+    
+    // Filtro Estatico de Respaldo
     if(current_spread > max_spread_points) {
-        Print("RIESGO: Spread muy alto (", current_spread, "). Operación bloqueada por M2.");
         return false;
     }
     return true;
