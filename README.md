@@ -1,4 +1,4 @@
-# HMA Meta-Labeling Project (Archived) ⚰️
+# HMA Meta-Labeling Project (Archived)
 
 ![Status](https://img.shields.io/badge/Status-Archived%20%2F%20Post--Mortem-red)
 ![Type](https://img.shields.io/badge/Type-Quantitative%20Research-blue)
