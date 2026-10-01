@@ -11,6 +11,22 @@ Aunque la estrategia HMA muriÃ³, **la infraestructura construida aquÃ­ sobre
 
 ---
 
+
+## ?? Arquitectura Core (M2 Pipeline)
+
+\\mermaid
+flowchart TD
+    classDef mql5 fill:#003b6f,stroke:#fff,stroke-width:2px,color:#fff
+    classDef python fill:#ffd43b,stroke:#306998,stroke-width:2px,color:#306998
+    classDef cpp fill:#659ad2,stroke:#fff,stroke-width:2px,color:#fff
+    
+    A[MT5 Data Extractor<br/>Primary Model]:::mql5 -->|CSV: Features + Deals| B(Python Ingestion<br/>Triple Barrier Labeling):::python
+    B --> C{WFM Training<br/>Purged XGBoost}:::python
+    C -->|Sanity Checks Passed| D[m2cgen Transpiler]:::python
+    C -->|Data Leakage Detected| E[Abort Pipeline]:::python
+    D -->|Export| F(C++ Oracle Headers<br/>.mqh):::cpp
+    F --> G[MT5 Production Vault<br/>0ms Execution]:::mql5
+\
 ## ðŸ—ºï¸ Mapa del Repositorio (Cero Ruido)
 
 El repositorio estÃ¡ estrictamente dividido en dos ecosistemas y una bÃ³veda documental:
@@ -65,4 +81,5 @@ Si deseas profundizar en las lecciones matemÃ¡ticas y estructurales aprendidas
 2. [ðŸ§ª METODOLOGÃA: El Framework de Meta-Labeling](docs/METHODOLOGY.md)
 3. [ðŸ“… CRONOLOGÃA: La evoluciÃ³n completa del Proyecto](docs/CRONOLOGIA_PROYECTO_HMA.md
 4. [🕵️ ARQUEOLOGÍA: Evolución y análisis estructural (v3 a v26)](docs/ANALISIS_VERSIONES_HMA.md))
+
 
