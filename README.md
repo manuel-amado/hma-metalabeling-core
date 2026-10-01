@@ -83,3 +83,4 @@ Si deseas profundizar en las lecciones matemÃ¡ticas y estructurales aprendidas
 4. [🕵️ ARQUEOLOGÍA: Evolución y análisis estructural (v3 a v26)](docs/ANALISIS_VERSIONES_HMA.md))
 
 
+
