@@ -1,4 +1,4 @@
-﻿# Proyecto SQX Discovery (StrategyQuant X)
+# Proyecto SQX Discovery (StrategyQuant X)
 
 ## Objetivo Principal
 Este directorio nace con el objetivo de aislar y documentar las estrategias puras de "fuerza bruta" y minería algorítmica generadas mediante **StrategyQuant X (SQX)**. 
