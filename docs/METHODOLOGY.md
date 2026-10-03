@@ -47,11 +47,11 @@ gantt
     axisFormat %Y
     section Iteración 1
     Training (In-Sample) :a1, 2018-01, 2020-01
-    Purging & Embargo (Vacio) :crit, a2, after a1, 30d
+    Purging & Embargo (Vacío) :crit, a2, after a1, 30d
     Trading (Out-of-Sample) :a3, after a2, 2020-06
     section Iteración 2
     Training (In-Sample) :b1, 2018-06, 2020-06
-    Purging & Embargo (Vacio) :crit, b2, after b1, 30d
+    Purging & Embargo (Vacío) :crit, b2, after b1, 30d
     Trading (Out-of-Sample) :b3, after b2, 2020-12
 ```
 
