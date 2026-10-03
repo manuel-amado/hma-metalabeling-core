@@ -9,7 +9,8 @@ Este documento traza el recorrido técnico y evolutivo del proyecto **HMA**, evi
 **El Origen:** Todo comenzó con la programación manual en MQL5 de la cinemática de la Media Móvil de Hull (HMA).
 *   **Lógica Core:** El sistema medía la aceleración y los cambios de pendiente (*V-Pivots*) de la HMA para detectar inicios de tendencia.
 *   **Gestor de Volatilidad:** Se integró el Ancho de Banda de Keltner (*Keltner Bandwidth*) para cazar rupturas de volatilidad (*Breakouts*).
-*   **El Cuello de Botella:** A pesar de los buenos *triggers*, el mercado generaba demasiados "falsos rompimientos". Aquí nació la necesidad de integrar *Machine Learning*. Se implementó el método de **Triple Barrera (Meta-Labeling)** de Marcos López de Prado para que XGBoost filtrara probabilísticamente si una señal de la HMA iba a tocar el Take Profit o el Stop Loss.
+*   **El Principio de la Sobre-Operativa:** Para entrenar el modelo de Machine Learning, inicialmente programamos los bots (`Alpha_Sniper.mq5`) para ser **sumamente irrentables y poco restrictivos**. Al tomar miles de *trades* malos a propósito, logramos inflar masivamente el tamaño de la muestra de datos, dándole a XGBoost el ecosistema perfecto para aprender de una infinidad de errores y aciertos.
+*   **El Cuello de Botella:** A pesar de los buenos *triggers*, el mercado generaba demasiados "falsos rompimientos". Aquí nació la necesidad formal de implementar el método de **Triple Barrera (Meta-Labeling)** de Marcos López de Prado para que XGBoost filtrara probabilísticamente si una señal de la HMA iba a tocar el Take Profit o el Stop Loss.
 
 ---
 

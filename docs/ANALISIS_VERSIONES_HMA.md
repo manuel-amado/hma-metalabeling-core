@@ -10,7 +10,8 @@ El análisis del directorio histórico de versiones revela una clara transición
 
 ### 1. La Era Manual (v3 - v10): `HMA_BOT.mq5` y `Alpha_Sniper.mq5`
 *   **Lógica:** Basada estrictamente en código MQL5 tradicional. Se iteraban combinaciones de Periodos de HMA (Hull Moving Average) cruzando canales de volatilidad.
-*   **Conclusión Estructural:** La optimización en MT5 era lenta e ineficiente. Las reglas estáticas eran frágiles y sufrían caídas drásticas cuando el régimen del mercado cambiaba (ej. de tendencia a consolidación).
+*   **El Principio del Caos Intencionado:** Durante esta fase pre-SQX, tomamos por válidos modelos primarios que eran **sumamente irrentables y caóticos**. Esta no fue una falla, sino una táctica deliberada: al programar una versión con nula restricción, forzábamos al bot a tomar el máximo número de *trades* posibles. Esta "fábrica de errores" generaba una ingesta masiva de datos y escenarios para favorecer el aprendizaje de restricciones finas por parte del oráculo XGBoost posteriormente.
+*   **Conclusión Estructural:** La optimización en MT5 era lenta e ineficiente. Las reglas estáticas eran frágiles y sufrían caídas drásticas cuando el régimen del mercado cambiaba, confirmando la necesidad de delegar la inteligencia a un modelo superior.
 
 ### 2. La Era del Meta-Labeling Primitivo (v11 - v15)
 *   **Archivos Clave:** `XGBoost_Model_v11...mqh` a `XGBoost_Model_v15_1...mqh`.
@@ -20,7 +21,7 @@ El análisis del directorio histórico de versiones revela una clara transición
 ### 3. La Era de la Cosecha (Harvesting) y Multi-Asset (v16 - v19)
 *   **Archivos Clave:** `Data_Extractor_EA.mq5`, `TestHarvest_Massive_Hybrid.mq5`.
 *   **Innovación:** Se entendió que extraer datos en tiempo real mediante APIs (Python <-> MT5) introducía latencias inaceptables y errores de *sockets*. Se creó el modelo **TestHarvest**, el cual utilizaba el Modo Optimización de MetaTrader para extraer años de cinemática (OHLCV + Indicadores) a CSVs a máxima velocidad usando todos los núcleos del procesador.
-*   **Impacto:** Permitió la construcción rápida de *datasets* inmensos para alimentar a XGBoost sin bloqueos de red.
+*   **Impacto:** Permitió la construcción rápida de *datasets* inmensos para alimentar a XGBoost sin bloqueos de red, aprovechando la avalancha de *trades* generados por los bots primarios irrentables.
 
 ### 4. La Era del Orquestador y Escáner (v20 - v26)
 *   **Archivos Clave:** `HMA_ML_Orchestrator.mq5`, `HMA_Period_Scanner.mq5`.

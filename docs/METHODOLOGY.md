@@ -16,6 +16,11 @@ Basado en la obra de **Marcos López de Prado (*Advances in Financial Machine Le
 1. **Primary Model (MQL5):** Un algoritmo básico (ej. Hull Moving Average) emite una señal de entrada.
 2. **Secondary Model (XGBoost):** Evalúa las condiciones del mercado y predice *exclusivamente* si esa señal será rentable o no ($Y \in \{0, 1\}$), actuando como un filtro de riesgo (Position Sizing).
 
+### El Sacrificio de Rentabilidad (Alto Recall)
+Durante el desarrollo del proyecto (especialmente en las fases previas al uso de StrategyQuant X), tomamos una decisión arquitectónica anti-intuitiva pero vital para el *Meta-Labeling*: **configuramos los bots primarios en MT5 para ser sumamente irrentables y poco restrictivos.** 
+
+El objetivo del modelo primario *no es tener alta precisión*, sino un alto **Recall** (alta frecuencia de disparos). Al forzar al bot a tomar miles de *trades* sin filtros, logramos maximizar el tamaño de la muestra de datos (Dataset), permitiendo que XGBoost tuviera suficientes casos de éxito y fracaso para aprender matemáticamente las restricciones verdaderas del mercado.
+
 ### El Método de la Triple Barrera (Triple Barrier Method)
 En lugar de etiquetar datos en intervalos fijos de tiempo (lo cual no refleja el comportamiento real del mercado), etiquetamos los *trades* usando tres barreras dinámicas ajustadas por la volatilidad (ATR):
 
