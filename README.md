@@ -20,12 +20,12 @@ flowchart TD
     classDef python fill:#ffd43b,stroke:#306998,stroke-width:2px,color:#306998
     classDef cpp fill:#659ad2,stroke:#fff,stroke-width:2px,color:#fff
     
-    A[MT5 Data Extractor<br/>Primary Model]:::mql5 -->|CSV: Features + Deals| B(Python Ingestion<br/>Triple Barrier Labeling):::python
-    B --> C{WFM Training<br/>Purged XGBoost}:::python
-    C -->|Sanity Checks Passed| D[m2cgen Transpiler]:::python
-    C -->|Data Leakage Detected| E[Abort Pipeline]:::python
-    D -->|Export| F(C++ Oracle Headers<br/>.mqh):::cpp
-    F --> G[MT5 Production Vault<br/>0ms Execution]:::mql5
+    A["MT5 Data Extractor<br/>Primary Model"]:::mql5 -->|"CSV: Features + Deals"| B("Python Ingestion<br/>Triple Barrier Labeling"):::python
+    B --> C{"WFM Training<br/>Purged XGBoost"}:::python
+    C -->|"Sanity Checks Passed"| D["m2cgen Transpiler"]:::python
+    C -->|"Data Leakage Detected"| E["Abort Pipeline"]:::python
+    D -->|"Export"| F("C++ Oracle Headers<br/>.mqh"):::cpp
+    F --> G["MT5 Production Vault<br/>0ms Execution"]:::mql5
 ```
 
 ---

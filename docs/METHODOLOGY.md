@@ -26,10 +26,10 @@ En lugar de etiquetar datos en intervalos fijos de tiempo (lo cual no refleja el
 
 ```mermaid
 graph TD
-    A[Señal del Primary Model] --> B{¿Qué barrera toca primero?}
-    B -->|Barrera Superior (Take Profit)| C[Etiqueta: 1 Éxito]
-    B -->|Barrera Inferior (Stop Loss)| D[Etiqueta: 0 Fracaso]
-    B -->|Barrera Vertical (Tiempo Máximo)| E[Etiqueta: 0 Fracaso/Timeout]
+    A["Señal del Primary Model"] --> B{"¿Qué barrera toca primero?"}
+    B -->|"Barrera Superior (Take Profit)"| C["Etiqueta: 1 Éxito"]
+    B -->|"Barrera Inferior (Stop Loss)"| D["Etiqueta: 0 Fracaso"]
+    B -->|"Barrera Vertical (Tiempo Máximo)"| E["Etiqueta: 0 Fracaso/Timeout"]
 ```
 > *Referencia Institucional:* López de Prado, M. (2018). *Advances in Financial Machine Learning*. John Wiley & Sons. (Capítulo 3: Labeling).
 
