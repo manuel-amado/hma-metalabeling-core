@@ -1,0 +1,57 @@
+﻿site_name: HMA Meta-Labeling Core
+site_description: Framework institucional de Machine Learning y Meta-Labeling para MetaTrader 5
+site_author: Manuel Amado
+repo_url: https://github.com/manuel-amado/hma-metalabeling-core
+repo_name: hma-metalabeling-core
+
+theme:
+  name: material
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Cambiar a modo oscuro
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Cambiar a modo claro
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Inicio: index.md
+  - MetodologÃ­a: METHODOLOGY.md
+  - AnÃ¡lisis Post-Mortem: POST_MORTEM.md
+  - ArqueologÃ­a y Versiones: ANALISIS_VERSIONES_HMA.md
+  - CronologÃ­a: CRONOLOGIA_PROYECTO_HMA.md
