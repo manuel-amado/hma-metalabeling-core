@@ -56,3 +56,11 @@ He generado un gráfico de rentabilidad combinando ambas zonas de tu dataset par
 1. **Zona Azul (In-Sample):** Verás que la línea verde (M1+M2) aplasta completamente a la línea gris (M1).
 2. **Línea Roja (Barrera del 70%):** Es el instante exacto donde el modelo se quedó ciego.
 3. **Zona Naranja (Out-Of-Sample):** Observa cómo la línea verde *no aplana su pendiente*. Continúa subiendo en paralelo con la misma fuerza tendencial que traía de la zona azul. Esto es la prueba definitiva y visual de la **ausencia de Overfit**.
+
+
+---
+## 🔗 Conexiones Transversales
+- [[Teoria - XGBoost y GT-Score|XGBoost y GT-Score]]
+- [[Teoria - Anclaje VWAP|Anclaje VWAP]]
+- [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]
+- [[Teoria - Market Beta vs Alpha|Market Beta vs Alpha]]

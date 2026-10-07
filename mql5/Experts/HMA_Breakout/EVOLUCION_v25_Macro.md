@@ -1,7 +1,13 @@
-# Cambio de Paradigma: Filtro de R間imen Macro (v25)
+# Cambio de Paradigma: Filtro de R茅gimen Macro (v25)
 
-## La Gran Conclusi髇
-Al analizar los drawdowns hist髍icos, se hizo evidente que operar Breakouts de HMA en mercados estancados o con ruido microsc髉ico degradaba la m閠rica de Meta-Labeling. 
+## La Gran Conclusi贸n
+Al analizar los drawdowns hist贸ricos, se hizo evidente que operar Breakouts de HMA en mercados estancados o con ruido microsc贸pico degradaba la m茅trica de Meta-Labeling. 
 
-## Implementaci髇
-La versi髇 **v25_MacroRegime** introduce el Filtro Sint閠ico D1 y eval鷄 un umbral direccional estricto (ej. \DX > 25\). Este filtro macrosc髉ico act鷄 como una compuerta: si la temporalidad superior no avala la fuerza tendencial, los micro-breakouts en temporalidades menores son vetados, independientemente de lo que opine el modelo ML local.
+## Implementaci贸n
+La versi贸n **v25_MacroRegime** introduce el Filtro Sint茅tico D1 y eval煤a un umbral direccional estricto (ej. \DX > 25\). Este filtro macrosc贸pico act煤a como una compuerta: si la temporalidad superior no avala la fuerza tendencial, los micro-breakouts en temporalidades menores son vetados, independientemente de lo que opine el modelo ML local.
+
+
+---
+## 馃敆 Conexiones Transversales
+- [[Teoria - XGBoost y GT-Score|XGBoost y GT-Score]]
+- [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]

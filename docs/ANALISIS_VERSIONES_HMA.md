@@ -36,3 +36,15 @@ Gracias a las iteraciones observadas en el archivo histórico, la arquitectura m
 1.  **Código Modular, no Fragmentado:** Ya no existen 50 archivos `Alpha_Sniper_vX.mq5`. Se construyó un **Orquestador Central** (`Strategy_XAUUSD_Production.mq5`) y la inteligencia de "versiones" se delegó puramente a las actualizaciones del archivo `.mqh` de XGBoost.
 2.  **Extracción Offline:** La ingesta de datos siempre debe hacerse con bots ciegos de "Harvesting" (`Pipeline_Extractor_M1.mq5`) utilizando el motor de optimización local de MT5. No se recomiendan puentes REST API en tiempo real.
 3.  **Prevención de Basura (Code Bloat):** Mantener archivos obsoletos (`v12`, `v13`, `v14`) en la carpeta del IDE MetaEditor causa errores de compilación masivos, duplicidad de librerías y pérdida de foco. **Solución:** Una vez extraído su valor (documentado aquí), el código obsoleto se elimina de la base activa para asegurar limpieza institucional (0 ruido).
+
+
+---
+## 🔗 Conexiones Transversales
+- [[Teoria - XGBoost y GT-Score|XGBoost y GT-Score]]
+- [[Teoria - Anclaje VWAP|Anclaje VWAP]]
+- [[Sistema - ZeroMQ y HFT|ZeroMQ y HFT]]
+- [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]
+- [[Sistema - Puente Python-MT5|Puente Python-MT5]]
+- [[Teoria - Diferenciacion Fraccional|Diferenciacion Fraccional]]
+- [[Sistema - Adaptacion SQX a MT5 FTMO|Adaptacion SQX a MT5 FTMO]]
+- [[Teoria - Robustez Inter-Mercado y Husos Horarios|Robustez Inter-Mercado y Husos Horarios]]

@@ -79,3 +79,12 @@ Si deseas profundizar en las lecciones matemáticas y estructurales aprendidas e
 2. [🧪 METODOLOGÍA: El Framework de Meta-Labeling](docs/METHODOLOGY.md)
 3. [📅 CRONOLOGÍA: La evolución completa del Proyecto](docs/CRONOLOGIA_PROYECTO_HMA.md)
 4. [🕵️ ARQUEOLOGÍA: Evolución y análisis estructural (v3 a v26)](docs/ANALISIS_VERSIONES_HMA.md)
+
+
+---
+## 🔗 Conexiones Transversales
+- [[Teoria - XGBoost y GT-Score|XGBoost y GT-Score]]
+- [[Teoria - Anclaje VWAP|Anclaje VWAP]]
+- [[Sistema - ZeroMQ y HFT|ZeroMQ y HFT]]
+- [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]
+- [[Teoria - Alpha Decay|Alpha Decay]]

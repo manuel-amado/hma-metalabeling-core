@@ -14,3 +14,10 @@ La meta es utilizar SQX como un motor de descubrimiento de *Alpha* automatizado,
 ## Siguientes Pasos
 1. **Validación:** Comprobar la robustez del modelo en In-Sample (IS) y Out-Of-Sample (OOS) en MT5.
 2. **Hibridación:** Si el edge matemático es sólido, el siguiente paso lógico será extraer la lógica principal y modularla dentro de nuestra familia \HMA_BRK\ o \HMA_TF\ para inyectarle las capacidades de filtrado con Python (Meta-Labeling).
+
+
+---
+## 🔗 Conexiones Transversales
+- [[Teoria - XGBoost y GT-Score|XGBoost y GT-Score]]
+- [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]
+- [[Sistema - Adaptacion SQX a MT5 FTMO|Adaptacion SQX a MT5 FTMO]]
