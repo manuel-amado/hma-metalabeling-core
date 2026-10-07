@@ -1,0 +1,33 @@
+name: Propuesta de Investigación (Anomaly Detector)
+description: Plantea una nueva anomalía de mercado o estrategia base para ser evaluada por el pipeline M2
+title: "[RESEARCH] - <Nombre de la Anomalía/Indicador>"
+labels: ["investigación", "anomalía"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por proponer una nueva vía de investigación cuantitativa. Por favor, sé lo más riguroso matemáticamente posible.
+  - type: textarea
+    id: hipotesis
+    attributes:
+      label: 1. Hipótesis de Mercado
+      description: ¿Cuál es la ineficiencia estructural o estadística que quieres explotar? (Ej. Mean-Reversion nocturno, Momentum tras noticias, etc.)
+      placeholder: La teoría sugiere que durante la sesión asiática el par EURUSD tiende a...
+    validations:
+      required: true
+  - type: textarea
+    id: primary_model
+    attributes:
+      label: 2. Propuesta del Primary Model (MQL5)
+      description: ¿Cómo capturamos esta anomalía? ¿Qué indicadores o price-action usamos como señal base (sin importar que sea muy perdedor a priori)?
+      placeholder: Un cruce de RSI (2) sobrecompra/sobreventa para generar alta frecuencia de disparos.
+    validations:
+      required: true
+  - type: textarea
+    id: target_asset
+    attributes:
+      label: 3. Activos Objetivo (Universe)
+      description: ¿En qué símbolos y marcos temporales (Timeframes) deberíamos aplicar StrategyQuant X o hacer harvesting?
+      placeholder: XAUUSD en M15.
+    validations:
+      required: true

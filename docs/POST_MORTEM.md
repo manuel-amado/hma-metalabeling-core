@@ -40,3 +40,15 @@ Cuando la Media Móvil cambia de pendiente (V-Pivot) indicando un quiebre, el al
 ## 3. Conclusión
 
 La arquitectura algorítmica puramente direccional basada en HMA (Primary Model) está muerta. No obstante, **el éxito rotundo de este proyecto reside en el Pipeline M2 (Secondary Model)**. Su robustez metodológica y su auditoría estricta evitaron que cayéramos en la trampa visual del sobreajuste al *Market Beta*, auditableizando, castigando y descartando un modelo perdedor con el máximo rigor cuantitativo.
+
+
+---
+## 🔗 Conexiones Transversales
+- [[Teoria - XGBoost y GT-Score|XGBoost y GT-Score]]
+- [[Teoria - Anclaje VWAP|Anclaje VWAP]]
+- [[Teoria - VPIN y Microestructura|VPIN y Microestructura]]
+- [[Sistema - ZeroMQ y HFT|ZeroMQ y HFT]]
+- [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]
+- [[Teoria - Alpha Decay|Alpha Decay]]
+- [[Teoria - Market Beta vs Alpha|Market Beta vs Alpha]]
+- [[Teoria - Mathematical Lag|Mathematical Lag]]

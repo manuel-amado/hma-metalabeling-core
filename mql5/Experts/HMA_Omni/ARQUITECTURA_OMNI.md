@@ -1,8 +1,14 @@
 # Proyecto OMNI: Reinforcement Learning (PPO)
 
-## El Problema del Etiquetado Estático
-Los modelos XGBoost (Normal/Master) dependen de un meta-etiquetado binario histórico. Son ciegos a las consecuencias continuas de abrir o cerrar posiciones a la mitad del trayecto.
+## El Problema del Etiquetado EstÃ¡tico
+Los modelos XGBoost (Normal/Master) dependen de un meta-etiquetado binario histÃ³rico. Son ciegos a las consecuencias continuas de abrir o cerrar posiciones a la mitad del trayecto.
 
-## La Solución Omni
+## La SoluciÃ³n Omni
 La arquitectura OMNI reemplaza el aprendizaje supervisado por Reinforcement Learning (Proximal Policy Optimization - PPO). 
-El bot \HMA_OMNI\ no predice "acierto/fallo", sino que maximiza una función de recompensa continua (Equity Curve, Ratio de Sharpe local). Converge los edges del Breakout y del TrendFollowing en un solo cerebro.
+El bot \HMA_OMNI\ no predice "acierto/fallo", sino que maximiza una funciÃ³n de recompensa continua (Equity Curve, Ratio de Sharpe local). Converge los edges del Breakout y del TrendFollowing en un solo cerebro.
+
+
+---
+## ðŸ”— Conexiones Transversales
+- [[Teoria - XGBoost y GT-Score|XGBoost y GT-Score]]
+- [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]

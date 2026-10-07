@@ -47,3 +47,12 @@ El código de descubrimiento se desacopló en dos artefactos profesionales:
 | **Asimetría de Sesgo** | N/A | Bidireccional unificado | **Modelos Especializados (Longs-Only)** |
 | **Extracción de Datos** | Manual | Manual | **`Pipeline_Extractor_M1` (Dinámico)** |
 | **Inferencia MT5** | Manual | Nativa en C++ (`.mqh`) | **Nativa en C++ (Safety/Sanity Checks)** |
+
+
+---
+## 🔗 Conexiones Transversales
+- [[Teoria - XGBoost y GT-Score|XGBoost y GT-Score]]
+- [[Teoria - Anclaje VWAP|Anclaje VWAP]]
+- [[Sistema - ZeroMQ y HFT|ZeroMQ y HFT]]
+- [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]
+- [[Sistema - Adaptacion SQX a MT5 FTMO|Adaptacion SQX a MT5 FTMO]]

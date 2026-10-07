@@ -1,11 +1,16 @@
 # Arquitectura Trend Following & ONNX (HMA_TF)
 
-## Diferencia Filos骹ica
+## Diferencia Filos贸fica
 Mientras que la familia \HMA_BRK\ (Breakout) opera el cruce inmediato (momentum en corto plazo), la familia \HMA_TF\ asume que "la tendencia es tu amiga". 
-El gatillo de entrada exige **alineaci髇 con la Macro EMA**.
+El gatillo de entrada exige **alineaci贸n con la Macro EMA**.
 
 ## La Regla del Agotamiento
-En lugar de depender exclusivamente de la aceleraci髇, el \HMA_TF\ introduce filtros de "Buildup" (acumulaci髇 previa) y un filtro de agotamiento basado en RSI (\current_rsi < InpRSIMax\). Nunca compramos en sobrecompra, incluso si el modelo dice que es buena idea.
+En lugar de depender exclusivamente de la aceleraci贸n, el \HMA_TF\ introduce filtros de "Buildup" (acumulaci贸n previa) y un filtro de agotamiento basado en RSI (\current_rsi < InpRSIMax\). Nunca compramos en sobrecompra, incluso si el modelo dice que es buena idea.
 
 ## Convergencia ONNX (v6)
-A partir de la v6, el 醨bol de decisiones en \.mqh\ es sustituido por una Red Neuronal/Modelo Complejo \FatTail_Model.onnx\, evaluando distribuciones de cola gruesa para atrapar Cisnes Negros a favor de la tendencia.
+A partir de la v6, el 谩rbol de decisiones en \.mqh\ es sustituido por una Red Neuronal/Modelo Complejo \FatTail_Model.onnx\, evaluando distribuciones de cola gruesa para atrapar Cisnes Negros a favor de la tendencia.
+
+
+---
+## 馃敆 Conexiones Transversales
+- [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]

@@ -47,3 +47,15 @@ Este documento traza el recorrido técnico y evolutivo del proyecto **HMA**, evi
 *   Se canceló la ejecución en real para proteger el capital.
 *   El código base del "Discovery" se migrará a un nuevo repositorio (`Anomaly Detector Setup`).
 *   Este repositorio queda como una obra maestra arquitectónica (*Blueprint* del Pipeline M2) abierta a la comunidad.
+
+
+---
+## 🔗 Conexiones Transversales
+- [[Teoria - XGBoost y GT-Score|XGBoost y GT-Score]]
+- [[Teoria - Anclaje VWAP|Anclaje VWAP]]
+- [[Teoria - VPIN y Microestructura|VPIN y Microestructura]]
+- [[Sistema - ZeroMQ y HFT|ZeroMQ y HFT]]
+- [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]
+- [[Teoria - Market Beta vs Alpha|Market Beta vs Alpha]]
+- [[Teoria - Robustez Inter-Mercado y Husos Horarios|Robustez Inter-Mercado y Husos Horarios]]
+- [[Sistema - Adaptacion SQX a MT5 FTMO|Adaptacion SQX a MT5 FTMO]]

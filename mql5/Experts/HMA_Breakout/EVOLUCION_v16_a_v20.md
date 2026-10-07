@@ -1,8 +1,14 @@
-# EvoluciÛn ArquitectÛnica: HMA Breakout (v16 a v20)
+# Evoluci√≥n Arquitect√≥nica: HMA Breakout (v16 a v20)
 
-Esta familia de bots representa el core algorÌtmico original basado en Mean Reversion y aceleraciÛn sobre la Hull Moving Average (HMA).
+Esta familia de bots representa el core algor√≠tmico original basado en Mean Reversion y aceleraci√≥n sobre la Hull Moving Average (HMA).
 
 ## Cambios Principales (v16 -> v20)
-1. **Modelado XGBoost (.mqh):** La v16 consolidÛ el uso de ·rboles de decisiÛn inyectados nativamente en C++ para clasificar rupturas.
-2. **IntroducciÛn WFO (v18):** Se descubriÛ que el mercado cambia de rÈgimen constantemente, obligando a introducir la arquitectura Walk-Forward Optimization. 
-3. **Salidas Din·micas (v20):** La conclusiÛn m·s importante de esta etapa fue que los Stop Loss est·ticos arruinaban el expectancy. V20 implementa un trailing din·mico basado en la volatilidad instant·nea (ATR), permitiendo capturar el edge predictivo de forma asilada usando lotaje fijo.
+1. **Modelado XGBoost (.mqh):** La v16 consolid√≥ el uso de √°rboles de decisi√≥n inyectados nativamente en C++ para clasificar rupturas.
+2. **Introducci√≥n WFO (v18):** Se descubri√≥ que el mercado cambia de r√©gimen constantemente, obligando a introducir la arquitectura Walk-Forward Optimization. 
+3. **Salidas Din√°micas (v20):** La conclusi√≥n m√°s importante de esta etapa fue que los Stop Loss est√°ticos arruinaban el expectancy. V20 implementa un trailing din√°mico basado en la volatilidad instant√°nea (ATR), permitiendo capturar el edge predictivo de forma asilada usando lotaje fijo.
+
+
+---
+## üîó Conexiones Transversales
+- [[Teoria - XGBoost y GT-Score|XGBoost y GT-Score]]
+- [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]
