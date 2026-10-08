@@ -56,3 +56,4 @@ El código de descubrimiento se desacopló en dos artefactos profesionales:
 - [[Sistema - ZeroMQ y HFT|ZeroMQ y HFT]]
 - [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]
 - [[Sistema - Adaptacion SQX a MT5 FTMO|Adaptacion SQX a MT5 FTMO]]
+- [[Sistema - Corrupcion de Datos y Huecos M1|Corrupcion de Datos y Huecos M1]]

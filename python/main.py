@@ -10,7 +10,7 @@ PYTHON_DIR = ROOT_DIR / "python" / "m2_metalabeling"
 
 def print_header():
     print("=" * 60)
-    print(" 🏛️  M2 QUANT PIPELINE - INSTITUTIONAL CONTROL PANEL 🏛️ ")
+    print("    M2 QUANT PIPELINE - INSTITUTIONAL CONTROL PANEL     ")
     print("=" * 60)
     print(" Basado en Marcos López de Prado (Advances in Financial ML)")
     print(" Framework de latencia cero para MetaTrader 5")

@@ -1,4 +1,4 @@
-# 🏛️ M2 Quant Pipeline: Meta-Labeling Framework
+# M2 Quant Pipeline: Meta-Labeling Framework
 
 ![Status](https://img.shields.io/badge/Status-Production_Ready-brightgreen)
 ![Architecture](https://img.shields.io/badge/Architecture-Python%20%7C%20C%2B%2B%20%7C%20MQL5-blue)
@@ -11,7 +11,7 @@ Aunque la estrategia HMA murió, **la infraestructura construida aquí sobrevivi
 
 ---
 
-## 🧠 Arquitectura Core (M2 Pipeline)
+## Arquitectura Core (M2 Pipeline)
 
 ```mermaid
 flowchart TD
@@ -30,17 +30,17 @@ flowchart TD
 
 ---
 
-## 🗺️ Mapa del Repositorio (Cero Ruido)
+## Mapa del Repositorio
 
 El repositorio está estrictamente dividido en dos ecosistemas y una bóveda documental:
 
-- 🐍 **`/python/m2_metalabeling/`**: El Motor de Machine Learning.
-- 📈 **`/mql5/`**: Código fuente de MetaTrader 5 (Extractores y Bóvedas de Producción).
-- 📚 **`/docs/`**: Documentación Científica (Post-Mortem, Metodología y Cronología).
+- **`/python/m2_metalabeling/`**: El motor estadístico y de Machine Learning (Ingesta, WFM, Transpilación).
+- **`/mql5/`**: Código fuente de MetaTrader 5 (Extractores masivos de datos y Bóvedas de Producción C++).
+- **`/docs/`**: Documentación Científica (Metodología, Evolución y Post-Mortem).
 
 ---
 
-## ⚙️ Guía de Trabajo: Flujo de Ejecución (Panel CLI)
+## Guía de Trabajo: Flujo de Ejecución (Panel CLI)
 
 Para evitar ejecutar scripts sueltos, el repositorio cuenta con un orquestador interactivo que centraliza todas las operaciones algorítmicas de forma secuencial:
 
@@ -53,7 +53,7 @@ Al ejecutarlo, se desplegará el panel de control institucional:
 
 ```text
 ============================================================
- 🏛️  M2 QUANT PIPELINE - INSTITUTIONAL CONTROL PANEL 🏛️ 
+    M2 QUANT PIPELINE - INSTITUTIONAL CONTROL PANEL     
 ============================================================
  Basado en Marcos López de Prado (Advances in Financial ML)
  Framework de latencia cero para MetaTrader 5
@@ -67,24 +67,8 @@ Al ejecutarlo, se desplegará el panel de control institucional:
   5. Ejecutar Flujo Completo (Portfolio Auto-Batch)
 ```
 
-Puedes replicar el uso de este pipeline interactivo para auditar cualquier otra estrategia base (reemplazando los extractores en MQL5).
+Este pipeline interactivo es completamente agnóstico y puede replicarse para auditar cualquier otra estrategia base (reemplazando los extractores en MQL5).
 
 ---
 
-## 📚 Documentación Esencial
-
-Si deseas profundizar en las lecciones matemáticas y estructurales aprendidas en este proyecto, lee los siguientes documentos:
-
-1. [☠️ POST MORTEM: Por qué falló la estrategia (Alpha Decay)](docs/POST_MORTEM.md)
-2. [🧪 METODOLOGÍA: El Framework de Meta-Labeling](docs/METHODOLOGY.md)
-3. [📅 CRONOLOGÍA: La evolución completa del Proyecto](docs/CRONOLOGIA_PROYECTO_HMA.md)
-4. [🕵️ ARQUEOLOGÍA: Evolución y análisis estructural (v3 a v26)](docs/ANALISIS_VERSIONES_HMA.md)
-
-
----
-## 🔗 Conexiones Transversales
-- [[Teoria - XGBoost y GT-Score|XGBoost y GT-Score]]
-- [[Teoria - Anclaje VWAP|Anclaje VWAP]]
-- [[Sistema - ZeroMQ y HFT|ZeroMQ y HFT]]
-- [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]
-- [[Teoria - Alpha Decay|Alpha Decay]]
+*Para continuar explorando la infraestructura matemática, proceda a la sección de [Metodología Cuantitativa](METHODOLOGY.md).*

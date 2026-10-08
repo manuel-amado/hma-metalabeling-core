@@ -12,3 +12,4 @@ El bot \HMA_OMNI\ no predice "acierto/fallo", sino que maximiza una función de 
 ## 🔗 Conexiones Transversales
 - [[Teoria - XGBoost y GT-Score|XGBoost y GT-Score]]
 - [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]
+- [[Sistema - Corrupcion de Datos y Huecos M1|Corrupcion de Datos y Huecos M1]]
