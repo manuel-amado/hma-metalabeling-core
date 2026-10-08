@@ -1,4 +1,4 @@
-# 🧪 Metodología Cuantitativa: El Framework M2
+# Metodología Cuantitativa: El Framework M2
 
 ![Type](https://img.shields.io/badge/Methodology-Quantitative_Research-blue)
 ![Paradigm](https://img.shields.io/badge/Paradigm-Meta--Labeling-orange)
@@ -76,15 +76,6 @@ El archivo resultante (`.mqh`) se compila nativamente en la Bóveda de Producci�
 
 Esto garantiza la ejecución instantánea en el servidor del bróker.
 
-
 ---
-## 🔗 Conexiones Transversales
-- [[Teoria - XGBoost y GT-Score|XGBoost y GT-Score]]
-- [[Teoria - Anclaje VWAP|Anclaje VWAP]]
-- [[Sistema - ZeroMQ y HFT|ZeroMQ y HFT]]
-- [[Sistema - MQL5 Execution Engine|MQL5 Execution Engine]]
-- [[Sistema - Puente Python-MT5|Puente Python-MT5]]
-- [[Teoria - Market Beta vs Alpha|Market Beta vs Alpha]]
-- [[Teoria - Diferenciacion Fraccional|Diferenciacion Fraccional]]
-- [[Sistema - Adaptacion SQX a MT5 FTMO|Adaptacion SQX a MT5 FTMO]]
-- [[Teoria - Robustez Inter-Mercado y Husos Horarios|Robustez Inter-Mercado y Husos Horarios]]
+
+*Siguiente sección: Para comprender cómo se llegó a estas decisiones arquitectónicas a través de la experimentación continua, consulte la [Evolución de la Investigación](HISTORICAL_EVOLUTION.md).*

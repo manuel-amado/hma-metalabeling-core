@@ -7,7 +7,6 @@ repo_name: hma-metalabeling-core
 theme:
   name: material
   palette:
-    # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: indigo
@@ -15,7 +14,6 @@ theme:
       toggle:
         icon: material/brightness-7
         name: Cambiar a modo oscuro
-    # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: blue
@@ -46,12 +44,10 @@ markdown_extensions:
 
 extra_javascript:
   - javascripts/mathjax.js
-
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 nav:
-  - Inicio: index.md
-  - MetodologÃ­a: METHODOLOGY.md
-  - AnÃ¡lisis Post-Mortem: POST_MORTEM.md
-  - ArqueologÃ­a y Versiones: ANALISIS_VERSIONES_HMA.md
-  - CronologÃ­a: CRONOLOGIA_PROYECTO_HMA.md
+  - Introducción: index.md
+  - Metodología Cuantitativa: METHODOLOGY.md
+  - Evolución de la Investigación: HISTORICAL_EVOLUTION.md
+  - Veredicto y Post-Mortem: POST_MORTEM.md
