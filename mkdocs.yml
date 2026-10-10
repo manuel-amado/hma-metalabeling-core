@@ -1,51 +1,159 @@
-﻿site_name: HMA Meta-Labeling Core
+site_name: HMA Meta-Labeling Core
 site_description: Framework institucional de Machine Learning y Meta-Labeling para MetaTrader 5
 site_author: Manuel Amado
+site_url: https://manuel-amado.github.io/hma-metalabeling-core/
 repo_url: https://github.com/manuel-amado/hma-metalabeling-core
-repo_name: hma-metalabeling-core
+repo_name: manuel-amado/hma-metalabeling-core
 
+# ==============================================================================
+# TEMA Y DISEÑO (SOBRIO, MODERNO E INSTITUCIONAL)
+# ==============================================================================
 theme:
   name: material
+  language: es
+  icon:
+    repo: fontawesome/brands/github
+
+  # Tipografía de alta legibilidad técnica (estándar fintech y quant)
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+  # Paleta de color triple: automática (sistema), clara (pizarra/índigo) y oscura (slate profundo)
   palette:
+    # 1. Automático según preferencia del sistema operativo
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Modo automático (sistema)
+
+    # 2. Modo claro (Fondo pulcro, primario pizarra sobrio)
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: blue
+      primary: slate
+      accent: indigo
       toggle:
         icon: material/brightness-7
         name: Cambiar a modo oscuro
+
+    # 3. Modo oscuro (Slate de alta fidelidad para lectura prolongada)
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: blue
+      primary: slate
       accent: indigo
       toggle:
         icon: material/brightness-4
-        name: Cambiar a modo claro
+        name: Cambiar a modo automático
+
+  # ============================================================================
+  # EXPERIENCIA DE USUARIO Y NAVEGACIÓN (FEATURES)
+  # ============================================================================
   features:
+    # Navegación SPA instantánea con precarga y barra de progreso
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+
+    # Jerarquía y pestañas superiores fijas
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
+    - navigation.path
     - navigation.top
+    - navigation.tracking
+    - navigation.footer
+
+    # Tabla de contenidos dinámica (scroll asistido)
+    - toc.follow
+
+    # Búsqueda instantánea avanzada
     - search.suggest
     - search.highlight
-    - content.code.copy
+    - search.share
 
+    # Bloques de código profesionales
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
+
+    # Pestañas y ayudas contextuales
+    - content.tabs.link
+    - content.tooltips
+
+# ==============================================================================
+# PLUGINS
+# ==============================================================================
+plugins:
+  - search:
+      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\\b)(?=[A-Z][a-z])'
+
+# ==============================================================================
+# EXTENSIONES DE MARKDOWN (PYTHON-MARKDOWN & PYMDOWN-EXTENSIONS)
+# ==============================================================================
 markdown_extensions:
+  # Estándar
+  - abbr
   - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+  # Extensiones avanzadas PyMdown
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
   - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
-  - pymdownx.arithmatex:
-      generic: true
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
   - pymdownx.tasklist:
       custom_checkbox: true
+  - pymdownx.tilde
+
+# ==============================================================================
+# ASSETS EXTRA (ESTILOS Y SCRIPTS CUANTITATIVOS)
+# ==============================================================================
+extra_css:
+  - stylesheets/extra.css
 
 extra_javascript:
   - javascripts/mathjax.js
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js
+  - javascripts/tablesort.js
 
+# ==============================================================================
+# AJUSTES GENERALES
+# ==============================================================================
+extra:
+  generator: false
+
+# ==============================================================================
+# NAVEGACIÓN PRINCIPAL
+# ==============================================================================
 nav:
   - Introducción: index.md
   - Metodología Cuantitativa: METHODOLOGY.md
