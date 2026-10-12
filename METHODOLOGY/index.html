@@ -1,0 +1,1710 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Framework institucional de Machine Learning y Meta-Labeling para MetaTrader 5">
+      
+      
+        <meta name="author" content="Manuel Amado">
+      
+      
+        <link rel="canonical" href="https://manuel-amado.github.io/hma-metalabeling-core/METHODOLOGY/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../RESEARCH_JOURNAL/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Metodología Cuantitativa - HMA Meta-Labeling Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#metodologia-cuantitativa-el-framework-m2" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="HMA Meta-Labeling Core" class="md-header__button md-logo" aria-label="HMA Meta-Labeling Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HMA Meta-Labeling Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Metodología Cuantitativa
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Modo automático (sistema)"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo automático (sistema)" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="indigo"  aria-label="Cambiar a modo automático"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo automático" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartir" aria-label="Compartir" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/manuel-amado/hma-metalabeling-core" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    manuel-amado/hma-metalabeling-core
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introducción
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Metodología Cuantitativa
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../RESEARCH_JOURNAL/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Cuaderno de Investigación
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../UNIVERSAL_PRINCIPLES/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Principios Cuantitativos Universales
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../HISTORICAL_EVOLUTION/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Evolución Histórica de Prototipos
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../POST_MORTEM/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Veredicto y Post-Mortem
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="HMA Meta-Labeling Core" class="md-nav__button md-logo" aria-label="HMA Meta-Labeling Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HMA Meta-Labeling Core
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/manuel-amado/hma-metalabeling-core" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    manuel-amado/hma-metalabeling-core
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metodología Cuantitativa
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metodología Cuantitativa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-arquitectura-integral-del-pipeline-end-to-end-execution-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Arquitectura Integral del Pipeline (End-to-End Execution Flow)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-el-paradigma-de-meta-labeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. El Paradigma de Meta-Labeling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. El Paradigma de Meta-Labeling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-limitaciones-de-la-clasificacion-direccional-estandar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Limitaciones de la Clasificación Direccional Estándar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-desacoplamiento-en-dos-etapas-two-stage-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Desacoplamiento en Dos Etapas (Two-Stage Architecture)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-el-metodo-de-la-triple-barrera-triple-barrier-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. El Método de la Triple Barrera (Triple Barrier Method)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. El Método de la Triple Barrera (Triple Barrier Method)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-geometria-del-etiquetado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Geometría del Etiquetado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-formulacion-matematica-de-las-barreras" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Formulación Matemática de las Barreras
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-determinacion-del-tiempo-de-salida-y-asignacion-de-etiquetas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Determinación del Tiempo de Salida y Asignación de Etiquetas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-validacion-cruzada-purgada-y-con-embargo-purged-k-fold-cv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Validación Cruzada Purgada y con Embargo (Purged K-Fold CV)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Validación Cruzada Purgada y con Embargo (Purged K-Fold CV)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-el-fallo-del-k-fold-convencional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 El Fallo del K-Fold Convencional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-visualizacion-estructural-de-purging-y-embargo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Visualización Estructural de Purging y Embargo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-formulacion-matematica-de-purging-y-embargo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Formulación Matemática de Purging y Embargo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-calibracion-de-probabilidades-y-bet-sizing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Calibración de Probabilidades y Bet Sizing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Calibración de Probabilidades y Bet Sizing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-calibracion-isotonica-isotonic-regression" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Calibración Isotónica (Isotonic Regression)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-dimensionamiento-continuo-de-posicion-bet-sizing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Dimensionamiento Continuo de Posición (Bet Sizing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-transpilacion-a-c-nativo-a-latencia-cero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Transpilación a C++ Nativo a Latencia Cero
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Transpilación a C++ Nativo a Latencia Cero">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-comparativa-de-arquitecturas-de-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Comparativa de Arquitecturas de Ejecución
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latencia-de-inferencia-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Latencia de Inferencia C++
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencias-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencias Runtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sobrecarga-de-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sobrecarga de Memoria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paridad-numerica-python-mql5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paridad Numérica Python / MQL5
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-implementacion-del-transpilador-de-arboles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Implementación del Transpilador de Árboles
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RESEARCH_JOURNAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cuaderno de Investigación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../UNIVERSAL_PRINCIPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Principios Cuantitativos Universales
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HISTORICAL_EVOLUTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evolución Histórica de Prototipos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../POST_MORTEM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Veredicto y Post-Mortem
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-arquitectura-integral-del-pipeline-end-to-end-execution-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Arquitectura Integral del Pipeline (End-to-End Execution Flow)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-el-paradigma-de-meta-labeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. El Paradigma de Meta-Labeling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. El Paradigma de Meta-Labeling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-limitaciones-de-la-clasificacion-direccional-estandar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Limitaciones de la Clasificación Direccional Estándar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-desacoplamiento-en-dos-etapas-two-stage-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Desacoplamiento en Dos Etapas (Two-Stage Architecture)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-el-metodo-de-la-triple-barrera-triple-barrier-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. El Método de la Triple Barrera (Triple Barrier Method)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. El Método de la Triple Barrera (Triple Barrier Method)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-geometria-del-etiquetado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Geometría del Etiquetado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-formulacion-matematica-de-las-barreras" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Formulación Matemática de las Barreras
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-determinacion-del-tiempo-de-salida-y-asignacion-de-etiquetas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Determinación del Tiempo de Salida y Asignación de Etiquetas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-validacion-cruzada-purgada-y-con-embargo-purged-k-fold-cv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Validación Cruzada Purgada y con Embargo (Purged K-Fold CV)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Validación Cruzada Purgada y con Embargo (Purged K-Fold CV)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-el-fallo-del-k-fold-convencional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 El Fallo del K-Fold Convencional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-visualizacion-estructural-de-purging-y-embargo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Visualización Estructural de Purging y Embargo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-formulacion-matematica-de-purging-y-embargo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Formulación Matemática de Purging y Embargo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-calibracion-de-probabilidades-y-bet-sizing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Calibración de Probabilidades y Bet Sizing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Calibración de Probabilidades y Bet Sizing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-calibracion-isotonica-isotonic-regression" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Calibración Isotónica (Isotonic Regression)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-dimensionamiento-continuo-de-posicion-bet-sizing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Dimensionamiento Continuo de Posición (Bet Sizing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-transpilacion-a-c-nativo-a-latencia-cero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Transpilación a C++ Nativo a Latencia Cero
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Transpilación a C++ Nativo a Latencia Cero">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-comparativa-de-arquitecturas-de-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Comparativa de Arquitecturas de Ejecución
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latencia-de-inferencia-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Latencia de Inferencia C++
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencias-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencias Runtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sobrecarga-de-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sobrecarga de Memoria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paridad-numerica-python-mql5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paridad Numérica Python / MQL5
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-implementacion-del-transpilador-de-arboles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Implementación del Transpilador de Árboles
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="metodologia-cuantitativa-el-framework-m2">Metodología Cuantitativa: El Framework M2<a class="headerlink" href="#metodologia-cuantitativa-el-framework-m2" title="Permanent link">&para;</a></h1>
+<p><img alt="Type" src="https://img.shields.io/badge/Methodology-Quantitative_Research-blue" />
+<img alt="Paradigm" src="https://img.shields.io/badge/Paradigm-Meta--Labeling-orange" />
+<img alt="Validation" src="https://img.shields.io/badge/Validation-Purged_WFM-darkred" />
+<img alt="Execution" src="https://img.shields.io/badge/Execution-Sub_Microsecond_C%2B%2B-darkblue" /></p>
+<p>El Pipeline M2 no es un script de <em>Machine Learning</em> genérico, sino una infraestructura institucional basada en los fundamentos de las finanzas cuantitativas modernas enunciados por <strong>Marcos López de Prado (<em>Advances in Financial Machine Learning</em>, 2018)</strong>. </p>
+<p>Este documento detalla las formulaciones matemáticas rigurosas, los algoritmos de etiquetado, los esquemas de validación cruzada y los protocolos de transpilación que estructuran el proyecto.</p>
+<hr />
+<h2 id="0-arquitectura-integral-del-pipeline-end-to-end-execution-flow">0. Arquitectura Integral del Pipeline (End-to-End Execution Flow)<a class="headerlink" href="#0-arquitectura-integral-del-pipeline-end-to-end-execution-flow" title="Permanent link">&para;</a></h2>
+<p>El ciclo cuantitativo desacopla la investigación, el etiquetado, la validación y la producción en siete componentes estrictamente orquestados:</p>
+<pre class="mermaid"><code>flowchart TD
+    classDef stage fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#f8fafc
+    classDef data fill:#1e293b,stroke:#64748b,stroke-width:1px,color:#f8fafc
+    classDef model fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#f8fafc
+    classDef transpile fill:#042f2e,stroke:#14b8a6,stroke-width:2px,color:#f8fafc
+    classDef vault fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#f8fafc
+    classDef reject fill:#450a0a,stroke:#ef4444,stroke-width:2px,color:#f8fafc
+
+    subgraph S1["1. MT5 Tick Capture &amp; Extracción (Huso EET)"]
+        A1["MetaTrader 5 Engine&lt;br/&gt;Tick &amp; Bar Feeds"]:::stage --&gt; A2["Pipeline_Extractor_M1.mq5&lt;br/&gt;Primary Model M1 (HMA)"]:::stage
+        A2 --&gt;|"Deliberate High Recall (≥0.85)&lt;br/&gt;N &gt; 3.000 Eventos"| A3[("CSV: Features + Deals Matrix&lt;br/&gt;EET Sincronizado")]:::data
+    end
+
+    subgraph S2["2. Ingesta de Datos en Python"]
+        A3 --&gt; B1["mt5_reader.py Ingestion Engine&lt;br/&gt;Limpieza Vectorizada e Indexación"]:::stage
+        B1 --&gt; B2["Matriz de Features Xt&lt;br/&gt;+ Volatilidad ATR σt0"]:::data
+    end
+
+    subgraph S3["3. Motor de Etiquetado por Triple Barrera"]
+        B2 --&gt; C1["triple_barrier.py&lt;br/&gt;Evaluador Dinámico de Trayectorias"]:::stage
+        C1 --&gt;|"Barreras: TP / SL / Timeout"| C2[("Dataset Meta-Etiquetado&lt;br/&gt;yi ∈ {0, 1} + Retorno Log R")]:::data
+    end
+
+    subgraph S4["4. Validación Cruzada Purgada con Embargo"]
+        C2 --&gt; D1["purged_cv.py Engine&lt;br/&gt;Purge Gap: Eliminación de Solapamiento"]:::stage
+        D1 --&gt; D2["Embargo Buffer: Δt_embargo (1-5%)&lt;br/&gt;Garantía Cero Data Leakage"]:::stage
+    end
+
+    subgraph S5["5. Meta-Labeling XGBoost y Calibración"]
+        D2 --&gt; E1["rolling_window_retrain.py&lt;br/&gt;XGBClassifier (base_score=0.5)"]:::model
+        E1 --&gt; E2["Calibración Isotónica de Probabilidad&lt;br/&gt;Optimización de Valor Esperado EV(τ*)"]:::model
+        E2 --&gt; E3{"Auditoría OOS&lt;br/&gt;AUC ≥ 0.55?"}:::model
+        E3 --&gt;|"AUC &lt; 0.52 (Ruido/Beta)"| REJ["VETO: Falsación Científica&lt;br/&gt;Alpha Decay Confirmado"]:::reject
+    end
+
+    subgraph S6["6. Transpilación a C++ Nativo (m2cgen)"]
+        E3 --&gt;|"Aprobado"| F1["to_mqh.py / export_mql5.py&lt;br/&gt;Parseo de AST de Árboles"]:::transpile
+        F1 --&gt; F2["Síntesis de Sintaxis MQL5&lt;br/&gt;Arrays Planos &amp; MathExpSafe"]:::transpile
+    end
+
+    subgraph S7["7. Bóveda de Ejecución MT5 (&lt;0.1 µs)"]
+        F2 --&gt; G1["M2_XGBoost_Oracle.mqh&lt;br/&gt;Cabecera C++ Pura (Include)"]:::vault
+        G1 --&gt; G2["Strategy 2.91.69.mq5 EA&lt;br/&gt;Inferencia OnTick en L1 Cache"]:::vault
+    end</code></pre>
+<hr />
+<h2 id="1-el-paradigma-de-meta-labeling">1. El Paradigma de Meta-Labeling<a class="headerlink" href="#1-el-paradigma-de-meta-labeling" title="Permanent link">&para;</a></h2>
+<h3 id="11-limitaciones-de-la-clasificacion-direccional-estandar">1.1 Limitaciones de la Clasificación Direccional Estándar<a class="headerlink" href="#11-limitaciones-de-la-clasificacion-direccional-estandar" title="Permanent link">&para;</a></h3>
+<p>En el enfoque tradicional de <em>Machine Learning</em> aplicado a mercados financieros, un modelo único intenta clasificar directamente la dirección futura del precio:</p>
+<div class="arithmatex">\[
+\hat{y}_t = f(X_t) \in \{-1, 1\} \quad \text{o} \quad \{-1, 0, 1\}
+\]</div>
+<p>Este paradigma sufre de tres deficiencias estructurales:</p>
+<ol>
+<li><strong>Baja relación señal/ruido:</strong> Las series de retornos financieros tienen un coeficiente de determinación típicamente inferior al 1% (<span class="arithmatex">\(R^2 &lt; 0.01\)</span>).</li>
+<li><strong>Confusión de objetivos:</strong> Mezcla simultáneamente el descubrimiento de la oportunidad, la dirección del mercado y el dimensionamiento de la posición (<em>Bet Sizing</em>).</li>
+<li><strong>Sobreajuste extremo:</strong> Al intentar predecir cada barra o tick, el modelo memoriza fluctuaciones aleatorias de microestructura.</li>
+</ol>
+<h3 id="12-desacoplamiento-en-dos-etapas-two-stage-architecture">1.2 Desacoplamiento en Dos Etapas (Two-Stage Architecture)<a class="headerlink" href="#12-desacoplamiento-en-dos-etapas-two-stage-architecture" title="Permanent link">&para;</a></h3>
+<p>El marco de Meta-Labeling resuelve esta limitación dividiendo el problema en dos modelos especializados:</p>
+<div class="arithmatex">\[
+\text{Decisión Final} = M_1(\text{Señal}) \times M_2(\text{Probabilidad de Éxito})
+\]</div>
+<ol>
+<li>
+<p><strong>Modelo Primario (<span class="arithmatex">\(M_1\)</span>):</strong> Genera la dirección <span class="arithmatex">\(\text{side} \in \{-1, 1\}\)</span> en base a una hipótesis técnica o cinemática (en este proyecto, la Media Móvil de Hull HMA). Su función primordial es actuar como un <strong>generador de eventos</strong>, maximizando el <strong>Recall</strong>:</p>
+<div class="arithmatex">\[
+\text{Recall}(M_1) = \frac{TP}{TP + FN} \to 1.0 \quad (\text{con } FN \to 0)
+\]</div>
+<p>Acepta deliberadamente falsos positivos para proporcionar una base muestral densa y estadísticamente representativa.</p>
+</li>
+<li>
+<p><strong>Modelo Secundario (<span class="arithmatex">\(M_2\)</span>):</strong> Es un clasificador supervisado binario (XGBoost) que no predice la dirección, sino la veracidad o rentabilidad de la señal emitida por <span class="arithmatex">\(M_1\)</span>:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+y_t &amp;\in \{0, 1\} \\
+P(y_t = 1 \mid X_t) &amp;= \text{Probabilidad condicional de rentabilidad del trade}
+\end{aligned}
+\]</div>
+</li>
+</ol>
+<p>Si <span class="arithmatex">\(P(y_t = 1 \mid X_t) \ge \tau^*\)</span> (umbral óptimo calibrado por valor esperado), la orden se ejecuta; en caso contrario, se descarta.</p>
+<hr />
+<h2 id="2-el-metodo-de-la-triple-barrera-triple-barrier-method">2. El Método de la Triple Barrera (Triple Barrier Method)<a class="headerlink" href="#2-el-metodo-de-la-triple-barrera-triple-barrier-method" title="Permanent link">&para;</a></h2>
+<h3 id="21-geometria-del-etiquetado">2.1 Geometría del Etiquetado<a class="headerlink" href="#21-geometria-del-etiquetado" title="Permanent link">&para;</a></h3>
+<p>El etiquetado en horizontes temporales fijos (<span class="arithmatex">\(t + h\)</span>) no refleja la mecánica de ejecución real de una mesa de negociación. El método de la Triple Barrera define una <strong>caja geométrica bidimensional <span class="arithmatex">\((t, P)\)</span></strong> con tres horizontes dinámicos a partir del instante de apertura <span class="arithmatex">\(t_0\)</span>:</p>
+<pre class="mermaid"><code>flowchart TD
+    classDef plane fill:#0f172a,stroke:#3b82f6,stroke-width:1px,color:#f8fafc
+    classDef entry fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#f8fafc
+    classDef upper fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#f8fafc
+    classDef lower fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#f8fafc
+    classDef vert fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#f8fafc
+    classDef path fill:#1e293b,stroke:#94a3b8,stroke-dasharray: 5 5,color:#cbd5e1
+    classDef label1 fill:#059669,stroke:#34d399,stroke-width:2px,color:#ffffff
+    classDef label0 fill:#dc2626,stroke:#f87171,stroke-width:2px,color:#ffffff
+
+    subgraph TBG["Geometría Bidimensional del Método de la Triple Barrera (López de Prado)"]
+        direction TB
+
+        subgraph Origin["Punto de Entrada (t0, P0)"]
+            E0["Apertura de Operación en t0&lt;br/&gt;Precio de Entrada: P0&lt;br/&gt;Volatilidad Instantánea: σ_t0"]:::entry
+        end
+
+        subgraph Barriers["Límites Geométricos de Salida"]
+            UB["Barrera Superior (Take Profit dinámico)&lt;br/&gt;P_upper = P0 · (1 + side · pt · σ_t0)"]:::upper
+            LB["Barrera Inferior (Stop Loss dinámico)&lt;br/&gt;P_lower = P0 · (1 - side · sl · σ_t0)"]:::lower
+            VB["Barrera Vertical (Horizonte Temporal Máximo)&lt;br/&gt;t_vertical = t0 + Δt_max"]:::vert
+        end
+
+        E0 --&gt;|"Trayectoria Alcista A&lt;br/&gt;Precio alcanza barrera superior antes de timeout"| P_A["Intersección t1 = t_upper&lt;br/&gt;t1 &lt; t_vertical"]:::path
+        E0 --&gt;|"Trayectoria Bajista B&lt;br/&gt;Precio alcanza barrera inferior antes de timeout"| P_B["Intersección t1 = t_lower&lt;br/&gt;t1 &lt; t_vertical"]:::path
+        E0 --&gt;|"Trayectoria Lateral C&lt;br/&gt;Sin tocar barreras horizontales hasta timeout"| P_C["Intersección t1 = t_vertical&lt;br/&gt;Salida forzada por tiempo"]:::path
+
+        P_A ==&gt; RES_A["ETIQUETA y = 1&lt;br/&gt;Take Profit Alcanzado (Éxito)"]:::label1
+        P_B ==&gt; RES_B["ETIQUETA y = 0&lt;br/&gt;Stop Loss Alcanzado (Fracaso)"]:::label0
+        P_C ==&gt; EVAL_C{"Evaluación de Retorno&lt;br/&gt;R(t0, t1) = side · ln(Pt1 / P0)"}:::vert
+
+        EVAL_C --&gt;|"R &gt; 0"| RES_C1["ETIQUETA y = 1&lt;br/&gt;Retorno Positivo en Timeout"]:::label1
+        EVAL_C --&gt;|"R ≤ 0"| RES_C0["ETIQUETA y = 0&lt;br/&gt;Retorno Negativo o Cero"]:::label0
+    end</code></pre>
+<h3 id="22-formulacion-matematica-de-las-barreras">2.2 Formulación Matemática de las Barreras<a class="headerlink" href="#22-formulacion-matematica-de-las-barreras" title="Permanent link">&para;</a></h3>
+<p>Las tres fronteras dinámicas se calculan a partir de la volatilidad local <span class="arithmatex">\(\sigma_{t_0}\)</span>:</p>
+<div class="arithmatex">\[
+\begin{cases}
+P_{\text{upper}}(t) = P_0 \cdot \left(1 + \text{side} \cdot pt \cdot \sigma_{t_0}\right) &amp; \text{(Barrera Superior / Take Profit dinámico)} \\
+P_{\text{lower}}(t) = P_0 \cdot \left(1 - \text{side} \cdot sl \cdot \sigma_{t_0}\right) &amp; \text{(Barrera Inferior / Stop Loss dinámico)} \\
+t_{\text{vertical}} = t_0 + \Delta t_{\text{max}} &amp; \text{(Barrera Vertical / Timeout temporal)}
+\end{cases}
+\]</div>
+<p>Donde:</p>
+<ul>
+<li><span class="arithmatex">\(P_0\)</span>: Precio de entrada en el instante <span class="arithmatex">\(t_0\)</span>.</li>
+<li><span class="arithmatex">\(\text{side} \in \{-1, 1\}\)</span>: Dirección de la señal emitida por <span class="arithmatex">\(M_1\)</span> (<span class="arithmatex">\(+1\)</span> para largos, <span class="arithmatex">\(-1\)</span> para cortos).</li>
+<li><span class="arithmatex">\(pt, sl\)</span>: Multiplicadores de barrera (e.g., <span class="arithmatex">\(pt = 2.0\)</span>, <span class="arithmatex">\(sl = 1.0\)</span>).</li>
+<li><span class="arithmatex">\(\sigma_{t_0}\)</span>: Estimador de volatilidad instantánea local, derivado del indicador Rango Verdadero Medio (ATR) normalizado:</li>
+</ul>
+<div class="arithmatex">\[
+\sigma_{t_0} = \frac{ATR_{t_0}(14)}{P_0}
+\]</div>
+<h3 id="23-determinacion-del-tiempo-de-salida-y-asignacion-de-etiquetas">2.3 Determinación del Tiempo de Salida y Asignación de Etiquetas<a class="headerlink" href="#23-determinacion-del-tiempo-de-salida-y-asignacion-de-etiquetas" title="Permanent link">&para;</a></h3>
+<p>El tiempo de salida <span class="arithmatex">\(t_1\)</span> corresponde al primer evento que interseca cualquiera de las tres barreras:</p>
+<div class="arithmatex">\[
+t_1 = \min\left( t_{\text{upper}}, t_{\text{lower}}, t_{\text{vertical}} \right)
+\]</div>
+<p>El retorno logarítmico realizado de la operación viene dado por:</p>
+<div class="arithmatex">\[
+R(t_0, t_1) = \text{side} \cdot \ln\left( \frac{P_{t_1}}{P_{t_0}} \right)
+\]</div>
+<p>La etiqueta binaria <span class="arithmatex">\(y_i\)</span> utilizada para entrenar al modelo secundario se asigna conforme a la siguiente regla exhaustiva:</p>
+<div class="arithmatex">\[
+y_i = \begin{cases} 
+1 &amp; \text{si } t_1 = t_{\text{upper}} \quad (\text{Take Profit alcanzado}) \\ 
+0 &amp; \text{si } t_1 = t_{\text{lower}} \quad (\text{Stop Loss alcanzado}) \\ 
+1 &amp; \text{si } t_1 = t_{\text{vertical}} \land R(t_0, t_1) &gt; 0 \\ 
+0 &amp; \text{si } t_1 = t_{\text{vertical}} \land R(t_0, t_1) \le 0 
+\end{cases}
+\]</div>
+<hr />
+<h2 id="3-validacion-cruzada-purgada-y-con-embargo-purged-k-fold-cv">3. Validación Cruzada Purgada y con Embargo (Purged K-Fold CV)<a class="headerlink" href="#3-validacion-cruzada-purgada-y-con-embargo-purged-k-fold-cv" title="Permanent link">&para;</a></h2>
+<h3 id="31-el-fallo-del-k-fold-convencional">3.1 El Fallo del K-Fold Convencional<a class="headerlink" href="#31-el-fallo-del-k-fold-convencional" title="Permanent link">&para;</a></h3>
+<p>El barajado aleatorio de datos (<em>Random K-Fold</em>) asume que las observaciones son independientes e idénticamente distribuidas (i.i.d.). En finanzas, los retornos presentan autocorrelación y, más importante aún, <strong>las etiquetas de la Triple Barrera abarcan intervalos de tiempo superpuestos</strong>:</p>
+<div class="arithmatex">\[
+[t_{0, i}, t_{1, i}] \cap [t_{0, j}, t_{1, j}] \neq \emptyset
+\]</div>
+<p>Si una observación del conjunto de prueba finaliza en <span class="arithmatex">\(t_{1, \text{test}}\)</span> y una observación de entrenamiento comenzó en <span class="arithmatex">\(t_{0, \text{train}} &lt; t_{1, \text{test}}\)</span>, el modelo de entrenamiento recibe información del futuro (<em>Data Leakage</em>), produciendo métricas fraudulentamente optimistas.</p>
+<h3 id="32-visualizacion-estructural-de-purging-y-embargo">3.2 Visualización Estructural de Purging y Embargo<a class="headerlink" href="#32-visualizacion-estructural-de-purging-y-embargo" title="Permanent link">&para;</a></h3>
+<p>Siguiendo a López de Prado (Capítulo 7), el algoritmo <strong>Purged K-Fold con Embargo</strong> garantiza la estricta independencia temporal de los conjuntos de datos:</p>
+<pre class="mermaid"><code>flowchart TD
+    classDef train fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#f8fafc
+    classDef purge fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#f8fafc
+    classDef test fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#f8fafc
+    classDef embargo fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#f8fafc
+
+    subgraph PKF["Estructura de Purged K-Fold CV con Embargo (Partición k)"]
+        direction LR
+
+        subgraph T1["1. Entrenamiento Previo"]
+            TR1["Train Fold Pre-Test&lt;br/&gt;t1_i &lt; min(t0_Test)"]:::train
+        end
+
+        subgraph P1["2. Purge Gap Pre-Test"]
+            PURGE["Purga de Solapamiento&lt;br/&gt;Eventos con t1_i solapando t0_Test&lt;br/&gt;(MUESTRAS ELIMINADAS)"]:::purge
+        end
+
+        subgraph TS["3. Conjunto de Prueba"]
+            TEST["Test Fold k&lt;br/&gt;Intervalo [min(t0_Test), max(t1_Test)]"]:::test
+        end
+
+        subgraph EM["4. Embargo Buffer Post-Test"]
+            EMBARGO["Embargo Buffer: Δt_embargo&lt;br/&gt;(1% a 5% del dataset)&lt;br/&gt;Amortiguación ARCH/GARCH&lt;br/&gt;(MUESTRAS ELIMINADAS)"]:::embargo
+        end
+
+        subgraph T2["5. Entrenamiento Posterior"]
+            TR2["Train Fold Post-Test&lt;br/&gt;t0_i &gt; max(t1_Test) + Δt_embargo"]:::train
+        end
+
+        T1 --&gt; P1 --&gt; TS --&gt; EM --&gt; T2
+    end</code></pre>
+<p>Cronológicamente, la distribución se organiza en el siguiente diagrama temporal:</p>
+<pre class="mermaid"><code>gantt
+    title Cronograma de Purging y Embargo Temporal
+    dateFormat X
+    axisFormat %s
+    section Partición Temporal
+    Entrenamiento Previo (Train) :active, tr1, 0, 40
+    Purga Pre-Test (Eliminación Solapamiento) :crit, p1, 38, 40
+    Conjunto de Prueba (Test Fold k) :done, ts1, 40, 70
+    Embargo Post-Test (Amortiguación GARCH) :crit, em1, 70, 75
+    Entrenamiento Posterior (Train) :active, tr2, 75, 100</code></pre>
+<h3 id="33-formulacion-matematica-de-purging-y-embargo">3.3 Formulación Matemática de Purging y Embargo<a class="headerlink" href="#33-formulacion-matematica-de-purging-y-embargo" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Purging (Purga de Solapamiento):</strong> Se eliminan del conjunto de entrenamiento todas las observaciones cuyo intervalo de etiquetado se solape con el intervalo temporal del conjunto de prueba:</p>
+<div class="arithmatex">\[
+\text{Train}_k^{\text{purged}} = \left\{ i \in \text{Train}_k \mid t_{1, i} &lt; \min_{j \in \text{Test}_k}(t_{0, j}) \quad \lor \quad t_{0, i} &gt; \max_{j \in \text{Test}_k}(t_{1, j}) \right\}
+\]</div>
+</li>
+<li>
+<p><strong>Embargo (Margen de Seguridad Post-Prueba):</strong> Dado que los procesos de volatilidad presentan memoria autorregresiva de corto plazo (efectos ARCH/GARCH), se añade un período de embargo <span class="arithmatex">\(\Delta t_{\text{embargo}}\)</span> (1% al 5% del dataset) tras el final del set de prueba:</p>
+<div class="arithmatex">\[
+\text{Train}_k^{\text{final}} = \text{Train}_k^{\text{purged}} \setminus \left\{ i \mid \max_{j \in \text{Test}_k}(t_{1, j}) \le t_{0, i} \le \max_{j \in \text{Test}_k}(t_{1, j}) + \Delta t_{\text{embargo}} \right\}
+\]</div>
+</li>
+</ol>
+<hr />
+<h2 id="4-calibracion-de-probabilidades-y-bet-sizing">4. Calibración de Probabilidades y Bet Sizing<a class="headerlink" href="#4-calibracion-de-probabilidades-y-bet-sizing" title="Permanent link">&para;</a></h2>
+<h3 id="41-calibracion-isotonica-isotonic-regression">4.1 Calibración Isotónica (Isotonic Regression)<a class="headerlink" href="#41-calibracion-isotonica-isotonic-regression" title="Permanent link">&para;</a></h3>
+<p>Los árboles de decisión de XGBoost optimizan la pérdida logística (<em>Log-Loss</em>), pero las probabilidades predichas <span class="arithmatex">\(\hat{p}\)</span> suelen concentrarse de forma distorsionada lejos de la diagonal de calibración real.</p>
+<p>Para mapear la salida a probabilidades bayesianas fidedignas, se ajusta una <strong>Regresión Isotónica</strong> sobre un conjunto de calibración no observado:</p>
+<div class="arithmatex">\[
+\min_{g} \sum_{i=1}^{N_{\text{cal}}} \left( y_i - g(\hat{p}_i) \right)^2 \quad \text{sujeto a } g(a) \le g(b) \quad \forall a &lt; b
+\]</div>
+<p>Donde <span class="arithmatex">\(g(\hat{p})\)</span> es una función monótona no decreciente por tramos que garantiza que un puntaje predicho de <span class="arithmatex">\(0.65\)</span> equivalga a una tasa empírica de aciertos del <span class="arithmatex">\(65\%\)</span>.</p>
+<h3 id="42-dimensionamiento-continuo-de-posicion-bet-sizing">4.2 Dimensionamiento Continuo de Posición (Bet Sizing)<a class="headerlink" href="#42-dimensionamiento-continuo-de-posicion-bet-sizing" title="Permanent link">&para;</a></h3>
+<p>En lugar de una ejecución binaria (operar o no operar), la convicción del clasificador calibrado modula el tamaño del lote:</p>
+<div class="arithmatex">\[
+s_t = \text{clip}\left( \frac{g(\hat{p}_t) - \tau^*}{1 - \tau^*}, 0.0, 1.0 \right) \cdot \text{Lote Máximo}
+\]</div>
+<p>Si <span class="arithmatex">\(g(\hat{p}_t) &lt; \tau^*\)</span>, el tamaño es cero (orden filtrada). A medida que <span class="arithmatex">\(g(\hat{p}_t) \to 1.0\)</span>, el tamaño de posición escala linealmente hacia la asignación máxima de riesgo.</p>
+<hr />
+<h2 id="5-transpilacion-a-c-nativo-a-latencia-cero">5. Transpilación a C++ Nativo a Latencia Cero<a class="headerlink" href="#5-transpilacion-a-c-nativo-a-latencia-cero" title="Permanent link">&para;</a></h2>
+<h3 id="51-comparativa-de-arquitecturas-de-ejecucion">5.1 Comparativa de Arquitecturas de Ejecución<a class="headerlink" href="#51-comparativa-de-arquitecturas-de-ejecucion" title="Permanent link">&para;</a></h3>
+<p>Para evaluar la viabilidad de ejecución en los servidores del bróker, se auditaron cuatro arquitecturas:</p>
+<table>
+<thead>
+<tr>
+<th>Arquitectura de Ejecución</th>
+<th>Latencia de Inferencia</th>
+<th>Dependencias Runtime</th>
+<th>Sobrecarga de Memoria</th>
+<th>Viabilidad M1/Tick</th>
+<th>Estado de Auditoría</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Python HTTP API (FastAPI)</strong></td>
+<td><span class="arithmatex">\(35 - 75\text{ ms}\)</span></td>
+<td>Uvicorn, Python, Red TCP</td>
+<td><span class="arithmatex">\(&gt; 250\text{ MB}\)</span></td>
+<td><strong>Inviable</strong> (Slippage letal)</td>
+<td><span class="badge badge--danger">Inviable</span></td>
+</tr>
+<tr>
+<td><strong>ZeroMQ IPC Sockets</strong></td>
+<td><span class="arithmatex">\(5 - 15\text{ ms}\)</span></td>
+<td>DLL ZeroMQ, Python activo</td>
+<td><span class="arithmatex">\(&gt; 180\text{ MB}\)</span></td>
+<td><strong>Baja</strong> (Bloqueos de hilos)</td>
+<td><span class="badge badge--warning">Baja</span></td>
+</tr>
+<tr>
+<td><strong>MT5 Nativo ONNX (<code>OnnxRun</code>)</strong></td>
+<td><span class="arithmatex">\(0.5 - 2.0\text{ ms}\)</span></td>
+<td>Runtime ONNX de MT5</td>
+<td><span class="arithmatex">\(\approx 25\text{ MB}\)</span></td>
+<td><strong>Media</strong> (Copia de tensores)</td>
+<td><span class="badge badge--info">Media</span></td>
+</tr>
+<tr>
+<td><strong>M2 C++ Nativo (<code>to_mqh.py</code>)</strong></td>
+<td><strong><span class="arithmatex">\(&lt; 0.1\ \mu\text{s}\)</span> (&lt;100 ns)</strong></td>
+<td><strong>Cero dependencias</strong></td>
+<td><strong><span class="arithmatex">\(&lt; 200\text{ KB}\)</span></strong></td>
+<td><strong>Óptima</strong> (CPU L1 Cache)</td>
+<td><span class="badge badge--success">Óptima (&lt;0.1 µs)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="grid cards">
+<div class="metric-card">
+<h3 id="latencia-de-inferencia-c">Latencia de Inferencia C++<a class="headerlink" href="#latencia-de-inferencia-c" title="Permanent link">&para;</a></h3>
+<p><strong>&lt; 0.1 µs (&lt; 100 ns)</strong><br />
+<span class="badge badge--success">Sub-Microsegundo</span><br />
+Inferencia ultra-rápida evaluada directamente en la memoria caché L1 de la CPU.</p>
+</div>
+<div class="metric-card">
+<h3 id="dependencias-runtime">Dependencias Runtime<a class="headerlink" href="#dependencias-runtime" title="Permanent link">&para;</a></h3>
+<p><strong>0 (Cero)</strong><br />
+<span class="badge badge--success">Autocontenido</span><br />
+Sin microservicios, sin sockets ZeroMQ, sin intérprete de Python en producción.</p>
+</div>
+<div class="metric-card">
+<h3 id="sobrecarga-de-memoria">Sobrecarga de Memoria<a class="headerlink" href="#sobrecarga-de-memoria" title="Permanent link">&para;</a></h3>
+<p><strong>&lt; 200 KB</strong><br />
+<span class="badge badge--success">L1 Cache Fit</span><br />
+Código compilado plano compatible con los hilos de ejecución de MetaTrader 5.</p>
+</div>
+<div class="metric-card">
+<h3 id="paridad-numerica-python-mql5">Paridad Numérica Python / MQL5<a class="headerlink" href="#paridad-numerica-python-mql5" title="Permanent link">&para;</a></h3>
+<p><strong>Δ &lt; 1.4 × 10⁻⁸</strong><br />
+<span class="badge badge--success">Paridad Absoluta</span><br />
+Concordancia matemática exacta entre el modelo en Python y la inferencia C++.</p>
+</div>
+</div>
+<h3 id="52-implementacion-del-transpilador-de-arboles">5.2 Implementación del Transpilador de Árboles<a class="headerlink" href="#52-implementacion-del-transpilador-de-arboles" title="Permanent link">&para;</a></h3>
+<p>El módulo <code>python/m2_metalabeling/export/to_mqh.py</code> toma el estimador <code>XGBClassifier</code> entrenado y transpila su grafo de árboles de decisión (AST) a código fuente MQL5 compilable.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="52-implementacion-del-transpilador-de-arboles-python-entrenamiento-y-exportación" name="__tabbed_1" type="radio" /><input id="52-implementacion-del-transpilador-de-arboles-mql5--c-inferencia-nativa-en-bóveda" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="52-implementacion-del-transpilador-de-arboles-python-entrenamiento-y-exportación">Python (Entrenamiento y Exportación)</label><label for="52-implementacion-del-transpilador-de-arboles-mql5--c-inferencia-nativa-en-bóveda">MQL5 / C++ (Inferencia Nativa en Bóveda)</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">m2_metalabeling.export.to_mqh</span><span class="w"> </span><span class="kn">import</span> <span class="n">export_xgboost_to_mqh</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">xgboost</span><span class="w"> </span><span class="kn">import</span> <span class="n">XGBClassifier</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Entrenar modelo con base_score fijo obligatorio</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">model</span> <span class="o">=</span> <span class="n">XGBClassifier</span><span class="p">(</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">base_score</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">)</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1"># Transpilar a cabecera C++ / MQL5 nativa</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">export_xgboost_to_mqh</span><span class="p">(</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    <span class="n">output_path</span><span class="o">=</span><span class="s2">"mql5/Include/M2_XGBoost_Oracle_XAUUSD.mqh"</span><span class="p">,</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    <span class="n">function_name</span><span class="o">=</span><span class="s2">"GetXGBoostProbability"</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#property strict</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"M2_XGBoost_Oracle_XAUUSD.mqh"</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">OnTick</span><span class="p">()</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">{</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="c1">// 1. Detección de señal del Primary Model (HMA)</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">IsHMABreakoutSignal</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="c1">// 2. Extracción de features vectorizadas en tiempo constante</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">features</span><span class="p">[</span><span class="mi">7</span><span class="p">];</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="n">features</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetKeltnerBandwidthH4</span><span class="p">();</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="n">features</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetATRRatioH1D1</span><span class="p">();</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="n">features</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetADXValueH4</span><span class="p">();</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="n">features</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetADXSlopeH4</span><span class="p">();</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="n">features</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetDistEMA200H4</span><span class="p">();</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="n">features</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetBollingerWidthH1</span><span class="p">();</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="n">features</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetDailyExhaustion</span><span class="p">();</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="c1">// 3. Inferencia C++ a latencia cero (&lt;0.1 microsegundos)</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">prob</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="n">GetXGBoostProbability</span><span class="p">(</span><span class="n">features</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="p">);</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">    </span><span class="c1">// 4. Filtro de Meta-Labeling calibrado</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">XGBoostThreshold</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">        </span><span class="n">OpenExecution</span><span class="p">(</span><span class="n">ORDER_TYPE_BUY</span><span class="p">);</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">        </span><span class="n">Print</span><span class="p">(</span><span class="s">"Trade filtrado por Meta-Labeling. Prob: "</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="p">}</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<p>La equivalencia numérica entre la predicción de Python y la inferencia transpilada en C++ fue validada empíricamente:</p>
+<div class="arithmatex">\[
+\max_{x} \left| \hat{p}_{\text{Python}}(x) - \hat{p}_{\text{MQL5}}(x) \right| &lt; 1.4 \times 10^{-8}
+\]</div>
+<hr />
+<p><em>Para examinar la historia de desarrollo de esta arquitectura a lo largo de sus prototipos, consulte el <a href="../RESEARCH_JOURNAL/">Cuaderno de Investigación</a> y los <a href="../UNIVERSAL_PRINCIPLES/">Principios Cuantitativos Universales</a>.</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Anterior: Introducción">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Introducción
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../RESEARCH_JOURNAL/" class="md-footer__link md-footer__link--next" aria-label="Siguiente: Cuaderno de Investigación">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                Cuaderno de Investigación
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.path", "navigation.top", "navigation.tracking", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.select", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js"></script>
+      
+        <script src="../javascripts/tablesort.js"></script>
+      
+    
+  </body>
+</html>
