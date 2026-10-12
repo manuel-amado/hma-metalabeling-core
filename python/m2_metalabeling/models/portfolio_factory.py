@@ -10,15 +10,22 @@ import shutil
 import warnings
 warnings.filterwarnings('ignore')
 
+from pathlib import Path
+
 # 1. Configuración de Rutas
-files_dir = r'C:\Users\Manuel\AppData\Roaming\MetaQuotes\Terminal\Common\Files'
-base_dir = r'C:\Users\Manuel\Desktop\HMA_MetaLabeling'
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+files_dir = os.environ.get(
+    'MT5_FILES_DIR',
+    str(PROJECT_ROOT / 'data' / 'raw')
+)
+base_dir = str(PROJECT_ROOT)
 mql_experts_dir = os.path.join(base_dir, 'mql5', 'Experts', 'HMA_SQX_Discovery')
 mql_include_dir = os.path.join(base_dir, 'mql5', 'Include')
 portfolio_dir = os.path.join(base_dir, 'portfolio')
 
 feature_cols = ['Keltner_Bandwidth_H4', 'ATR_Ratio_H1_D1', 'ADX_Value_H4',
                 'ADX_Slope_H4', 'Dist_EMA200_H4', 'Bollinger_Width_H1', 'Daily_Exhaustion']
+
 
 # 2. Arquitectura CV Institucional (Risk Manager Specs)
 class TimeBasedRollingPurgedCV:
@@ -106,7 +113,9 @@ def process_asset(symbol):
     # 3.2 - Auditoría TimeBasedRollingPurgedCV
     cv = TimeBasedRollingPurgedCV(train_months=24, test_months=6, purge_days=7, embargo_days=5)
     model_params = dict(n_estimators=100, max_depth=3, learning_rate=0.05, 
-                        subsample=0.8, colsample_bytree=0.8, random_state=42, eval_metric='logloss')
+                        subsample=0.8, colsample_bytree=0.8, random_state=42, 
+                        base_score=0.5, eval_metric='logloss')
+
                         
     fold_aucs = []
     for tr_idx, te_idx in cv.split(df_2020):
@@ -124,10 +133,11 @@ def process_asset(symbol):
     
     # 3.3 - Veredicto
     if mean_auc < 0.52:
-        print(f'🚨 [VETO MANTENIDO] La IA no detecta Edge estadístico sobre {symbol}. Abortando despliegue.')
+        print(f'[VETO MANTENIDO] La IA no detecta Edge estadistico sobre {symbol}. Abortando despliegue.')
         return
         
-    print(f'✅ [APROBADO] Edge validado matemáticamente para {symbol}. Empaquetando Producción...')
+    print(f'[APROBADO] Edge validado matematicamente para {symbol}. Empaquetando Produccion...')
+
     
     # 4 - Empaquetado
     asset_dir = os.path.join(portfolio_dir, symbol)
@@ -175,13 +185,28 @@ def process_asset(symbol):
     
     print(f'[VAULT] Activo {symbol} securizado en Bóveda.')
 
-# Extraer símbolos de los archivos generados
-symbols = set()
-for f in glob.glob(os.path.join(files_dir, 'Pipeline_Extractor_M1_*.csv')):
-    sym = os.path.basename(f).replace('Pipeline_Extractor_M1_', '').replace('.csv', '')
-    symbols.add(sym)
 
-for s in sorted(list(symbols)):
-    process_asset(s)
+def main():
+    # Extraer símbolos de los archivos generados
+    symbols = set()
+    for f in glob.glob(os.path.join(files_dir, 'Pipeline_Extractor_M1_*.csv')):
+        sym = os.path.basename(f).replace('Pipeline_Extractor_M1_', '').replace('.csv', '')
+        symbols.add(sym)
 
-print('\n*** PIPELINE GLOBAL FINALIZADO ***')
+    if not symbols:
+        print(f"[PORTFOLIO] No se encontraron archivos Pipeline_Extractor_M1_*.csv en {files_dir}")
+        print("[PORTFOLIO] Escaneando símbolos existentes en el directorio portfolio...")
+        if os.path.exists(portfolio_dir):
+            for d in os.listdir(portfolio_dir):
+                if os.path.isdir(os.path.join(portfolio_dir, d)):
+                    symbols.add(d)
+
+    for s in sorted(list(symbols)):
+        process_asset(s)
+
+    print('\n*** PIPELINE GLOBAL FINALIZADO ***')
+
+
+if __name__ == '__main__':
+    main()
+

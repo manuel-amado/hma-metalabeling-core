@@ -1,95 +1,144 @@
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, precision_score, recall_score, precision_recall_curve
-import xgboost as xgb
-import matplotlib.pyplot as plt
+"""
+M2 Meta-Labeling Pipeline — Module: models/xgboost_optimize.py
+================================================================
+Threshold optimization by Expected Value (EV) and Precision-Recall tradeoffs.
+"""
+
+from pathlib import Path
+from typing import Optional
 import warnings
-warnings.filterwarnings('ignore')
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from sklearn.metrics import accuracy_score, precision_recall_curve, precision_score, recall_score
+import xgboost as xgb
+from loguru import logger
 
-# 1. Load the dataset
-df = pd.read_csv("XGBoost_Dataset_Final.csv")
+warnings.filterwarnings("ignore")
 
-feature_cols = ['Keltner_Bandwidth_H4', 'ATR_Ratio_H1_D1', 'ADX_Value_H4', 'ADX_Slope_H4', 'Dist_EMA200_H4', 'Bollinger_Width_H1', 'Daily_Exhaustion']
-X = df[feature_cols]
-y = df['Target']
-profits = df['Profit']
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+DEFAULT_DATASET = PROJECT_ROOT / "portfolio" / "XAUUSD" / "XGBoost_Dataset_XAUUSD.csv"
 
-split_idx = int(len(df) * 0.7)
-X_train, X_test = X.iloc[:split_idx], X.iloc[split_idx:]
-y_train, y_test = y.iloc[:split_idx], y.iloc[split_idx:]
-profits_train, profits_test = profits.iloc[:split_idx], profits.iloc[split_idx:]
 
-model = xgb.XGBClassifier(
-    n_estimators=100, max_depth=3, learning_rate=0.05,
-    subsample=0.8, colsample_bytree=0.8, random_state=42, eval_metric='logloss'
-)
-model.fit(X_train, y_train)
+def optimize_thresholds(
+    dataset_path: Optional[Path] = None,
+    output_dir: Optional[Path] = None,
+    random_state: int = 42,
+) -> dict:
+    """Optimize classification threshold for meta-labeling."""
+    if dataset_path is None or not Path(dataset_path).exists():
+        candidates = [
+            PROJECT_ROOT / "XGBoost_Dataset_Final.csv",
+            PROJECT_ROOT / "python" / "m2_metalabeling" / "models" / "XGBoost_Dataset_Final.csv",
+            DEFAULT_DATASET,
+        ]
+        resolved = None
+        for cand in candidates:
+            if cand.exists():
+                resolved = cand
+                break
+        if resolved is None:
+            raise FileNotFoundError(f"No valid dataset found in: {[str(c) for c in candidates]}")
+        dataset_path = resolved
 
-y_prob = model.predict_proba(X_test)[:, 1]
-baseline_profit = profits_test.sum()
+    if output_dir is None:
+        output_dir = PROJECT_ROOT / "docs" / "assets"
 
-# Task 1: Optimize Threshold by EV (Max Net Profit)
-thresholds_test = np.arange(0.30, 0.72, 0.02)
-results = []
-best_profit = -float('inf')
-best_thresh_profit = 0.5
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-print(f"--- Threshold Optimization (EV) ---")
-print(f"Baseline Profit (No Filter): ${baseline_profit:.2f}")
+    dataset_path = Path(dataset_path)
+    logger.info(f"Loading optimization dataset from {dataset_path}...")
+    df = pd.read_csv(dataset_path)
 
-for t in thresholds_test:
-    preds = (y_prob >= t).astype(int)
-    filtered_profit = np.sum(np.where(preds == 1, profits_test, 0.0))
-    prec = precision_score(y_test, preds, zero_division=0)
-    rec = recall_score(y_test, preds, zero_division=0)
-    results.append((t, filtered_profit, prec, rec))
-    print(f"Threshold: {t:.2f} | Profit: ${filtered_profit:7.2f} | Prec: {prec:.3f} | Rec: {rec:.3f}")
-    
-    if filtered_profit > best_profit:
-        best_profit = filtered_profit
-        best_thresh_profit = t
+    feature_cols = [
+        "Keltner_Bandwidth_H4",
+        "ATR_Ratio_H1_D1",
+        "ADX_Value_H4",
+        "ADX_Slope_H4",
+        "Dist_EMA200_H4",
+        "Bollinger_Width_H1",
+        "Daily_Exhaustion",
+    ]
+    available_cols = [c for c in feature_cols if c in df.columns]
+    X = df[available_cols]
+    y = df["Target"]
+    profits = df["Profit"] if "Profit" in df.columns else pd.Series(np.zeros(len(df)))
 
-print(f"\nBest Threshold for Max Profit: {best_thresh_profit:.2f} (Profit: ${best_profit:.2f})")
+    split_idx = int(len(df) * 0.7)
+    X_train, X_test = X.iloc[:split_idx], X.iloc[split_idx:]
+    y_train, y_test = y.iloc[:split_idx], y.iloc[split_idx:]
+    profits_train, profits_test = profits.iloc[:split_idx], profits.iloc[split_idx:]
 
-# Task 2: Precision-Recall Curve & F-beta
-precisions, recalls, pr_thresholds = precision_recall_curve(y_test, y_prob)
+    model = xgb.XGBClassifier(
+        n_estimators=100,
+        max_depth=3,
+        learning_rate=0.05,
+        subsample=0.8,
+        colsample_bytree=0.8,
+        random_state=random_state,
+        base_score=0.5,
+        eval_metric="logloss",
+    )
+    model.fit(X_train, y_train)
 
-# Find max recall where precision >= 0.55
-valid_idx = np.where(precisions[:-1] >= 0.55)[0]
-if len(valid_idx) > 0:
-    best_idx = valid_idx[np.argmax(recalls[valid_idx])]
-    best_thresh_pr = pr_thresholds[best_idx]
-    print(f"\n--- PR Curve Optimization ---")
-    print(f"Threshold for Prec > 0.55 & Max Recall: {best_thresh_pr:.3f}")
-    print(f"At this threshold: Precision = {precisions[best_idx]:.3f}, Recall = {recalls[best_idx]:.3f}")
-else:
-    print("\nNo threshold meets Precision >= 0.55.")
+    y_prob = model.predict_proba(X_test)[:, 1]
+    baseline_profit = float(profits_test.sum())
 
-# Plot PR Curve
-plt.figure(figsize=(8,6))
-plt.plot(recalls, precisions, marker='.', label='XGBoost M2')
-plt.xlabel('Recall')
-plt.ylabel('Precision')
-plt.title('Precision-Recall Curve (M2 Model)')
-plt.axhline(y=0.55, color='r', linestyle='--', label='Min Precision (0.55)')
-plt.legend()
-plt.grid()
-plt.savefig("MetaLabeling_PR_Curve.png")
-print("\nSaved PR Curve to MetaLabeling_PR_Curve.png")
+    thresholds_test = np.arange(0.30, 0.72, 0.02)
+    results = []
+    best_profit = -float("inf")
+    best_thresh_profit = 0.5
 
-# Plot New Equity Curve with Best Threshold
-preds_opt = (y_prob >= best_thresh_profit).astype(int)
-filtered_equity_opt = pd.Series(np.where(preds_opt == 1, profits_test, 0.0)).cumsum()
-baseline_equity = profits_test.cumsum()
+    print("--- Threshold Optimization (EV) ---")
+    print(f"Baseline Profit (No Filter): ${baseline_profit:.2f}")
 
-plt.figure(figsize=(10,6))
-plt.plot(baseline_equity.values, label="M1 (Baseline)", color="red", alpha=0.6)
-plt.plot(filtered_equity_opt.values, label=f"M1+M2 (Threshold {best_thresh_profit:.2f})", color="green", linewidth=2)
-plt.title(f"Meta-Labeling Equity Curve (Optimized Thresh {best_thresh_profit:.2f})")
-plt.xlabel("Number of Trades (OOS)")
-plt.ylabel("Profit ($)")
-plt.legend()
-plt.grid(True)
-plt.savefig("MetaLabeling_Equity_Curve_Optimized.png")
-print("Saved Optimized Equity Curve to MetaLabeling_Equity_Curve_Optimized.png")
+    for t in thresholds_test:
+        preds = (y_prob >= t).astype(int)
+        filtered_profit = float(np.sum(np.where(preds == 1, profits_test, 0.0)))
+        prec = float(precision_score(y_test, preds, zero_division=0))
+        rec = float(recall_score(y_test, preds, zero_division=0))
+        results.append((t, filtered_profit, prec, rec))
+
+        if filtered_profit > best_profit:
+            best_profit = filtered_profit
+            best_thresh_profit = float(t)
+
+    print(f"\nBest Threshold for Max Profit: {best_thresh_profit:.2f} (Profit: ${best_profit:.2f})")
+
+    precisions, recalls, pr_thresholds = precision_recall_curve(y_test, y_prob)
+
+    valid_idx = np.where(precisions[:-1] >= 0.55)[0]
+    best_thresh_pr = 0.5
+    if len(valid_idx) > 0:
+        best_rec_idx = valid_idx[np.argmax(recalls[valid_idx])]
+        best_thresh_pr = float(pr_thresholds[best_rec_idx])
+        print(
+            f"Recommended Institutional Threshold (Prec >= 0.55): {best_thresh_pr:.2f} "
+            f"| Rec: {recalls[best_rec_idx]:.3f} | Prec: {precisions[best_rec_idx]:.3f}"
+        )
+
+    # Plot PR Curve safely without blocking
+    plt.figure(figsize=(8, 6))
+    plt.plot(recalls, precisions, label="Meta-Labeling XGBoost PR Curve", color="blue")
+    plt.axhline(0.50, color="gray", linestyle="--", label="Random Baseline (50%)")
+    plt.axhline(0.55, color="red", linestyle=":", label="Institutional Min Prec (55%)")
+    plt.title("Precision-Recall Curve (Meta-Labeling OOS Filter)")
+    plt.xlabel("Recall")
+    plt.ylabel("Precision")
+    plt.legend()
+    plt.grid(True)
+    plot_file = output_dir / "MetaLabeling_PR_Curve.png"
+    plt.savefig(plot_file, dpi=150, bbox_inches="tight")
+    plt.close()
+
+    return {
+        "best_threshold_ev": best_thresh_profit,
+        "best_profit": best_profit,
+        "best_threshold_pr": best_thresh_pr,
+        "plot_path": str(plot_file),
+    }
+
+
+if __name__ == "__main__":
+    optimize_thresholds()

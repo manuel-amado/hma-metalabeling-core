@@ -63,7 +63,9 @@ def train(
         "use_label_encoder": False,
         "eval_metric": "logloss",
         "random_state": 42,
+        "base_score": 0.5,
         "n_jobs": -1,
+
     }
     if xgb_params:
         default_params.update(xgb_params)

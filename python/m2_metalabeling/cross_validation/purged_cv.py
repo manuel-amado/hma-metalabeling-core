@@ -69,25 +69,35 @@ class PurgedKFold:
 
         for test_start, test_end in test_ranges:
             test_idx = indices[test_start:test_end]
-            test_t0_min = X.index[test_start]
-            test_t0_max = X.index[test_end - 1]
+            if len(test_idx) == 0:
+                continue
 
-            # PURGING: remove train samples whose t1 overlaps the test window
-            train_idx = []
-            for i in indices:
-                if i in test_idx:
-                    continue
-                if t1.iloc[i] >= test_t0_min:   # label end bleeds into test
-                    continue
-                train_idx.append(i)
+            test_t0_min = X.index[test_start]
+            test_t1_series = t1.iloc[test_idx].dropna()
+            test_t1_max = test_t1_series.max() if len(test_t1_series) > 0 else X.index[test_end - 1]
 
             # EMBARGO: remove the `embargo_size` bars after the test set
             embargo_start = test_end
             embargo_end = min(test_end + embargo_size, n_obs)
             embargoed = set(range(embargo_start, embargo_end))
-            train_idx = [i for i in train_idx if i not in embargoed]
+
+            # PURGING: remove train samples whose label period overlaps the test window
+            train_idx = []
+            for i in indices:
+                if i in test_idx:
+                    continue
+                if i in embargoed:
+                    continue
+                # Pre-test samples whose label end t1 bleeds into the test window
+                if i < test_start and pd.notna(t1.iloc[i]) and t1.iloc[i] >= test_t0_min:
+                    continue
+                # Post-test samples whose start t0 falls within open test-set holding horizons
+                if i >= test_end and pd.notna(test_t1_max) and X.index[i] <= test_t1_max:
+                    continue
+                train_idx.append(i)
 
             logger.debug(
                 f"Fold | train={len(train_idx)}, test={len(test_idx)}, embargoed={len(embargoed)}"
             )
             yield np.array(train_idx), test_idx
+

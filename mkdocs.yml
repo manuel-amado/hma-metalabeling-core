@@ -157,5 +157,7 @@ extra:
 nav:
   - Introducción: index.md
   - Metodología Cuantitativa: METHODOLOGY.md
-  - Evolución de la Investigación: HISTORICAL_EVOLUTION.md
+  - Cuaderno de Investigación: RESEARCH_JOURNAL.md
+  - Principios Cuantitativos Universales: UNIVERSAL_PRINCIPLES.md
+  - Evolución Histórica de Prototipos: HISTORICAL_EVOLUTION.md
   - Veredicto y Post-Mortem: POST_MORTEM.md

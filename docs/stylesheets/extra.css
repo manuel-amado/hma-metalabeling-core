@@ -7,7 +7,7 @@
   max-width: 1360px;
 }
 
-/* Cifras tabulares en código, fórmulas y tablas para alineación perfecta */
+/* Cifras tabulares en código, fórmulas y tablas para alineación numérica perfecta */
 code, kbd, pre, table {
   font-feature-settings: "tnum" 1, "zero" 1;
 }
@@ -18,12 +18,13 @@ code, kbd, pre, table {
   border-radius: 8px;
   padding: 1.2rem;
   background-color: var(--md-code-bg-color);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
 }
 
 .metric-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  border-color: var(--md-accent-fg-color);
 }
 
 /* Badges / Chips semánticos para estados de modelos y auditorías */
@@ -36,9 +37,84 @@ code, kbd, pre, table {
   padding: 0.15rem 0.6rem;
   border-radius: 999px;
   letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
+/* Modo claro (Paleta predeterminada) */
 .badge--success { background-color: rgba(16, 185, 129, 0.15); color: #059669; }
 .badge--warning { background-color: rgba(245, 158, 11, 0.15); color: #d97706; }
 .badge--danger  { background-color: rgba(239, 68, 68, 0.15); color: #dc2626; }
 .badge--info    { background-color: rgba(59, 130, 246, 0.15); color: #2563eb; }
+
+/* Modo oscuro (Slate de alta fidelidad) */
+[data-md-color-scheme="slate"] .badge--success {
+  background-color: rgba(16, 185, 129, 0.25);
+  color: #34d399;
+}
+
+[data-md-color-scheme="slate"] .badge--warning {
+  background-color: rgba(245, 158, 11, 0.25);
+  color: #fbbf24;
+}
+
+[data-md-color-scheme="slate"] .badge--danger {
+  background-color: rgba(239, 68, 68, 0.25);
+  color: #f87171;
+}
+
+[data-md-color-scheme="slate"] .badge--info {
+  background-color: rgba(59, 130, 246, 0.25);
+  color: #60a5fa;
+}
+
+[data-md-color-scheme="slate"] .metric-card {
+  border-color: rgba(255, 255, 255, 0.12);
+  background-color: rgba(30, 41, 59, 0.7);
+}
+
+[data-md-color-scheme="slate"] .metric-card:hover {
+  border-color: #818cf8;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+/* Estilos mejorados para tablas cuantitativas y financieras */
+article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.85rem;
+}
+
+article table th {
+  background-color: var(--md-code-bg-color);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.75rem;
+  border-bottom: 2px solid var(--md-typeset-table-color);
+  padding: 0.6rem 0.8rem;
+}
+
+article table td {
+  padding: 0.6rem 0.8rem;
+  vertical-align: middle;
+}
+
+article table tr:hover td {
+  background-color: rgba(59, 130, 246, 0.04);
+}
+
+[data-md-color-scheme="slate"] article table tr:hover td {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Estilos de MathJax centrados y limpios */
+.arithmatex {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+div.arithmatex {
+  margin: 1.2rem 0;
+  text-align: center;
+}

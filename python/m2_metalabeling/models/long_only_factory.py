@@ -10,12 +10,19 @@ import shutil
 import warnings
 warnings.filterwarnings('ignore')
 
+from pathlib import Path
+
 # 1. Rutas
-files_dir = r'C:\Users\Manuel\AppData\Roaming\MetaQuotes\Terminal\Common\Files'
-base_dir = r'C:\Users\Manuel\Desktop\HMA_MetaLabeling'
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+files_dir = os.environ.get(
+    'MT5_FILES_DIR',
+    str(PROJECT_ROOT / 'data' / 'raw')
+)
+base_dir = str(PROJECT_ROOT)
 mql_experts_dir = os.path.join(base_dir, 'mql5', 'Experts', 'HMA_SQX_Discovery')
 mql_include_dir = os.path.join(base_dir, 'mql5', 'Include')
 portfolio_dir = os.path.join(base_dir, 'portfolio')
+
 
 feature_cols = ['Keltner_Bandwidth_H4', 'ATR_Ratio_H1_D1', 'ADX_Value_H4',
                 'ADX_Slope_H4', 'Dist_EMA200_H4', 'Bollinger_Width_H1', 'Daily_Exhaustion']
@@ -158,28 +165,44 @@ def process_long_asset(symbol):
     
     return {'symbol': symbol, 'auc': mean_auc, 'trades': len(df_long_2020), 'status': 'APROBADO'}
 
-print("Ejecutando Long-Only Factory...\n")
-symbols = set()
-for f in glob.glob(os.path.join(files_dir, 'Pipeline_Extractor_M1_*.csv')):
-    sym = os.path.basename(f).replace('Pipeline_Extractor_M1_', '').replace('.csv', '')
-    symbols.add(sym)
 
-results = []
-for s in sorted(list(symbols)):
-    res = process_long_asset(s)
-    if res: results.append(res)
+def main():
+    print("Ejecutando Long-Only Factory...\n")
+    symbols = set()
+    for f in glob.glob(os.path.join(files_dir, 'Pipeline_Extractor_M1_*.csv')):
+        sym = os.path.basename(f).replace('Pipeline_Extractor_M1_', '').replace('.csv', '')
+        symbols.add(sym)
 
-print("\n" + "="*50)
-print(" [ REPORTE FINAL DE LA BOVEDA (LONG-ONLY) ] ")
-print("="*50)
+    if not symbols:
+        print(f"[LONG-ONLY] No se encontraron archivos en {files_dir}")
+        print("[LONG-ONLY] Escaneando símbolos existentes en el directorio portfolio...")
+        if os.path.exists(portfolio_dir):
+            for d in os.listdir(portfolio_dir):
+                if os.path.isdir(os.path.join(portfolio_dir, d)):
+                    symbols.add(d)
 
-approved = [r for r in results if r['status'] == 'APROBADO']
-vetoed = [r for r in results if r['status'] != 'APROBADO']
+    results = []
+    for s in sorted(list(symbols)):
+        res = process_long_asset(s)
+        if res:
+            results.append(res)
 
-print("\n--- ACTIVOS APROBADOS (AUC >= 0.52) ---")
-for r in approved:
-    print(f" - {r['symbol']:<8} | AUC OOS: {r['auc']:.3f} | Trades 2020-2026: {r['trades']}")
+    print("\n" + "=" * 50)
+    print(" [ REPORTE FINAL DE LA BOVEDA (LONG-ONLY) ] ")
+    print("=" * 50)
 
-print("\n--- ACTIVOS VETADOS (AUC < 0.52) ---")
-for r in vetoed:
-    print(f" - {r['symbol']:<8} | AUC OOS: {r['auc']:.3f} | Trades 2020-2026: {r['trades']}")
+    approved = [r for r in results if r['status'] == 'APROBADO']
+    vetoed = [r for r in results if r['status'] != 'APROBADO']
+
+    print("\n--- ACTIVOS APROBADOS (AUC >= 0.52) ---")
+    for r in approved:
+        print(f" - {r['symbol']:<8} | AUC OOS: {r['auc']:.3f} | Trades 2020-2026: {r['trades']}")
+
+    print("\n--- ACTIVOS VETADOS (AUC < 0.52) ---")
+    for r in vetoed:
+        print(f" - {r['symbol']:<8} | AUC OOS: {r['auc']:.3f} | Trades 2020-2026: {r['trades']}")
+
+
+if __name__ == '__main__':
+    main()
+
