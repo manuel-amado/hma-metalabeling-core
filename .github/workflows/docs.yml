@@ -29,6 +29,4 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - run: pip install mkdocs-material
-      # Copia el README.md al index.md antes de compilar para asegurar sincronización
-      - run: cp README.md docs/index.md
       - run: mkdocs gh-deploy --force

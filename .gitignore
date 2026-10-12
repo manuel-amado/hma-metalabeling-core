@@ -1,7 +1,9 @@
 # Ignorar datos masivos
 *.csv
 *.txt
+!requirements.txt
 *.dat
+
 *.json
 data/
 datasets/
@@ -42,3 +44,8 @@ mql5/Indicators/Sq*.ex5
 
 # Ignorar la carpeta legacy src/
 src/
+
+site/
+.agents/
+.pytest_cache/
+

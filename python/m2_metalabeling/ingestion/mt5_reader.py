@@ -51,3 +51,13 @@ def load_mt5_csv(filepath: str | Path, symbol: str = "XAUUSD") -> pd.DataFrame:
 
     logger.success(f"Loaded {len(df):,} bars for {symbol}.")
     return df
+
+
+if __name__ == "__main__":
+    logger.info("Running MT5 Reader module standalone...")
+    sample_files = list(RAW_DATA_DIR.glob("*.csv")) if RAW_DATA_DIR.exists() else []
+    if sample_files:
+        load_mt5_csv(sample_files[0])
+    else:
+        logger.info(f"No CSV files found in {RAW_DATA_DIR}. Ingestion module ready for MT5 data feeds.")
+

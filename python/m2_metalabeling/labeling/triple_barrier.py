@@ -56,7 +56,9 @@ def get_triple_barrier_labels(
         # Slice forward (strict: t0 is NOT included)
         future = close.loc[t0:].iloc[1: max_holding_bars + 1]
 
-        label, t1, exit_price = 0, future.index[-1] if len(future) else t0, entry_price
+        label = 0
+        t1 = future.index[-1] if len(future) else t0
+        exit_price = future.iloc[-1] if len(future) else entry_price
 
         for t_bar, price in future.items():
             if price >= pt_level:
@@ -70,13 +72,33 @@ def get_triple_barrier_labels(
         results.append({
             "t0": t0,
             "t1": t1,
+            "exit_price": exit_price,
             "ret": log_ret,
             "label": label,
             "bin": int(log_ret > 0),   # Meta-label: did the PRIMARY model make money?
         })
 
     df_labels = pd.DataFrame(results).set_index("t0")
-    logger.info(f"Labels: +1={( df_labels.label==1).sum()}, "
-                f"-1={(df_labels.label==-1).sum()}, "
-                f"0={(df_labels.label==0).sum()}")
+    logger.info(f"Labels: +1={(df_labels.label == 1).sum()}, "
+                f"-1={(df_labels.label == -1).sum()}, "
+                f"0={(df_labels.label == 0).sum()}")
     return df_labels
+
+
+# Alias for interface compatibility
+triple_barrier_labels = get_triple_barrier_labels
+
+
+if __name__ == "__main__":
+    logger.info("Running Triple Barrier labeling module standalone demonstration...")
+    np.random.seed(42)
+    _dates = pd.date_range("2024-01-01", periods=100, freq="h", tz="UTC")
+    _close = pd.Series(100.0 + np.cumsum(np.random.normal(0, 1, 100)), index=_dates)
+    _atr = pd.Series(1.5, index=_dates)
+    _events = _dates[::10]
+    _labels = get_triple_barrier_labels(
+        _close, _atr, _events, pt_atr=2.0, sl_atr=1.0, max_holding_bars=24
+    )
+    logger.info(f"Generated {len(_labels)} demo triple barrier labels successfully.")
+
+
