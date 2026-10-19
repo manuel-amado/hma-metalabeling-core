@@ -40,7 +40,7 @@ def test_train_and_export_mql5_custom_dataset(synthetic_features_dataset, tmp_pa
 
 def test_train_and_export_mql5_default_fallback(tmp_path: Path):
     """
-    Verify fallback logic resolves the canonical repository dataset in portfolio/XAUUSD/
+    Verify fallback logic resolves the canonical repository dataset in data/processed/
     when dataset_path is omitted or None.
     """
     output_mqh = tmp_path / "M2_Default_Fallback.mqh"

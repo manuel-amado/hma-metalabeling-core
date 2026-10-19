@@ -16,7 +16,7 @@ from .to_mqh import export_to_mqh
 # Resolve project root dynamically: python/m2_metalabeling/export/export_mql5.py -> parents[3]
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_OUTPUT_MQH = PROJECT_ROOT / "mql5" / "Include" / "M2_XGBoost_Oracle.mqh"
-DEFAULT_DATASET = PROJECT_ROOT / "portfolio" / "XAUUSD" / "XGBoost_Dataset_XAUUSD.csv"
+DEFAULT_DATASET = PROJECT_ROOT / "data" / "processed" / "XGBoost_Dataset_XAUUSD.csv"
 
 
 def train_and_export_mql5(

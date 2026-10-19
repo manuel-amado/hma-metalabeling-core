@@ -14,7 +14,7 @@ from loguru import logger
 from m2_metalabeling.export.to_mqh import export_to_mqh
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_DATASET = PROJECT_ROOT / "portfolio" / "XAUUSD" / "XGBoost_Dataset_XAUUSD.csv"
+DEFAULT_DATASET = PROJECT_ROOT / "data" / "processed" / "XGBoost_Dataset_XAUUSD.csv"
 DEFAULT_OUTPUT_PATHS = [
     PROJECT_ROOT / "mql5" / "Experts" / "HMA_SQX_Discovery" / "M2_XGBoost_Oracle.mqh",
     PROJECT_ROOT / "mql5" / "Include" / "M2_XGBoost_Oracle.mqh",

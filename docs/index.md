@@ -1,12 +1,13 @@
-# M2 Quant Pipeline: Meta-Labeling Framework
+# M2 Quant Pipeline: Institutional Research Framework & Post-Mortem Blueprint
 
-![Status](https://img.shields.io/badge/Status-Production_Ready-brightgreen)
+![Type](https://img.shields.io/badge/Type-Research_Framework-blue)
+![Standard](https://img.shields.io/badge/Standard-Institutional_Quant-003b6f)
 ![Architecture](https://img.shields.io/badge/Architecture-Python%20%7C%20C%2B%2B%20%7C%20MQL5-blue)
 ![Validation](https://img.shields.io/badge/Validation-Purged_WFM-orange)
 ![Execution](https://img.shields.io/badge/Latency-Sub_Microsecond_C%2B%2B-success)
 ![Verdict](https://img.shields.io/badge/Verdict-Scientific_Falsification-red)
 
-> **Veredicto Científico:** Este repositorio fue concebido para someter a prueba rigurosa el *Edge* de la estrategia basada en la Media Móvil de Hull (HMA). Las evaluaciones empíricas de este pipeline demostraron que **las Medias Móviles sufren de *Alpha Decay* irreversible y no generan exceso de retorno en mercados electrónicos líquidos**. Se documenta el desmontaje científico de la HMA para evitar pérdidas de capital y consolidar un estándar institucional de auditoría cuantitativa.
+> **Veredicto Institucional:** Este repositorio documenta la investigación, falsación empírica y post-mortem cuantitativo de la estrategia de rupturas basada en la Media Móvil de Hull (HMA). Las evaluaciones empíricas de este pipeline demostraron que **las Medias Móviles sufren de Alpha Decay terminal y que el Meta-Labeling no puede rescatar un modelo primario sin ventaja estadística intrínseca**. Lejos de comercializar sistemas opacos o pretender desplegar portafolios comerciales automáticos, este repositorio se presenta como un **Research Framework & Blueprint Arquitectónico Educativo**, demostrando cómo desacoplar la investigación en Python del motor de ejecución C++ en MetaTrader 5 a latencia cero (<0.1 μs).
 
 Aunque la estrategia HMA murió, **la infraestructura construida aquí sobrevivió**. Este repositorio es un plano maestro institucional (*Blueprint*) que demuestra cómo diseñar, validar, transpolar a C++ y auditar modelos de *Machine Learning* para MetaTrader 5 a latencia cero (<0.1 μs).
 
@@ -73,7 +74,7 @@ flowchart TD
     C -->|"Data Leakage / Overfit"| E["Abort Pipeline & Veto Institucional"]:::fail
     C -->|"Sanity Checks Aprobados"| D["m2cgen AST Transpiler<br/>Árboles a C++ ANSI"]:::transpile
     D -->|"Export Headers .mqh"| F["C++ Oracle Headers<br/>Inferencia < 0.1 µs"]:::transpile
-    F --> G["MT5 Production Vault<br/>Strategy 2.91.69.mq5 EA"]:::vault
+    F --> G["MT5 Canonical Blueprint<br/>Reference EA & C++ Oracle"]:::vault
 ```
 
 ---
@@ -91,11 +92,13 @@ El ciclo de investigación se documenta en profundidad a lo largo de cuatro etap
 
 ## Principios Cuantitativos Universales Transferibles
 
-A partir de los hallazgos de este proyecto, se han formulado tres principios universales transferibles a cualquier desarrollo algorítmico institucional en [Principios Cuantitativos Universales](UNIVERSAL_PRINCIPLES.md):
+A partir de los hallazgos de este proyecto, se han formulado cinco principios universales transferibles a cualquier desarrollo algorítmico institucional en [Principios Cuantitativos Universales](UNIVERSAL_PRINCIPLES.md):
 
 *   **Principio 1: Descomposición Rigurosa de Alpha vs. Market Beta:** Descomposición formal multifactorial ($R_{p} = \alpha + \beta R_{m} + \epsilon$), pruebas de simetría direccional y aplicación del *Deflated Sharpe Ratio* (DSR) para neutralizar el sesgo de selección en minería genética.
 *   **Principio 2: Diseño del Tradeoff Precision/Recall en Meta-Labeling:** Por qué el modelo primario debe optimizar exhaustividad ($\text{Recall} \to 1.0$) aceptando ruido, mientras el modelo secundario optimiza la precisión calibrada en función del Valor Esperado ($EV$) y modula el dimensionamiento continuo (*Bet Sizing*).
-*   **Principio 3: Protocolo Institucional de Auditoría Previa a Capital Real:** El checklist de 5 puertas de auditoría (Cero Fuga Temporal, Paridad Horaria EET, Purged CV con $AUC_{\text{OOS}} \ge 0.55$, Degradación IS/OOS $\le 30\%$ y Latencia Nativa $<1\ \mu\text{s}$) antes de asignar capital real.
+*   **Principio 3: Protocolo Institucional de Auditoría Previa a Capital Real:** El checklist de 5 puertas de auditoría (Cero Fuga Temporal, Paridad Horaria EET, Purged CV con $AUC_{\text{OOS}} \ge 0.55$, Degradación IS/OOS $\le 30\%$ con Zona de Colapso ECN para $PF \le 1.15$, y Latencia Nativa $<1\ \mu\text{s}$) antes de asignar capital real.
+*   **Principio 4: Desacoplamiento Estricto de Capas (MQL5 Ejecución vs. Python Investigación):** Delimitación infranqueable entre la bóveda de ejecución y telemetría OnTick (<0.1 µs) y el motor de análisis matemático y aprendizaje automático en Python.
+*   **Principio 5: Preservación de Factoría y Mitigación del Sesgo de Sobre-Minería (*Data Snooping Bias*):** Protocolo para congelar arquetipos líderes validados y neutralizar la inflación artificial de métricas mediante la formulación de valores extremos y DSR.
 
 ---
 
@@ -105,28 +108,27 @@ El repositorio se organiza estrictamente en dos ecosistemas técnicos y una bóv
 
 ```text
 HMA_MetaLabeling/
-├── python/                         # Motor Estadístico y de Machine Learning
-│   ├── main.py                     # Panel de control orquestador (CLI interactivo / headless)
-│   └── m2_metalabeling/            # Paquete modular institucional
-│       ├── ingestion/              # Ingesta y lectura de ticks/barras MT5 (mt5_reader.py)
-│       ├── labeling/               # Etiquetado Triple Barrera (triple_barrier.py)
-│       ├── cross_validation/       # Purged K-Fold con Embargo (purged_cv.py)
-│       ├── calibration/            # Calibración isotónica y Bet Sizing
-│       ├── export/                 # Transpilación a C++/MQL5 (to_mqh.py, export_mql5.py)
-│       └── models/                 # Modelos Walk-Forward, retrain y auditoría
-├── mql5/                           # Ecosistema MetaTrader 5
-│   ├── Include/                    # Cabeceras (.mqh), logger ML y oráculos C++ transpilados
-│   └── Experts/                    # Asesores expertos (Discovery, Extractores y Producción)
-├── portfolio/                      # Bóveda desplegada multiactivo (AUDUSD, EURUSD, XAUUSD...)
+├── python/                         # Motor Estadístico y de Machine Learning (Python 3.11/3.12)
+│   ├── main.py                     # Panel de control orquestador institucional (CLI / Headless)
+│   └── m2_metalabeling/            # Paquete modular de investigación cuantitativa
+│       ├── ingestion/              # Ingesta y saneamiento de datos MT5 (mt5_reader.py)
+│       ├── labeling/               # Etiquetado Triple Barrera dinámico (triple_barrier.py)
+│       ├── cross_validation/       # Purged K-Fold con Embargo temporal (purged_cv.py)
+│       ├── calibration/            # Calibración isotónica y Bet Sizing continuo
+│       ├── export/                 # Transpilador AST a C++/MQL5 nativo (to_mqh.py)
+│       └── models/                 # Modelos Walk-Forward y auditoría cross-asset
+├── mql5/                           # Ecosistema MetaTrader 5 (Blueprint Canónico de Referencia)
+│   ├── Include/                    # Oráculo C++ transpilado (M2_XGBoost_Oracle.mqh)
+│   └── Experts/                    # EA Canónico de Referencia y Extractor de Telemetría M1
 ├── docs/                           # Portal de Documentación Científica (MkDocs Material)
 │   ├── index.md                    # Portada del portal
 │   ├── METHODOLOGY.md              # Formulación matemática del framework M2
 │   ├── RESEARCH_JOURNAL.md         # Crónica de investigación en 4 etapas
-│   ├── UNIVERSAL_PRINCIPLES.md     # Principios cuantitativos universales
+│   ├── UNIVERSAL_PRINCIPLES.md     # Cinco principios cuantitativos universales
 │   ├── HISTORICAL_EVOLUTION.md     # Evolución histórica de prototipos algorítmicos
 │   ├── POST_MORTEM.md              # Análisis forense y veredicto científico
 │   └── assets/                     # Gráficas empíricas (WFM Equity, IS/OOS Robustness)
-└── tests/                          # Suite de pruebas automatizadas (pytest)
+└── tests/                          # Suite integral de pruebas automatizadas (pytest)
 ```
 
 ---
@@ -159,7 +161,7 @@ Al iniciarse en modo interactivo, se despliega el panel de control:
   2. Entrenar Modelos (Purged Walk-Forward Montecarlo)
   3. Auditoría Estricta contra Fuga de Datos (Sanity Check)
   4. Transpilar Oráculo a C++ (MQL5 0ms Latency)
-  5. Ejecutar Flujo Completo (Portfolio Auto-Batch)
+  5. Auditoría Cross-Asset y Diagnóstico OOS
 ```
 
 ---
