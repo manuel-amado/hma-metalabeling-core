@@ -87,7 +87,7 @@ def generate_audit_report(file_path: Optional[str | Path] = None) -> dict:
 
     if outs is None or len(outs) == 0:
         logger.info("No MT5 HTML report available; generating audit metrics from repository dataset...")
-        dataset_path = PROJECT_ROOT / "portfolio" / "XAUUSD" / "XGBoost_Dataset_XAUUSD.csv"
+        dataset_path = PROJECT_ROOT / "data" / "processed" / "XGBoost_Dataset_XAUUSD.csv"
         if not dataset_path.exists():
             raise FileNotFoundError(
                 f"Neither HTML report ({file_path}) nor dataset ({dataset_path}) found."

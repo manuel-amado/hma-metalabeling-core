@@ -79,7 +79,7 @@ def run_export_factory_oracle(
         df = df.sort_values("Time").reset_index(drop=True)
         df["Target"] = (df["Profit"] > 0).astype(int)
     else:
-        fallback_path = PROJECT_ROOT / "portfolio" / "XAUUSD" / "XGBoost_Dataset_XAUUSD.csv"
+        fallback_path = PROJECT_ROOT / "data" / "processed" / "XGBoost_Dataset_XAUUSD.csv"
         if fallback_path.exists():
             logger.warning(
                 f"Raw MT5 feature/deal files not found. Falling back to consolidated dataset: {fallback_path}"

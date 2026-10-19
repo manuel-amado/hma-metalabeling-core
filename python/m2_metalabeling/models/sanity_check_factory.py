@@ -16,7 +16,7 @@ from loguru import logger
 warnings.filterwarnings("ignore")
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_DATASET = PROJECT_ROOT / "portfolio" / "XAUUSD" / "XGBoost_Dataset_XAUUSD.csv"
+DEFAULT_DATASET = PROJECT_ROOT / "data" / "processed" / "XGBoost_Dataset_XAUUSD.csv"
 
 
 class TimeBasedRollingPurgedCV:

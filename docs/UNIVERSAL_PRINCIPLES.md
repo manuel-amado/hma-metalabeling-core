@@ -6,7 +6,7 @@
 
 > **Premisa Fundamental:** En finanzas cuantitativas, la gran mayoría de los sistemas que parecen rentables en simulaciones históricas son artefactos estadísticos de sobreajuste (*Overfitting*), sesgo de supervivencia (*Survivorship Bias*) o absorción pasiva del movimiento general del mercado (*Market Beta*). Un proceso de grado institucional no busca validar una estrategia a toda costa; su objetivo es **falsarla metódicamente** antes de exponer un solo dólar de capital real.
 
-A partir del desarrollo, auditoría y desmontaje empírico del proyecto HMA Meta-Labeling, se formalizan a continuación **tres principios cuantitativos universales y transferibles** aplicables a cualquier clase de activo (FX, materias primas, renta variable, criptoactivos o futuros).
+A partir del desarrollo, auditoría y desmontaje empírico del proyecto HMA Meta-Labeling, se formalizan a continuación **cinco principios cuantitativos universales y transferibles** aplicables a cualquier clase de activo (FX, materias primas, renta variable, criptoactivos o futuros).
 
 ```mermaid
 flowchart TD
@@ -34,7 +34,21 @@ flowchart TD
         G2 --> G3["Puerta 3: Purged Walk-Forward (AUC ≥ 0.55)"]:::check
         G3 --> G4["Puerta 4: Degradación IS→OOS (<30%)"]:::check
         G4 --> G5["Puerta 5: Latencia Nativa (<1 µs)"]:::check
-        G5 --> PROD["Asignación de Capital Real"]:::prod
+        G5 --> PROD["Validación Aprobada"]:::prod
+    end
+
+    subgraph P4["Principio 4: Desacoplamiento de Capas"]
+        H1["MQL5 / C++: Ejecución & Telemetría (<0.1 µs)"]:::principle
+        H2["Frontera Estricta: CSV / AST Plano"]:::check
+        H3["Python: Microestructura & ML Cuantitativo"]:::principle
+        H1 --- H2 --- H3
+    end
+
+    subgraph P5["Principio 5: Preservación de Factoría"]
+        K1["Factoría Automatizada SQX / Genética"]:::principle
+        K2["Mitigación Data Snooping (DSR)"]:::check
+        K3["Congelación de Arquetipos Líderes"]:::prod
+        K1 --> K2 --> K3
     end
 ```
 
@@ -317,6 +331,9 @@ Para obtener la certificación de robustez, el sistema debe cumplir los siguient
     MDD_{\text{OOS}} \le 1.50 \cdot MDD_{\text{IS}}
     $$
 
+4.  **Veto por Zona de Colapso ECN ($PF_{\text{OOS}} \le 1.15$):**  
+    Todo sistema cuyo Profit Factor fuera de muestra caiga a $PF \le 1.15$ entra en la **Zona de Colapso ECN** (donde comisiones por lote, spreads ampliados y slippage asimétrico absorben la totalidad del margen) y debe ser vetado sumariamente, aun cuando exhiba tasas de retención del 95% en pruebas sintéticas de Monte Carlo.
+
 La siguiente gráfica empírica documentada durante la auditoría del proyecto demuestra el colapso típico de un sistema que no supera la Puerta 4:
 
 ![IS vs OOS Robustness Check](assets/IS_OOS_Robustness_Check.png)
@@ -330,15 +347,83 @@ La siguiente gráfica empírica documentada durante la auditoría del proyecto d
 
 ---
 
-## Tabla Resumen de Métricas de Auditoría Institucional
+### Tabla Resumen de las 5 Puertas de Auditoría Institucional
 
 | Puerta de Auditoría | Métrica Evaluada | Umbral Crítico de Rechazo | Umbral Institucional Aprobado | Herramienta de Verificación | Estado |
 |---|---|---|---|---|---|
-| **1. Fuga de Datos** | $t$-value de variables $t$ en $t-1$ | $|t| > 0$ (Cualquier fuga detectada) | Exactamente 0 fuga temporal | `sanity_check_factory.py` / Pytest | <span class="badge badge--success">Estándar</span> |
+| **1. Fuga de Datos** | $t$-value de variables $t$ en $t-1$ | $\vert t \vert > 0$ (Cualquier fuga detectada) | Exactamente 0 fuga temporal | `sanity_check_factory.py` / Pytest | <span class="badge badge--success">Estándar</span> |
 | **2. Microestructura** | Desfase de velas domingo / Spread rollover | Velas domingos presentes / $PF_{\text{rollover}} < 1.0$ | 5 velas diarias netas / Resistencia al spread | Histórico MT5 EET | <span class="badge badge--success">Estándar</span> |
 | **3. Walk-Forward** | $AUC_{\text{OOS}}$ promedio en ventanas | $AUC_{\text{OOS}} \le 0.52$ | $AUC_{\text{OOS}} \ge 0.55$ | `purged_cv.py` / `rolling_window_retrain.py` | <span class="badge badge--danger">Crítico</span> |
-| **4. Degradación IS/OOS**| Retención de Profit Factor | $PF_{\text{OOS}} / PF_{\text{IS}} < 0.70$ | $PF_{\text{OOS}} / PF_{\text{IS}} \ge 0.70$ | `audit_report.py` / WFM Split | <span class="badge badge--danger">Crítico</span> |
+| **4. Degradación IS/OOS**| Retención PF & Zona ECN | $PF_{\text{OOS}} \le 1.15$ o $PF_{\text{OOS}} / PF_{\text{IS}} < 0.70$ | $PF_{\text{OOS}} \ge 1.20$ y Retención $\ge 70\%$ | `audit_report.py` / WFM Split | <span class="badge badge--danger">Crítico</span> |
 | **5. Latencia y Ejecución**| Tiempo de inferencia por tick | Latencia $> 1.0\text{ ms}$ (APIs externas) | Latencia $< 0.1\ \mu\text{s}$ (C++ nativo) | `to_mqh.py` / `M2_XGBoost_Oracle.mqh` | <span class="badge badge--success">Estándar</span> |
+
+---
+
+## Principio 4: Desacoplamiento Estricto de Capas (MQL5 Ejecución vs. Python Investigación)
+
+> *La arquitectura cuantitativa debe separar de forma tajante e infranqueable la capa de telemetría y ejecución de baja latencia (MQL5/C++) del motor de investigación, ingeniería de datos y aprendizaje automático (Python).*
+
+```mermaid
+flowchart LR
+    classDef mql5 fill:#003b6f,stroke:#60a5fa,stroke-width:2px,color:#f8fafc
+    classDef python fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#f8fafc
+    classDef border fill:#0f172a,stroke:#3b82f6,stroke-width:1px,stroke-dasharray: 5 5,color:#cbd5e1
+
+    subgraph Layer_MQL5["Capa de Ejecución y Telemetría (MQL5 / C++)"]
+        M1["Pipeline_Extractor_M1.mq5<br/>Captura de ticks y barras en tiempo real"]:::mql5
+        M2["Bóveda de Inferencia OnTick<br/>M2_XGBoost_Oracle.mqh (<0.1 µs)"]:::mql5
+        M3["Gestor de Órdenes y Riesgo ECN<br/>Slippage tracking y fill rate"]:::mql5
+    end
+
+    subgraph Clean_Boundary["Frontera Estricta de Desacoplamiento (Archivos CSV / AST)"]
+        B1[("CSV Telemetría EET Sincronizado")]:::border
+        B2["AST C++ Exportado plano (m2cgen)"]:::border
+    end
+
+    subgraph Layer_Python["Capa de Investigación Cuantitativa (Python)"]
+        P1["mt5_reader.py / Ingesta Vectorizada"]:::python
+        P2["triple_barrier.py / Etiquetado Dinámico"]:::python
+        P3["purged_cv.py / Validación Purged K-Fold"]:::python
+        P4["Calibración Isotónica & Bet Sizing"]:::python
+    end
+
+    M1 ==> B1 ==> P1
+    P4 ==> B2 ==> M2
+```
+
+### 4.1 Responsabilidades Exclusivas de la Capa MQL5 (Bóveda de Ejecución)
+1. **Telemetría y Registro de Eventos:** Extraer con fidelidad de microsegundo los eventos de mercado sin recalcular indicadores complejos que puedan demorar el hilo de ejecución del terminal.
+2. **Inferencia a Latencia Cero:** Alojar exclusivamente código transpilado a C++ puro (`.mqh`) que evalúe árboles de decisión en la memoria caché L1 de la CPU ($<0.1\ \mu\text{s}$).
+3. **Higiene Absoluta de Repositorio:** La capa MQL5 debe estar estrictamente purgada de scripts residuales, prototipos heurísticos obsoletos o asesores expertos huérfanos ("Free robots"). Solo debe residir el Blueprint Canónico probado y documentado.
+
+### 4.2 Responsabilidades Exclusivas de la Capa Python (Motor Cuantitativo)
+1. **Ingeniería de Características Complejas:** Cálculo multitemporal de volatilidad (Keltner, ATR), dispersión de medias y métricas de microestructura.
+2. **Etiquetado y Validación Matemática:** Implementación de la Triple Barrera, Purged K-Fold Cross-Validation con embargo temporal y análisis de valor esperado.
+3. **Auditoría Forense de Fuga de Datos:** Verificación de no-solapamiento de barras y garantía de aislamiento de normalizadores (*t-1 execution only*).
+
+---
+
+## Principio 5: Preservación de Factoría y Mitigación del Sesgo de Sobre-Minería
+
+> *Cuando una factoría algorítmica automatizada ha descubierto arquetipos de alta convicción estadística, reiniciar el generador desde cero es un error metodológico que amplifica el sesgo de selección; la prioridad institucional es preservar la factoría, descartar variantes redundantes y orquestar portafolios descorrelacionados.*
+
+### 5.1 La Trampa del 'Data Snooping Bias' en Minería Masiva
+Cuando se utilizan plataformas de minería algorítmica como StrategyQuant X para generar y filtrar cientos de miles de estrategias mediante algoritmos genéticos, el valor extremo del Ratio de Sharpe observado crece como una función logarítmica del número de ensayos $K$:
+
+$$
+\mathbb{E}\left[ \max_{k=1,\dots,K} SR_k \;\middle|\; \text{No Skill} \right] \approx \sqrt{2 \ln K} + \frac{\gamma_E}{\sqrt{2 \ln K}}
+$$
+
+Si tras un proceso de minería exitoso que produce sistemas con ratios OOS/IS superiores al 50% (como `Strategy 2.30.36`), el investigador vuelve al "Builder" a generar nuevas estrategias desde cero:
+1. El número total acumulado de ensayos $K$ se dispara, degradando severamente el **Deflated Sharpe Ratio (DSR)**.
+2. Aumenta exponencialmente la probabilidad de seleccionar estrategias espurias que aprueben el backtest por puro azar (*Data Snooping Bias*).
+3. Se incurre en un coste de oportunidad computacional inútil.
+
+### 5.2 Protocolo de Preservación y Orquestación Multiactivo
+Frente a una factoría madura:
+1. **Congelar y Preservar los Blueprints Validados:** Proteger las arquitecturas líderes (e.g. `Strategy 2.30.36` y `Strategy 5.66.52`) como plantillas canónicas inmutables.
+2. **Podar Clones Redundantes y Portafolios Ficticios:** No clonar mecánicamente una misma estrategia en 6 pares de divisas si los datos empíricos demuestran que en pares no tendenciales el modelo decae. Exponer copias redundantes simula una diversificación falsa.
+3. **Orquestar Descorrelación Temporal:** Combinar sistemas con lógicas complementarias (por ejemplo, combinar una estrategia de tendencia en GBPUSD con un modelo en XAUUSD) para mitigar periodos de estancamiento macroeconómico y suavizar la curva de balance sin sobre-optimizar.
 
 ---
 

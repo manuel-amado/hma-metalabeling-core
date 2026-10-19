@@ -107,6 +107,54 @@ $$
 
 Si $P(y_t = 1 \mid X_t) \ge \tau^*$ (umbral óptimo calibrado por valor esperado), la orden se ejecuta; en caso contrario, se descarta.
 
+### 1.3 Límites Matemáticos y Condición de Frontera del Meta-Labeling
+
+#### La Falacia del Meta-Labeling Milagroso
+
+Existe una concepción errónea recurrente en la literatura cuantitativa que asume que el Meta-Labeling puede transformar cualquier regla heurística perdedora en una estrategia rentable mediante la superposición de un clasificador de *Machine Learning*. 
+
+Formalmente, el Meta-Labeling formulado por López de Prado (2018) opera exclusivamente como un **modulador de tamaño de posición (*Bet Sizing*)** y un **filtro bayesiano de falsos positivos**. Su efectividad está subordinada a la existencia de una **ventaja estadística preexistente e irreducible en el generador primario ($M_1$)**.
+
+#### Formulación de la Condición de Frontera
+
+Sea un modelo primario $M_1$ que genera una secuencia de eventos de negociación con espacio de características $X \in \Omega$ y retornos logarítmicos realizados $R$. Descomponemos el retorno esperado del sistema combinado condicionado a la regla de filtrado $M_2(X) \ge \tau^*$:
+
+$$
+\mathbb{E}[R_{\text{final}}] = P(M_2(X) \ge \tau^*) \cdot \mathbb{E}\left[ R_{M_1} \;\middle|\; M_2(X) \ge \tau^* \right] - C_{\text{fricción}}
+$$
+
+Donde $C_{\text{fricción}}$ representa los costes fijos de microestructura (comisiones ECN, medio spread dinámico y slippage asimétrico de ejecución).
+
+**Teorema de Frontera (Condición de Inexistencia de Alpha):**  
+Si el modelo primario $M_1$ carece de ventaja estructural, tal que para toda partición admisible del espacio de estados $S \subset \Omega$:
+
+$$
+\mathbb{E}[R_{M_1} \mid X \in S] \le 0 \quad \forall S \subseteq \Omega \quad \text{en el dominio Out-of-Sample (OOS)}
+$$
+
+Entonces no existe ninguna función de decisión medible $M_2: \Omega \to [0, 1]$ ni umbral $\tau^* \in [0, 1]$ que satisfaga:
+
+$$
+\mathbb{E}[R_{\text{final}}] > 0 \quad \text{en datos no observados.}
+$$
+
+#### La Trampa del Modelo Primario Roto en In-Sample
+
+Si la premisa primaria (en este caso, rupturas de volatilidad basadas en la cinemática de la HMA) está intrínsecamente viciada por retardo matemático frente a los creadores de mercado HFT, el espacio muestral In-Sample estará compuesto mayoritariamente por operaciones perdedoras y un subconjunto menor de aciertos aleatorios debidos al ruido o a la deriva del mercado (*Market Beta*).
+
+Al entrenar un estimador flexible de alta capacidad (como `XGBClassifier` con árboles de profundidad $\ge 3$):
+1. El clasificador secundario memoriza las correlaciones espurias de esos aciertos fortuitos dentro de muestra (*In-Sample Overfitting*).
+2. Al proyectar el modelo hacia la ventana *Out-of-Sample* (OOS), las correlaciones desaparecen de inmediato.
+3. El clasificador secundario colapsa hacia un poder discriminativo nulo:
+
+$$
+AUC_{\text{OOS}} \approx 0.50 \quad \text{(Indistinguible del azar)}
+$$
+
+O bien, para minimizar la entropía cruzada frente a un activo con deriva alcista (como el Oro en 2020-2026), clasifica prácticamente todos los eventos como válidos ($P(y=1) \to 1$), absorbiendo el $100\%$ del riesgo de mercado sin aportar ningún filtro real.
+
+> **Principio de Diseño:** El Meta-Labeling actúa como un tamiz de alta precisión: puede separar el grano de la paja, pero si el saco contiene exclusivamente paja, ningún tamiz matemático producirá grano.
+
 ---
 
 ## 2. El Método de la Triple Barrera (Triple Barrier Method)
