@@ -1,0 +1,1683 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Framework institucional de Machine Learning y Meta-Labeling para MetaTrader 5">
+      
+      
+        <meta name="author" content="Manuel Amado">
+      
+      
+        <link rel="canonical" href="https://manuel-amado.github.io/hma-metalabeling-core/POST_MORTEM/">
+      
+      
+        <link rel="prev" href="../HISTORICAL_EVOLUTION/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Veredicto y Post-Mortem - HMA Meta-Labeling Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#veredicto-y-post-mortem-alpha-decay-de-las-medias-moviles" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="HMA Meta-Labeling Core" class="md-header__button md-logo" aria-label="HMA Meta-Labeling Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HMA Meta-Labeling Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Veredicto y Post-Mortem
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Modo automático (sistema)"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo automático (sistema)" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="indigo"  aria-label="Cambiar a modo automático"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo automático" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartir" aria-label="Compartir" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/manuel-amado/hma-metalabeling-core" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    manuel-amado/hma-metalabeling-core
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introducción
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../METHODOLOGY/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Metodología Cuantitativa
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../RESEARCH_JOURNAL/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Cuaderno de Investigación
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../UNIVERSAL_PRINCIPLES/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Principios Cuantitativos Universales
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../HISTORICAL_EVOLUTION/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Evolución Histórica de Prototipos
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Veredicto y Post-Mortem
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="HMA Meta-Labeling Core" class="md-nav__button md-logo" aria-label="HMA Meta-Labeling Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HMA Meta-Labeling Core
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/manuel-amado/hma-metalabeling-core" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    manuel-amado/hma-metalabeling-core
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../METHODOLOGY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metodología Cuantitativa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RESEARCH_JOURNAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cuaderno de Investigación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../UNIVERSAL_PRINCIPLES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Principios Cuantitativos Universales
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HISTORICAL_EVOLUTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evolución Histórica de Prototipos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Veredicto y Post-Mortem
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Veredicto y Post-Mortem
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#panel-ejecutivo-de-falsacion-cuantitativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel Ejecutivo de Falsación Cuantitativa
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Panel Ejecutivo de Falsación Cuantitativa">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sharpe-ratio-anualizado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sharpe Ratio Anualizado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profit-factor-pf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profit Factor (PF)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#win-rate-tasa-de-acierto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Win Rate (Tasa de Acierto)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#area-bajo-la-curva-auc-oos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Área Bajo la Curva (AUC OOS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maximo-drawdown-mdd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Máximo Drawdown (MDD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latencia-de-inferencia-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Latencia de Inferencia C++
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-la-trampa-visual-confundir-market-beta-con-alpha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. La Trampa Visual: Confundir Market Beta con Alpha
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. La Trampa Visual: Confundir Market Beta con Alpha">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-el-espejismo-de-la-curva-de-balance-continua" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 El Espejismo de la Curva de Balance Continua
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-descomposicion-de-retornos-la-trampa-del-beta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Descomposición de Retornos: La Trampa del Beta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-superposicion-de-curvas-m_1-approx-m_1-m_2-y-auc-nulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Superposición de Curvas (\(M_1 \approx M_1 + M_2\)) y AUC Nulo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-la-evidencia-empirica-de-sobreajuste-in-sample-vs-out-of-sample" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. La Evidencia Empírica de Sobreajuste: In-Sample vs. Out-of-Sample
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. La Evidencia Empírica de Sobreajuste: In-Sample vs. Out-of-Sample">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-analisis-forense-de-la-grafica-de-robustez" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Análisis Forense de la Gráfica de Robustez
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-monte-carlo-vs-rendimiento-out-of-sample-real-criterios-de-robustez-en-factorias-algoritmicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Monte Carlo vs. Rendimiento Out-of-Sample Real: Criterios de Robustez en Factorías Algorítmicas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Monte Carlo vs. Rendimiento Out-of-Sample Real: Criterios de Robustez en Factorías Algorítmicas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-la-falacia-de-la-retencion-sintetica-de-monte-carlo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 La Falacia de la Retención Sintética de Monte Carlo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-evidencia-empirica-de-auditoria-factoria-sqx-to-validacion-mt5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Evidencia Empírica de Auditoría: Factoría SQX \(\to\) Validación MT5
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-patrones-de-diagnostico-critico-y-matriz-de-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Patrones de Diagnóstico Crítico y Matriz de Decisión
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Patrones de Diagnóstico Crítico y Matriz de Decisión">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-la-zona-de-colapso-ecn-pf-le-115" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. La Zona de Colapso ECN (\(PF \le 1.15\))
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-la-trampa-de-las-mesetas-macroeconomicas-12-meses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. La Trampa de las Mesetas Macroeconómicas (&gt; 12 Meses)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-validacion-microestructural-con-ticks-reales-al-99" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Validación Microestructural con Ticks Reales al 99%
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-las-razones-estructurales-del-colapso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Las Razones Estructurales del Colapso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Las Razones Estructurales del Colapso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-alpha-decay-historico-eficiencia-de-mercados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Alpha Decay Histórico (Eficiencia de Mercados)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-retardo-matematico-frente-a-la-microestructura-hft" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Retardo Matemático frente a la Microestructura HFT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-el-test-de-asimetria-direccional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 El Test de Asimetría Direccional
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-el-exito-metodologico-capital-preservado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. El Éxito Metodológico: Capital Preservado
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#panel-ejecutivo-de-falsacion-cuantitativa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel Ejecutivo de Falsación Cuantitativa
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Panel Ejecutivo de Falsación Cuantitativa">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sharpe-ratio-anualizado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sharpe Ratio Anualizado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profit-factor-pf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profit Factor (PF)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#win-rate-tasa-de-acierto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Win Rate (Tasa de Acierto)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#area-bajo-la-curva-auc-oos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Área Bajo la Curva (AUC OOS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maximo-drawdown-mdd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Máximo Drawdown (MDD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latencia-de-inferencia-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Latencia de Inferencia C++
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-la-trampa-visual-confundir-market-beta-con-alpha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. La Trampa Visual: Confundir Market Beta con Alpha
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. La Trampa Visual: Confundir Market Beta con Alpha">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-el-espejismo-de-la-curva-de-balance-continua" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 El Espejismo de la Curva de Balance Continua
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-descomposicion-de-retornos-la-trampa-del-beta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Descomposición de Retornos: La Trampa del Beta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-superposicion-de-curvas-m_1-approx-m_1-m_2-y-auc-nulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Superposición de Curvas (\(M_1 \approx M_1 + M_2\)) y AUC Nulo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-la-evidencia-empirica-de-sobreajuste-in-sample-vs-out-of-sample" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. La Evidencia Empírica de Sobreajuste: In-Sample vs. Out-of-Sample
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. La Evidencia Empírica de Sobreajuste: In-Sample vs. Out-of-Sample">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-analisis-forense-de-la-grafica-de-robustez" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Análisis Forense de la Gráfica de Robustez
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-monte-carlo-vs-rendimiento-out-of-sample-real-criterios-de-robustez-en-factorias-algoritmicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Monte Carlo vs. Rendimiento Out-of-Sample Real: Criterios de Robustez en Factorías Algorítmicas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Monte Carlo vs. Rendimiento Out-of-Sample Real: Criterios de Robustez en Factorías Algorítmicas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-la-falacia-de-la-retencion-sintetica-de-monte-carlo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 La Falacia de la Retención Sintética de Monte Carlo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-evidencia-empirica-de-auditoria-factoria-sqx-to-validacion-mt5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Evidencia Empírica de Auditoría: Factoría SQX \(\to\) Validación MT5
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-patrones-de-diagnostico-critico-y-matriz-de-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Patrones de Diagnóstico Crítico y Matriz de Decisión
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Patrones de Diagnóstico Crítico y Matriz de Decisión">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-la-zona-de-colapso-ecn-pf-le-115" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. La Zona de Colapso ECN (\(PF \le 1.15\))
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-la-trampa-de-las-mesetas-macroeconomicas-12-meses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. La Trampa de las Mesetas Macroeconómicas (&gt; 12 Meses)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-validacion-microestructural-con-ticks-reales-al-99" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Validación Microestructural con Ticks Reales al 99%
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-las-razones-estructurales-del-colapso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Las Razones Estructurales del Colapso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Las Razones Estructurales del Colapso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-alpha-decay-historico-eficiencia-de-mercados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Alpha Decay Histórico (Eficiencia de Mercados)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-retardo-matematico-frente-a-la-microestructura-hft" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Retardo Matemático frente a la Microestructura HFT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-el-test-de-asimetria-direccional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 El Test de Asimetría Direccional
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-el-exito-metodologico-capital-preservado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. El Éxito Metodológico: Capital Preservado
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="veredicto-y-post-mortem-alpha-decay-de-las-medias-moviles">Veredicto y Post-Mortem: Alpha Decay de las Medias Móviles<a class="headerlink" href="#veredicto-y-post-mortem-alpha-decay-de-las-medias-moviles" title="Permanent link">&para;</a></h1>
+<p><img alt="Status" src="https://img.shields.io/badge/Verdict-Scientifically_Rejected-red" />
+<img alt="Phenomenon" src="https://img.shields.io/badge/Market_Anomaly-Alpha_Decay-darkred" />
+<img alt="Factor" src="https://img.shields.io/badge/Root_Cause-Market_Beta_Trap-orange" />
+<img alt="Standard" src="https://img.shields.io/badge/Pipeline-Capital_Saved-brightgreen" /></p>
+<blockquote>
+<p><strong>Veredicto Institucional:</strong> El propósito supremo de un laboratorio cuantitativo no es forzar a una estrategia a parecer rentable mediante curvas artificialmente sobreajustadas (<em>Overfitting</em>), sino <strong>destruir implacablemente los modelos frágiles</strong> antes de que toquen el capital real. El Pipeline M2 ha cumplido con éxito su misión científica: auditar, descomponer y falsar de manera concluyente la supuesta ventaja estadística de la Media Móvil de Hull (HMA).</p>
+</blockquote>
+<p>Este informe forense expone los fundamentos matemáticos, las pruebas empíricas de descomposición de retornos y el análisis microestructural que dictaminaron la muerte definitiva de la estrategia HMA como gatillo operativo en Forex y Metales.</p>
+<hr />
+<h2 id="panel-ejecutivo-de-falsacion-cuantitativa">Panel Ejecutivo de Falsación Cuantitativa<a class="headerlink" href="#panel-ejecutivo-de-falsacion-cuantitativa" title="Permanent link">&para;</a></h2>
+<div class="grid cards">
+<div class="metric-card">
+<h3 id="sharpe-ratio-anualizado">Sharpe Ratio Anualizado<a class="headerlink" href="#sharpe-ratio-anualizado" title="Permanent link">&para;</a></h3>
+<p><strong>2.41 (IS) <span class="arithmatex">\(\to\)</span> 0.14 (OOS)</strong><br />
+<span class="badge badge--danger">Colapso -94.2%</span><br />
+Deterioro crítico tras cruzar la frontera de muestra; nula persistencia de Alpha.</p>
+</div>
+<div class="metric-card">
+<h3 id="profit-factor-pf">Profit Factor (PF)<a class="headerlink" href="#profit-factor-pf" title="Permanent link">&para;</a></h3>
+<p><strong>1.78 (IS) <span class="arithmatex">\(\to\)</span> 1.02 (OOS)</strong><br />
+<span class="badge badge--danger">Retención 57.3%</span><br />
+No supera el umbral institucional mínimo del 70% requerido en Puerta 4.</p>
+</div>
+<div class="metric-card">
+<h3 id="win-rate-tasa-de-acierto">Win Rate (Tasa de Acierto)<a class="headerlink" href="#win-rate-tasa-de-acierto" title="Permanent link">&para;</a></h3>
+<p><strong>54.2% (IS) <span class="arithmatex">\(\to\)</span> 41.8% (OOS)</strong><br />
+<span class="badge badge--danger">Deterioro -12.4%</span><br />
+Excede la tolerancia máxima admisible del 10% de pérdida de tasa de acierto.</p>
+</div>
+<div class="metric-card">
+<h3 id="area-bajo-la-curva-auc-oos">Área Bajo la Curva (AUC OOS)<a class="headerlink" href="#area-bajo-la-curva-auc-oos" title="Permanent link">&para;</a></h3>
+<p><strong>0.518 ± 0.024</strong><br />
+<span class="badge badge--danger">Moneda al Aire</span><br />
+Poder discriminativo nulo en datos no observados; indistinguible de ruido blanco.</p>
+</div>
+<div class="metric-card">
+<h3 id="maximo-drawdown-mdd">Máximo Drawdown (MDD)<a class="headerlink" href="#maximo-drawdown-mdd" title="Permanent link">&para;</a></h3>
+<p><strong>6.8% (IS) <span class="arithmatex">\(\to\)</span> 16.4% (OOS)</strong><br />
+<span class="badge badge--danger">Expansión 2.41×</span><br />
+Multiplica por más de 2.4 veces el drawdown observado en la fase de ajuste.</p>
+</div>
+<div class="metric-card">
+<h3 id="latencia-de-inferencia-c">Latencia de Inferencia C++<a class="headerlink" href="#latencia-de-inferencia-c" title="Permanent link">&para;</a></h3>
+<p><strong>&lt; 0.1 µs (&lt; 100 ns)</strong><br />
+<span class="badge badge--success">Éxito de Ingeniería</span><br />
+La bóveda de transpilación demostró viabilidad óptima independiente del Alpha.</p>
+</div>
+</div>
+<hr />
+<h2 id="1-la-trampa-visual-confundir-market-beta-con-alpha">1. La Trampa Visual: Confundir Market Beta con Alpha<a class="headerlink" href="#1-la-trampa-visual-confundir-market-beta-con-alpha" title="Permanent link">&para;</a></h2>
+<h3 id="11-el-espejismo-de-la-curva-de-balance-continua">1.1 El Espejismo de la Curva de Balance Continua<a class="headerlink" href="#11-el-espejismo-de-la-curva-de-balance-continua" title="Permanent link">&para;</a></h3>
+<p>En el proceso de evaluación <em>Out-of-Sample</em> (OOS) mediante validación Walk-Forward en el par Oro (XAUUSD) entre 2020 y 2026, obtuvimos una curva de balance que, para un operador sin formación cuantitativa rigurosa, parecería una estrategia de inversión excepcional:</p>
+<p><img alt="Curva Walk-Forward Continua" src="../assets/MetaLabeling_WFM_Equity_Curve.png" /></p>
+<p>A simple vista, la trayectoria muestra un crecimiento monetario continuo con drawdowns moderados. Sin embargo, en el análisis forense desagregado del Pipeline M2, esta misma gráfica constituye <strong>la prueba irrefutable de ausencia de Alpha</strong>.</p>
+<h3 id="12-descomposicion-de-retornos-la-trampa-del-beta">1.2 Descomposición de Retornos: La Trampa del Beta<a class="headerlink" href="#12-descomposicion-de-retornos-la-trampa-del-beta" title="Permanent link">&para;</a></h3>
+<p>Para determinar si el rendimiento correspondía a habilidad algorítmica (<span class="arithmatex">\(\alpha\)</span>) o a simple exposición pasiva al mercado (<span class="arithmatex">\(\beta\)</span>), ajustamos el modelo de retornos de Jensen:</p>
+<div class="arithmatex">\[
+R_{p, t} - R_{f, t} = \alpha_p + \beta_{p, m} (R_{m, t} - R_{f, t}) + \epsilon_{p, t}
+\]</div>
+<p>Los resultados de la regresión con estimadores Newey-West robustos a heterocedasticidad y autocorrelación arrojaron:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\hat{\beta}_{p, m} &amp;= 0.841 \quad (t = 14.82, \ p &lt; 0.0001) \\
+\hat{\alpha}_p &amp;= 0.00018\text{ diario} \quad (t = 0.612, \ p = 0.541)
+\end{aligned}
+\]</div>
+<p>El intercepto <span class="arithmatex">\(\hat{\alpha}_p\)</span> es <strong>estadísticamente indistinguible de cero</strong> (<span class="arithmatex">\(p = 0.54 \gg 0.05\)</span>). Toda la pendiente ascendente del balance se debe en un <span class="arithmatex">\(100\%\)</span> a la exposición direccional (<span class="arithmatex">\(\hat{\beta}_{p, m} \approx 0.84\)</span>) en un activo (Oro) que experimentó una tendencia alcista macroeconómica secular, pasando de $1.500 a más de $2.700 la onza en el período.</p>
+<h3 id="13-superposicion-de-curvas-m_1-approx-m_1-m_2-y-auc-nulo">1.3 Superposición de Curvas (<span class="arithmatex">\(M_1 \approx M_1 + M_2\)</span>) y AUC Nulo<a class="headerlink" href="#13-superposicion-de-curvas-m_1-approx-m_1-m_2-y-auc-nulo" title="Permanent link">&para;</a></h3>
+<p>Si se examina minuciosamente la gráfica Walk-Forward:</p>
+<ul>
+<li>La línea roja representa el <strong>Modelo Primario (<span class="arithmatex">\(M_1\)</span>)</strong> sin ningún filtro (disparos masivos por cruces cinemáticos de HMA).</li>
+<li>La línea verde representa el <strong>Modelo Filtrado (<span class="arithmatex">\(M_1 + M_2\)</span>)</strong> condicionado a la predicción del clasificador XGBoost.</li>
+</ul>
+<p>Ambas curvas son <strong>prácticamente idénticas y se superponen a lo largo de todo el recorrido</strong>. Esto demuestra que:</p>
+<ol>
+<li>El modelo secundario de Meta-Labeling <strong>no logró encontrar ninguna frontera de decisión no lineal</strong> que discriminara trades ganadores de perdedores.</li>
+<li>
+<p>El clasificador XGBoost arrojó un Área Bajo la Curva ROC fuera de muestra de:</p>
+<div class="arithmatex">\[
+AUC_{\text{OOS}} = 0.518 \pm 0.024
+\]</div>
+<p>Un valor de <span class="arithmatex">\(0.518\)</span> equivale exactamente al lanzamiento de una moneda al aire. El modelo secundario se limitó a aprobar más del <span class="arithmatex">\(90\%\)</span> de las operaciones para no penalizar la función de pérdida frente a un mercado persistentemente alcista.</p>
+</li>
+</ol>
+<hr />
+<h2 id="2-la-evidencia-empirica-de-sobreajuste-in-sample-vs-out-of-sample">2. La Evidencia Empírica de Sobreajuste: In-Sample vs. Out-of-Sample<a class="headerlink" href="#2-la-evidencia-empirica-de-sobreajuste-in-sample-vs-out-of-sample" title="Permanent link">&para;</a></h2>
+<p>La gráfica de robustez de la partición temporal 70% In-Sample / 30% Out-of-Sample extraída de la auditoría demuestra de forma contundente la incapacidad de la HMA para sostener la ventaja estadística cuando se expone a datos no observados:</p>
+<p><img alt="IS vs OOS Robustness Check" src="../assets/IS_OOS_Robustness_Check.png" /></p>
+<h3 id="21-analisis-forense-de-la-grafica-de-robustez">2.1 Análisis Forense de la Gráfica de Robustez<a class="headerlink" href="#21-analisis-forense-de-la-grafica-de-robustez" title="Permanent link">&para;</a></h3>
+<p>La siguiente tabla resume el comportamiento de los indicadores cuantitativos al cruzar la frontera de muestra:</p>
+<table>
+<thead>
+<tr>
+<th>Métrica Cuantitativa</th>
+<th>Fase In-Sample (70%)</th>
+<th>Fase Out-of-Sample (30%)</th>
+<th>Tasa de Retención / Variación</th>
+<th>Umbral Institucional Exigido</th>
+<th>Veredicto de Puerta 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Profit Factor (<span class="arithmatex">\(PF\)</span>)</strong></td>
+<td><span class="arithmatex">\(1.78\)</span></td>
+<td><span class="arithmatex">\(1.02\)</span></td>
+<td><span class="arithmatex">\(\frac{PF_{\text{OOS}}}{PF_{\text{IS}}} = 57.3\%\)</span></td>
+<td>Retención <span class="arithmatex">\(\ge 70\%\)</span></td>
+<td><span class="badge badge--danger">Fallo Crítico</span></td>
+</tr>
+<tr>
+<td><strong>Win Rate (<span class="arithmatex">\(WR\)</span>)</strong></td>
+<td><span class="arithmatex">\(54.2\%\)</span></td>
+<td><span class="arithmatex">\(41.8\%\)</span></td>
+<td>Deterioro: <span class="arithmatex">\(-12.4\%\)</span></td>
+<td>Pérdida <span class="arithmatex">\(\le 10\%\)</span></td>
+<td><span class="badge badge--danger">Fallo Crítico</span></td>
+</tr>
+<tr>
+<td><strong>Sharpe Ratio Anualizado</strong></td>
+<td><span class="arithmatex">\(2.41\)</span></td>
+<td><span class="arithmatex">\(0.14\)</span></td>
+<td>Deterioro: <span class="arithmatex">\(-94.2\%\)</span></td>
+<td><span class="arithmatex">\(SR_{\text{OOS}} \ge 1.0\)</span></td>
+<td><span class="badge badge--danger">Fallo Crítico</span></td>
+</tr>
+<tr>
+<td><strong>Max Drawdown (<span class="arithmatex">\(MDD\)</span>)</strong></td>
+<td><span class="arithmatex">\(6.8\%\)</span></td>
+<td><span class="arithmatex">\(16.4\%\)</span></td>
+<td>Expansión: <span class="arithmatex">\(2.41\times\)</span></td>
+<td>Expansión <span class="arithmatex">\(\le 1.50\times\)</span></td>
+<td><span class="badge badge--danger">Fallo Crítico</span></td>
+</tr>
+<tr>
+<td><strong>Esperanza Matemática</strong></td>
+<td><span class="arithmatex">\(+\$42.30\)</span> / trade</td>
+<td><span class="arithmatex">\(-\$1.15\)</span> / trade</td>
+<td>Colapso hacia pérdidas netas</td>
+<td>Esperanza <span class="arithmatex">\(&gt; 0\)</span></td>
+<td><span class="badge badge--danger">Fallo Crítico</span></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><strong>Zona In-Sample (IS - 70%):</strong> A la izquierda de la línea vertical divisoria, la curva de balance simulada exhibe una acumulación regular y constante. El proceso de optimización heurística y minería en StrategyQuant X ajustó los parámetros a la muestra observada.</li>
+<li><strong>Línea de Demarcación Temporal:</strong> El instante exacto en que el algoritmo cruza la frontera hacia el conjunto de datos nunca antes visto.</li>
+<li><strong>Zona Out-of-Sample (OOS - 30%):</strong> A la derecha de la línea divisoria, la esperanza matemática colapsa inmediatamente hacia la horizontalidad (<span class="arithmatex">\(PF = 1.02\)</span>). En términos netos, tras descontar comisiones y swaps, la estrategia se convierte en un generador neto de pérdidas.</li>
+</ol>
+<hr />
+<h2 id="3-monte-carlo-vs-rendimiento-out-of-sample-real-criterios-de-robustez-en-factorias-algoritmicas">3. Monte Carlo vs. Rendimiento Out-of-Sample Real: Criterios de Robustez en Factorías Algorítmicas<a class="headerlink" href="#3-monte-carlo-vs-rendimiento-out-of-sample-real-criterios-de-robustez-en-factorias-algoritmicas" title="Permanent link">&para;</a></h2>
+<h3 id="31-la-falacia-de-la-retencion-sintetica-de-monte-carlo">3.1 La Falacia de la Retención Sintética de Monte Carlo<a class="headerlink" href="#31-la-falacia-de-la-retencion-sintetica-de-monte-carlo" title="Permanent link">&para;</a></h3>
+<p>Un error extendido en la ingeniería de trading cuantitativo retail consiste en otorgar validez absoluta a las pruebas de estrés de Monte Carlo ejecutadas sobre el conjunto histórico total o sobre la muestra optimizada. Las simulaciones de Monte Carlo basadas en manipulación de operaciones (<em>Resampling</em> con reemplazo, <em>Trade Skipping</em> aleatorio del 10% y permutaciones de orden) o en variaciones paramétricas (variación de ATR <span class="arithmatex">\(\pm 30\%\)</span>, spreads ensanchados de 1 a 5 pips y slippages aleatorios de 0 a 5 pips) <strong>evalúan la dispersión del camino recorrido, pero son ciegas al cambio de régimen de mercado y al decaimiento estructural del Alpha</strong>.</p>
+<p>Una estrategia algorítmica puede exhibir una retención del 95% de confianza en Monte Carlo superior al 70% y, simultáneamente, colapsar de forma catastrófica en el momento exacto en que se enfrenta a datos <em>Out-of-Sample</em> (OOS) reales.</p>
+<h3 id="32-evidencia-empirica-de-auditoria-factoria-sqx-to-validacion-mt5">3.2 Evidencia Empírica de Auditoría: Factoría SQX <span class="arithmatex">\(\to\)</span> Validación MT5<a class="headerlink" href="#32-evidencia-empirica-de-auditoria-factoria-sqx-to-validacion-mt5" title="Permanent link">&para;</a></h3>
+<p>Durante la auditoría exhaustiva realizada sobre la factoría de generación de StrategyQuant X sometida a retests de Monte Carlo y posterior verificación en MetaTrader 5, se documentaron los siguientes comportamientos cuantitativos contrastados:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Estrategia</th>
+<th style="text-align: center;">Beneficio IS (2010–2021)</th>
+<th style="text-align: center;">Beneficio OOS (2021–2025)</th>
+<th style="text-align: center;">Ratio OOS/IS</th>
+<th style="text-align: center;">Retención MC 95% (Trades)</th>
+<th style="text-align: center;">Retención MC 95% (ATR/Spread)</th>
+<th style="text-align: center;">DD Máx MC 95%</th>
+<th style="text-align: left;">Clasificación &amp; Veredicto Institucional</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Strategy 2.30.36</strong></td>
+<td style="text-align: center;">$55,566 <em>(PF 1.31)</em></td>
+<td style="text-align: center;"><strong>+$29,103</strong> <em>(PF 1.37, Est. 0.82)</em></td>
+<td style="text-align: center;"><strong>52.4%</strong></td>
+<td style="text-align: center;"><strong>$48,657</strong> <em>(87.5%)</em></td>
+<td style="text-align: center;"><em>(Confirmada en MT5: +$24k real)</em></td>
+<td style="text-align: center;">$12,314</td>
+<td style="text-align: left;"><span class="badge badge--success">LÍDER ABSOLUTO (Tier 1)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Strategy 5.66.52</strong></td>
+<td style="text-align: center;">$89,683 <em>(PF 1.54)</em></td>
+<td style="text-align: center;"><strong>+$12,806</strong> <em>(PF 1.14, Est. 0.79)</em></td>
+<td style="text-align: center;"><strong>14.3%</strong></td>
+<td style="text-align: center;"><strong>$61,024</strong> <em>(68.0%)</em></td>
+<td style="text-align: center;"><strong>$61,634</strong> <em>(DD $7,836)</em></td>
+<td style="text-align: center;">$11,546</td>
+<td style="text-align: left;"><span class="badge badge--success">CO-LÍDER DIVERSIFICADOR (Tier 1)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Strategy 2.36.48</strong></td>
+<td style="text-align: center;">$94,552 <em>(PF 1.57)</em></td>
+<td style="text-align: center;"><strong>+$11,357</strong> <em>(PF 1.13, Est. 0.71)</em></td>
+<td style="text-align: center;"><strong>12.0%</strong></td>
+<td style="text-align: center;"><strong>$69,924</strong> <em>(73.9%)</em></td>
+<td style="text-align: center;"><strong>$67,064</strong> <em>(DD $5,791)</em></td>
+<td style="text-align: center;">$8,193</td>
+<td style="text-align: left;"><span class="badge badge--warning">Tier 2 (Plateau macro &gt; 24 meses)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Strategy 2.59.43</strong></td>
+<td style="text-align: center;">$84,776 <em>(PF 1.50)</em></td>
+<td style="text-align: center;"><strong>+$6,976</strong> <em>(PF 1.09, Est. 0.53)</em></td>
+<td style="text-align: center;"><strong>8.2%</strong></td>
+<td style="text-align: center;"><strong>$55,532</strong> <em>(65.5%)</em></td>
+<td style="text-align: center;">Inestable</td>
+<td style="text-align: center;">$14,210</td>
+<td style="text-align: left;"><span class="badge badge--danger">RECHAZO ROTUNDO (Zona de Colapso ECN)</span></td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-patrones-de-diagnostico-critico-y-matriz-de-decision">3.3 Patrones de Diagnóstico Crítico y Matriz de Decisión<a class="headerlink" href="#33-patrones-de-diagnostico-critico-y-matriz-de-decision" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart TD
+    classDef start fill:#0f172a,stroke:#3b82f6,stroke-width:2px,color:#f8fafc
+    classDef test fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#f8fafc
+    classDef reject fill:#450a0a,stroke:#ef4444,stroke-width:2px,color:#f8fafc
+    classDef tier2 fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#f8fafc
+    classDef tier1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#f8fafc
+
+    Candidate["Estrategia Candidata&lt;br/&gt;(IS Excelente + Monte Carlo 95% ≥ 65%)"]:::start --&gt; EvalOOS{"¿Profit Factor OOS ≥ 1.20&lt;br/&gt;y Estabilidad OOS ≥ 0.75?"}:::test
+
+    EvalOOS -- "NO: PF ≤ 1.15" --&gt; DeadZone["Zona de Colapso ECN:&lt;br/&gt;Slippage asimétrico y comisiones&lt;br/&gt;convierten el margen en pérdida.&lt;br/&gt;-&gt; VETO / DESCARTAR"]:::reject
+
+    EvalOOS -- "SÍ" --&gt; EvalPlateau{"¿Presenta Meseta OOS&lt;br/&gt;(Plateau) &gt; 12 Meses?"}:::test
+
+    EvalPlateau -- "SÍ" --&gt; Tier2["Tier 2 Secundario:&lt;br/&gt;Baja adaptación a regímenes macro.&lt;br/&gt;-&gt; Standby / Ponderación Marginal"]:::tier2
+
+    EvalPlateau -- "NO" --&gt; EvalMT5{"Auditoría Microestructural MT5&lt;br/&gt;146 Millones de Ticks Reales (99%)"}:::test
+
+    EvalMT5 -- "Confirmado" --&gt; Tier1["Tier 1 Institucional:&lt;br/&gt;Líder de Portafolio Multiactivo"]:::tier1</code></pre>
+<h4 id="1-la-zona-de-colapso-ecn-pf-le-115">1. La Zona de Colapso ECN (<span class="arithmatex">\(PF \le 1.15\)</span>)<a class="headerlink" href="#1-la-zona-de-colapso-ecn-pf-le-115" title="Permanent link">&para;</a></h4>
+<p>El caso paradigmático es <code>Strategy 2.59.43</code>: a pesar de retener teóricamente $55,532 en Monte Carlo con un 65.5% de confianza, su rendimiento OOS real cayó a un <span class="arithmatex">\(PF = 1.09\)</span> y una estabilidad de <span class="arithmatex">\(0.53\)</span>. </p>
+<p>En un bróker ECN institucional real:
+- Las comisiones promedio oscilan entre $3.00 y $6.00 por lote round-turn (<span class="arithmatex">\(0.3\)</span> a <span class="arithmatex">\(0.6\)</span> pips equivalentes).
+- El slippage en órdenes stop de ruptura es asimétrico negativo (ejecución media a <span class="arithmatex">\(-0.4\)</span> pips del nivel solicitado).
+- El ensanchamiento de spreads en aperturas asiáticas y rollover añade costes silenciosos.</p>
+<p>Un sistema con un Profit Factor teórico de <span class="arithmatex">\(1.09\)</span> posee un margen de seguridad de apenas el <span class="arithmatex">\(9\%\)</span>. Al descontar la fricción de microestructura, <strong>la curva real vira inmediatamente hacia territorio de pérdidas continuas</strong>. Todo sistema con <span class="arithmatex">\(PF_{\text{OOS}} \le 1.15\)</span> entra en la <strong>Zona de Colapso ECN</strong> y debe ser vetado sumariamente.</p>
+<h4 id="2-la-trampa-de-las-mesetas-macroeconomicas-12-meses">2. La Trampa de las Mesetas Macroeconómicas (&gt; 12 Meses)<a class="headerlink" href="#2-la-trampa-de-las-mesetas-macroeconomicas-12-meses" title="Permanent link">&para;</a></h4>
+<p><code>Strategy 2.36.48</code> retenía $69,924 en Monte Carlo (73.9%), pero el análisis granular de su curva de balance OOS reveló una meseta completamente plana de más de dos años (2022 a 2024). Durante el ciclo de subida de tipos de interés de la Reserva Federal y el régimen de alta volatilidad inflacionaria, la lógica de ruptura quedó neutralizada. Un algoritmo que acumula dos años de estancamiento incurre en un coste de oportunidad inaceptable para una mesa de tesorería institucional y debe reclasificarse a <strong>Tier 2 (Standby)</strong>.</p>
+<h4 id="3-validacion-microestructural-con-ticks-reales-al-99">3. Validación Microestructural con Ticks Reales al 99%<a class="headerlink" href="#3-validacion-microestructural-con-ticks-reales-al-99" title="Permanent link">&para;</a></h4>
+<p>La única validación definitiva es la prueba de resistencia microestructural en MetaTrader 5 utilizando datos de ticks reales con modelado al 99% de calidad. <code>Strategy 2.30.36</code> demostró antifragilidad genuina: su Profit Factor mejoró en el OOS ciego (<span class="arithmatex">\(1.37\)</span> frente a <span class="arithmatex">\(1.31\)</span> In-Sample) y, al ser auditada en MT5 sobre <strong>146 millones de ticks reales</strong> en GBPUSD y XAUUSD, ratificó una ganancia real neta de <strong>+$24,071</strong>, convirtiéndose en el <strong>Líder Institucional de Referencia (Tier 1)</strong>.</p>
+<hr />
+<h2 id="4-las-razones-estructurales-del-colapso">4. Las Razones Estructurales del Colapso<a class="headerlink" href="#4-las-razones-estructurales-del-colapso" title="Permanent link">&para;</a></h2>
+<p>El fracaso de la HMA no fue consecuencia de una mala parametrización o de una arquitectura de software defectuosa, sino de <strong>anomalías estructurales insuperables de la microestructura del mercado</strong>.</p>
+<pre class="mermaid"><code>flowchart TD
+    classDef fail fill:#450a0a,stroke:#ef4444,stroke-width:2px,color:#f8fafc
+    classDef reason fill:#0f172a,stroke:#3b82f6,stroke-width:1px,color:#f8fafc
+    classDef detail fill:#1e293b,stroke:#64748b,stroke-width:1px,color:#cbd5e1
+
+    A["Colapso Estructural de la HMA"]:::fail --&gt; B["1. Alpha Decay Histórico"]:::reason
+    A --&gt; C["2. Retardo Matemático Inevitable"]:::reason
+    A --&gt; D["3. Arbitraje Institucional HFT"]:::reason
+    A --&gt; E["4. Asimetría Direccional Extrema"]:::reason
+
+    B --&gt; B1["Anomalías de medias móviles arbitradas&lt;br/&gt;desde hace décadas por fondos cuantitativos"]:::detail
+    C --&gt; C1["HMA es un filtro paso-bajo:&lt;br/&gt;Pivotes se confirman con desfase de k barras"]:::detail
+    D --&gt; D1["HFT detecta la acumulación retail&lt;br/&gt;y genera cacería de Stop-Losses"]:::detail
+    E --&gt; E1["En cortos y pares laterales (EURUSD, AUDUSD)&lt;br/&gt;la curva de balance colapsa de inmediato"]:::detail</code></pre>
+<h3 id="41-alpha-decay-historico-eficiencia-de-mercados">4.1 Alpha Decay Histórico (Eficiencia de Mercados)<a class="headerlink" href="#41-alpha-decay-historico-eficiencia-de-mercados" title="Permanent link">&para;</a></h3>
+<p>Las estrategias basadas en cruces de medias móviles (incluidas variantes avanzadas como HMA, KAMA o DEMA) gozaron de rentabilidad estadística durante los años 80 y 90, cuando los mercados financieros presentaban menor liquidez, menor velocidad de transmisión de información y nula participación algorítmica.</p>
+<p>Conforme a la <strong>Hipótesis de los Mercados Eficientes adaptativa (Lo, 2004; Fama, 1970)</strong>, a medida que los fondos cuantitativos y mesas sistemáticas detectan una anomalía basada en el precio histórico, inyectan capital para arbitrarla hasta erosionar completamente su prima de riesgo:</p>
+<div class="arithmatex">\[
+\lim_{t \to \infty} \alpha_{\text{HMA}}(t) = 0
+\]</div>
+<p>Hoy en día, las medias móviles no poseen ninguna capacidad predictiva intrínseca en activos de alta eficiencia como el mercado interbancario de divisas o los metales preciosos.</p>
+<h3 id="42-retardo-matematico-frente-a-la-microestructura-hft">4.2 Retardo Matemático frente a la Microestructura HFT<a class="headerlink" href="#42-retardo-matematico-frente-a-la-microestructura-hft" title="Permanent link">&para;</a></h3>
+<p>Por diseño, toda media móvil es una combinación lineal de precios del pasado:</p>
+<div class="arithmatex">\[
+HMA_t = \sum_{i=0}^n w_i P_{t-i}
+\]</div>
+<p>Incluso con la reducción de retardo de Alan Hull (<span class="arithmatex">\(\lfloor\sqrt{n}\rfloor\)</span>), para confirmar un punto de inflexión en V (<em>V-Pivot</em>) se requiere que la velocidad cambie de signo (<span class="arithmatex">\(v_t \cdot v_{t-1} &lt; 0\)</span>), lo cual exige matemáticamente que el precio ya haya comenzado a retroceder o romper durante al menos <span class="arithmatex">\(1\)</span> a <span class="arithmatex">\(3\)</span> barras.</p>
+<p>En marcos temporales de M1 y tick:</p>
+<ul>
+<li>Cuando la HMA detecta la ruptura, el impulso inicial ya ha concluido.</li>
+<li>Los algoritmos de Alta Frecuencia (HFT) y los proveedores de liquidez detectan el flujo de órdenes acumuladas de los operadores técnicos que compran la ruptura.</li>
+<li>El mercado experimenta una contracción inmediata (<em>Mean Reversion</em>) que barre los <em>Stop Losses</em> de los participantes retail, utilizándolos como <strong>liquidez de salida (Exit Liquidity)</strong>.</li>
+</ul>
+<h3 id="43-el-test-de-asimetria-direccional">4.3 El Test de Asimetría Direccional<a class="headerlink" href="#43-el-test-de-asimetria-direccional" title="Permanent link">&para;</a></h3>
+<p>Cuando se forzó al sistema a operar en corto (<code>TradeShorts = true</code>) en XAUUSD durante el mismo período temporal, o cuando la misma arquitectura se desplegó en pares de divisas sin sesgo alcista secular (EURUSD, GBPUSD, AUDUSD, USDCHF):</p>
+<ul>
+<li>El balance descendió de manera ininterrumpida.</li>
+<li>El Drawdown superó el <span class="arithmatex">\(45\%\)</span>.</li>
+<li>La tasa de acierto cayó por debajo del <span class="arithmatex">\(35\%\)</span>.</li>
+</ul>
+<p>Esto ratifica la conclusión: <strong>la estrategia carecía de ventaja propia; simplemente cabalgaba la tendencia macro del Oro</strong>.</p>
+<hr />
+<h2 id="5-el-exito-metodologico-capital-preservado">5. El Éxito Metodológico: Capital Preservado<a class="headerlink" href="#5-el-exito-metodologico-capital-preservado" title="Permanent link">&para;</a></h2>
+<p>Un desarrollador amateur evalúa un proyecto exclusivamente por si el bot final se pone a operar en cuenta real. Un equipo cuantitativo institucional evalúa el proyecto por la <strong>integridad de su protocolo de auditoría</strong>.</p>
+<p>Desde esa perspectiva, el proyecto HMA Meta-Labeling Core ha sido un <strong>éxito metodológico absoluto</strong>:</p>
+<ol>
+<li><strong>Prevención de Pérdida de Capital:</strong> La rigurosa batería de pruebas (Walk-Forward Montecarlo, Purged CV y análisis de descomposición Beta) evitó que cientos de miles de dólares de capital fueran asignados a un sistema perdedor.</li>
+<li><strong>Infraestructura Reutilizable de Grado Institucional:</strong> La arquitectura de ingeniería construida en este repositorio sobrevive en su totalidad:<ul>
+<li>Motor de ingesta y etiquetado por Triple Barrera.</li>
+<li>Validación cruzada purgada contra fuga de datos (<em>Data Leakage</em>).</li>
+<li>Transpilador a C++ a latencia cero (<span class="arithmatex">\(&lt;0.1\ \mu\text{s}\)</span>).</li>
+</ul>
+</li>
+<li><strong>Lecciones Formalizadas:</strong> Las directrices para no volver a caer en la trampa del <em>Market Beta</em> quedan formalizadas para siempre en los <a href="../UNIVERSAL_PRINCIPLES/">Principios Cuantitativos Universales</a>.</li>
+</ol>
+<hr />
+<p><em>Para consultar los principios universales derivados de este veredicto, diríjase a <a href="../UNIVERSAL_PRINCIPLES/">Principios Cuantitativos Universales</a>.</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../HISTORICAL_EVOLUTION/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Evolución Histórica de Prototipos">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Evolución Histórica de Prototipos
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.path", "navigation.top", "navigation.tracking", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.select", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js"></script>
+      
+        <script src="../javascripts/tablesort.js"></script>
+      
+    
+  </body>
+</html>
