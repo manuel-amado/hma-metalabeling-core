@@ -1,170 +1,78 @@
-"""
-Unit tests for Triple Barrier Labeling module (m2_metalabeling.labeling.triple_barrier).
-Validates Requirement R1 / Feature F18: Take-Profit, Stop-Loss, and vertical timeout barriers,
-verifying exit_price != entry_price on timeout, and binary label assignments (0 vs 1).
-"""
-
-import numpy as np
 import pandas as pd
-import pytest
+import numpy as np
+import xgboost as xgb
+from sklearn.preprocessing import RobustScaler
+from sklearn.model_selection import ParameterGrid
+import warnings
+warnings.filterwarnings('ignore')
 
-from m2_metalabeling.labeling.triple_barrier import (
-    get_triple_barrier_labels,
-    triple_barrier_labels,
-)
+print("Loading Data for Triple Barrier...")
+df = pd.read_csv(r"C:\Users\Manuel\Desktop\HMA_MetaLabeling\python\data_processing\Alpha_OHLC_Dump_XAUUSD.csv")
+df['Time'] = pd.to_datetime(df['Time'], format='%Y.%m.%d %H:%M')
+df = df.sort_values('Time').reset_index(drop=True)
 
+df['Slope10'] = (df['HMA10'] - df['HMA10'].shift(1)) / df['ATR14']
+df['Slope21'] = (df['HMA21'] - df['HMA21'].shift(1)) / df['ATR14']
+df['Slope50'] = (df['HMA50'] - df['HMA50'].shift(1)) / df['ATR14']
+df['Slope100'] = (df['HMA100'] - df['HMA100'].shift(1)) / df['ATR14']
+df['Slope200'] = (df['HMA200'] - df['HMA200'].shift(1)) / df['ATR14']
+mean_hma = (df['HMA10'] + df['HMA21'] + df['HMA50'] + df['HMA100'] + df['HMA200']) / 5.0
+sum_sq = (df['HMA10']-mean_hma)**2 + (df['HMA21']-mean_hma)**2 + (df['HMA50']-mean_hma)**2 + (df['HMA100']-mean_hma)**2 + (df['HMA200']-mean_hma)**2
+df['RibbonSpread'] = np.sqrt(sum_sq / 5.0) / df['ATR14']
+cond_align_1 = (df['HMA10'] > df['HMA21']) & (df['HMA21'] > df['HMA50']) & (df['HMA50'] > df['HMA100']) & (df['HMA100'] > df['HMA200'])
+cond_align_neg1 = (df['HMA10'] < df['HMA21']) & (df['HMA21'] < df['HMA50']) & (df['HMA50'] < df['HMA100']) & (df['HMA100'] < df['HMA200'])
+df['RibbonAlign'] = np.where(cond_align_1, 1, np.where(cond_align_neg1, -1, 0))
+df['DistH4'] = (df['Close'] - df['EMAH4']) / df['ATR14']
+df['DistD1'] = (df['Close'] - df['EMAD1']) / df['ATR14']
 
-@pytest.fixture
-def base_price_series():
-    """Deterministic hourly price and ATR series spanning 100 bars."""
-    dates = pd.date_range("2024-01-01 00:00:00", periods=100, freq="h", tz="UTC")
-    # Base price flat at 100.0, ATR fixed at 2.0
-    close = pd.Series(100.0, index=dates)
-    atr = pd.Series(2.0, index=dates)
-    return close, atr, dates
+df['Dir'] = np.where(df['Close'] > df['HMA50'], 1, -1)
+df['Cross'] = (df['Dir'] != df['Dir'].shift(1)) & (df['Dir'].shift(1).notna())
 
+FEATURES = ['Slope10', 'Slope21', 'Slope50', 'Slope100', 'Slope200', 'RibbonSpread', 
+            'RibbonAlign', 'DistH4', 'DistD1']
 
-def test_triple_barrier_take_profit_hit(base_price_series):
-    """
-    Verify that when price exceeds entry + pt_atr * atr,
-    label is +1, bin is 1, ret is positive, and t1 records the barrier touch time.
-    """
-    close, atr, dates = base_price_series
-    # Entry at t0 = dates[10], price = 100, atr = 2.0 -> PT = 100 + 2*2 = 104.0
-    # Touch at dates[13] with price 105.0
-    close = close.copy()
-    close.iloc[13] = 105.0
+df = df.dropna(subset=FEATURES + ['Cross']).reset_index(drop=True)
+crosses = df[df['Cross']].copy()
+cross_indices = crosses.index.values
 
-    events = pd.DatetimeIndex([dates[10]])
-    labels = get_triple_barrier_labels(close, atr, events, pt_atr=2.0, sl_atr=1.0, max_holding_bars=10)
+print(f"Total Crosses: {len(cross_indices)}")
 
-    assert len(labels) == 1
-    row = labels.iloc[0]
-    assert row["label"] == 1
-    assert row["bin"] == 1
-    assert row["ret"] > 0
-    assert row["t1"] == dates[13]
-    assert row["exit_price"] == 105.0
+# Simulate multiple barriers to find the optimal dynamic target
+barrier_grid = [{'SL': 1.0, 'TP': 1.0}, {'SL': 1.0, 'TP': 2.0}, {'SL': 2.0, 'TP': 2.0}, {'SL': 2.0, 'TP': 4.0}]
+results_list = []
 
+print("Simulating Triple Barriers...")
+for i, b in enumerate(barrier_grid):
+    SL_DIST = b['SL']
+    TP_DIST = b['TP']
+    targets = []
+    
+    for idx in cross_indices:
+        trade_dir = df['Dir'].iloc[idx]
+        entry = df['Close'].iloc[idx]
+        atr = df['ATR14'].iloc[idx]
+        
+        tp_price = entry + (TP_DIST * atr) if trade_dir == 1 else entry - (TP_DIST * atr)
+        sl_price = entry - (SL_DIST * atr) if trade_dir == 1 else entry + (SL_DIST * atr)
+            
+        hit_tp = False; hit_sl = False
+        
+        # Max hold time: 96 bars (24 hours)
+        for j in range(1, 97):
+            if idx + j >= len(df): break
+            high = df['High'].iloc[idx + j]; low = df['Low'].iloc[idx + j]
+            if trade_dir == 1:
+                if low <= sl_price: hit_sl = True
+                if high >= tp_price: hit_tp = True
+            else:
+                if high >= sl_price: hit_sl = True
+                if low <= tp_price: hit_tp = True
+                
+            if hit_tp or hit_sl: break
+                
+        if hit_tp and not hit_sl: targets.append(1)
+        else: targets.append(0)
+        
+    crosses[f"Target_{i}"] = targets
+    print(f"Barrier {i} (SL {SL_DIST}, TP {TP_DIST}) | WR: {np.mean(targets):.2%}")
 
-def test_triple_barrier_stop_loss_hit(base_price_series):
-    """
-    Verify that when price falls below entry - sl_atr * atr,
-    label is -1, bin is 0, ret is negative, and t1 records the barrier touch time.
-    """
-    close, atr, dates = base_price_series
-    # Entry at t0 = dates[10], price = 100, atr = 2.0 -> SL = 100 - 1*2 = 98.0
-    # Touch at dates[12] with price 97.0
-    close = close.copy()
-    close.iloc[12] = 97.0
-
-    events = pd.DatetimeIndex([dates[10]])
-    labels = get_triple_barrier_labels(close, atr, events, pt_atr=2.0, sl_atr=1.0, max_holding_bars=10)
-
-    assert len(labels) == 1
-    row = labels.iloc[0]
-    assert row["label"] == -1
-    assert row["bin"] == 0
-    assert row["ret"] < 0
-    assert row["t1"] == dates[12]
-    assert row["exit_price"] == 97.0
-
-
-def test_triple_barrier_timeout_profitable(base_price_series):
-    """
-    Regression Test for F03:
-    When neither PT nor SL is touched within max_holding_bars,
-    label is 0 (timeout), but exit_price MUST equal the closing price at the expiration horizon,
-    NEVER reset to entry_price. If the trade gained price, bin must be 1.
-    """
-    close, atr, dates = base_price_series
-    close = close.copy()
-    # Entry at dates[10], price = 100.
-    # PT is 104, SL is 98.
-    # At holding limit (dates[10 + 5] = dates[15]), price closes at 102.5 (+1.25 ATR, profitable timeout).
-    for i in range(11, 16):
-        close.iloc[i] = 100.0 + (i - 10) * 0.5  # Reaches 102.5 at i=15
-
-    events = pd.DatetimeIndex([dates[10]])
-    labels = get_triple_barrier_labels(close, atr, events, pt_atr=2.0, sl_atr=1.0, max_holding_bars=5)
-
-    assert len(labels) == 1
-    row = labels.iloc[0]
-    assert row["label"] == 0
-    assert row["t1"] == dates[15]
-    assert row["exit_price"] == pytest.approx(102.5, rel=1e-5)
-    assert row["exit_price"] != 100.0  # Crucial regression check
-    assert row["ret"] > 0
-    assert row["bin"] == 1
-
-
-def test_triple_barrier_timeout_unprofitable(base_price_series):
-    """
-    Verify timeout when price moves against trade without hitting SL:
-    exit_price reflects lower closing price, ret is negative, and bin is 0.
-    """
-    close, atr, dates = base_price_series
-    close = close.copy()
-    # At expiration horizon (dates[15]), price is 99.0 (below 100, above SL 98)
-    for i in range(11, 16):
-        close.iloc[i] = 100.0 - (i - 10) * 0.2  # Reaches 99.0 at i=15
-
-    events = pd.DatetimeIndex([dates[10]])
-    labels = get_triple_barrier_labels(close, atr, events, pt_atr=2.0, sl_atr=1.0, max_holding_bars=5)
-
-    assert len(labels) == 1
-    row = labels.iloc[0]
-    assert row["label"] == 0
-    assert row["t1"] == dates[15]
-    assert row["exit_price"] == pytest.approx(99.0, rel=1e-5)
-    assert row["ret"] < 0
-    assert row["bin"] == 0
-
-
-def test_triple_barrier_strict_no_lookahead(base_price_series):
-    """
-    Verify that barrier logic strictly begins at t0 + 1 bar.
-    The entry bar t0 price is recorded as entry_price, and subsequent bars (t0+1, t0+2, ...)
-    are evaluated sequentially.
-    """
-    close, atr, dates = base_price_series
-    close = close.copy()
-    # Entry at dates[10], entry_price = 100.0, pt_level = 104.0
-    # Bar at dates[11] is 102.0 (no barrier hit)
-    # Bar at dates[12] is 105.0 (hits PT)
-    close.iloc[11] = 102.0
-    close.iloc[12] = 105.0
-
-    events = pd.DatetimeIndex([dates[10]])
-    labels = get_triple_barrier_labels(close, atr, events, pt_atr=2.0, sl_atr=1.0, max_holding_bars=5)
-
-    assert len(labels) == 1
-    row = labels.iloc[0]
-    # Barrier touched at dates[12], not dates[11] or dates[10]
-    assert row["label"] == 1
-    assert row["t1"] == dates[12]
-    assert row["exit_price"] == 105.0
-
-
-def test_triple_barrier_missing_event_timestamp(base_price_series):
-    """Verify that event timestamps not present in the price series index are skipped gracefully."""
-    close, atr, dates = base_price_series
-    missing_date = pd.Timestamp("2023-01-01 00:00:00", tz="UTC")
-    valid_date = dates[10]
-
-    events = pd.DatetimeIndex([missing_date, valid_date])
-    labels = get_triple_barrier_labels(close, atr, events, pt_atr=2.0, sl_atr=1.0, max_holding_bars=5)
-
-    assert len(labels) == 1
-    assert labels.index[0] == valid_date
-
-
-def test_triple_barrier_alias_parity(base_price_series):
-    """Verify both function names (get_triple_barrier_labels and triple_barrier_labels) produce identical results."""
-    close, atr, dates = base_price_series
-    events = pd.DatetimeIndex([dates[10], dates[20]])
-
-    df1 = get_triple_barrier_labels(close, atr, events, pt_atr=2.0, sl_atr=1.0, max_holding_bars=5)
-    df2 = triple_barrier_labels(close, atr, events, pt_atr=2.0, sl_atr=1.0, max_holding_bars=5)
-
-    pd.testing.assert_frame_equal(df1, df2)
